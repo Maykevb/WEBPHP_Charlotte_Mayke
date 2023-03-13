@@ -22,9 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //TODO test
 Route::get('/test/{street}/{nr}/{code}', function (string $street, int $nr, string $code) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
-//                    ->signUpShipment($street, $nr, $code)
-                      ->testing($street, $nr, $code)
-    ];
+                      ->testing($street, $nr, $code)];
+//                    ->signUpShipment($street, $nr, $code)];
 });
 
 //Route::get('/test/{street}/{nr}/{code}', function (string $street, int $nr, string $code) {

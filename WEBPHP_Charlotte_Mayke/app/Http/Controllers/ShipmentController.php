@@ -46,6 +46,12 @@ class ShipmentController extends Controller
         return new ShipmentResource($shipment);
     }
 
+    public function destroy(Shipment $shipment)
+    {
+        $shipment->delete();
+        return $shipment;
+    }
+
 //    TODO
     public function signUpShipment($street, $nr, $code) {
         $data = new Shipment();
