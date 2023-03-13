@@ -27,15 +27,12 @@ class ShipmentRepo implements CrudInterface
         return Shipment::create($data);
     }
 
-
     public function update($data, $id)
     {
         $shipment = Shipment::where('id', $id)->first();
-//        $shipment->city = $data['city'];
-//        $shipment->province = $data['province'];
-//        $shipment->continent = $data['continent'];
-//        $shipment->coordinate_y = $data['coordinate_y'];
-//        $shipment->coordinate_x = $data['coordinate_x'];
+//        $shipment->label = $data['label'];
+//        $shipment->request = $data['request'];
+//        $shipment->status = $data['status'];
         $shipment->save();
     }
 }
