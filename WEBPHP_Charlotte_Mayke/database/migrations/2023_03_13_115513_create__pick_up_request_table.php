@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pick_up_request', function (Blueprint $table) {
+        Schema::create('pick_up_requests', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('streetName');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pick_up_request');
+        Schema::dropIfExists('pick_up_requests');
     }
 };

@@ -21,6 +21,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/trackAndTrace', function () {
-    return view('trackAndTrace');
+//Route::get('/trackAndTrace', function () {
+//    return view('trackAndTrace');
+//})->name('trackAndTrace');
+
+Route::get('/trackAndTrace', function() {
+    return view('/trackAndTrace', [
+        'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
+    ]);
 })->name('trackAndTrace');
