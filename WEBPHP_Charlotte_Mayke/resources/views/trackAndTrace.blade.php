@@ -13,8 +13,13 @@
 
         @foreach($listPackages as $package)
         <tr>
-            <td>{{ $package->id }}</td>
+            <td>{{ $package->shipment->id }}</td>
+            @if(!$package->hasLabel)
             <td><button class="btn btn-dark" style="width: 200px;">Maak pakketlabel</button></td>
+            @else
+            <td><p>Dit pakket heeft al een label</p></td>
+            @endif
+
         </tr>
         @endforeach
         </tbody>

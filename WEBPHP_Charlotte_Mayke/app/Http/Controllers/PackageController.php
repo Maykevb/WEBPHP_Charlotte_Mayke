@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
+use App\Models\TotalShipment;
+use App\Repositories\LabelRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
 
@@ -15,9 +18,33 @@ class PackageController extends Controller
     public function getAllPackages()
     {
         $repo = new ShipmentRepo();
-        return $repo->getAll();
+        $repo2 = new LabelRepo();
+
+        $shipments = array();
+        foreach($repo->getAll() as $shipment)
+        {
+            if($repo2->find($shipment->id) != null)
+            {
+                $total = new TotalShipment($shipment, true);
+                array_push($shipments, $total);
+            }
+            else
+            {
+                $total = new TotalShipment($shipment, false);
+                array_push($shipments, $total);
+            }
+
+        }
+        return $shipments;
     }
 
+    public function createLabelForPackage()
+    {
+        $repo = new LabelRepo();
 
+        $label = new Label();
+        $label->barcode = '12345';
 
+        $repo->create($label);
+    }
 }
