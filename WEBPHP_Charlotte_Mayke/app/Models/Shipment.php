@@ -9,7 +9,7 @@ class Shipment extends Model
     protected $fillable = [
         'streetName',
         'houseNumber',
-        'postalCode',
+        'postalCode'
     ];
 
     public function Label()

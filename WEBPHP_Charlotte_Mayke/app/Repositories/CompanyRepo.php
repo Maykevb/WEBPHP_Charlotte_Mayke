@@ -17,6 +17,11 @@ class CompanyRepo implements CrudInterface
         return Company::find($id);
     }
 
+    public function findWhere($name)
+    {
+        return Company::select()->where('naam', $name)->pluck('id');
+    }
+
     public function delete($id)
     {
         Company::find($id)->delete();

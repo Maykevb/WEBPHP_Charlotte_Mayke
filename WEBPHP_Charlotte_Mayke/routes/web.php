@@ -30,3 +30,6 @@ Route::get('/trackAndTrace', function() {
         'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
     ]);
 })->name('trackAndTrace');
+
+Route::get('/trackAndTrace/{id}/{company}',[\App\Http\Controllers\PackageController::class, 'createLabelForPackage'])
+    ->name('makeLabel');
