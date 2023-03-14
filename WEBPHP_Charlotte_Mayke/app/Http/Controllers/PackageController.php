@@ -44,6 +44,7 @@ class PackageController extends Controller
 
         $label = new Label();
         $label->barcode = '12345';
+        $label->
 
         $repo->create($label);
     }

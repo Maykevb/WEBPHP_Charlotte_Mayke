@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Label extends Model
 {
     protected $fillable = [
-        'barcode'
+        'barcode',
+        'trackAndTrace',
+        'streetName',
+        'houseNumber',
+        'postalCode',
+        'postbedrijf'
     ];
 
     public function Company()
