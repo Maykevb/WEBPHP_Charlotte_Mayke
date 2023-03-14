@@ -7,6 +7,7 @@ use App\Models\TotalShipment;
 use App\Repositories\CompanyRepo;
 use App\Repositories\LabelRepo;
 use App\Repositories\ShipmentRepo;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Psy\Readline\Hoa\Console;
@@ -26,7 +27,7 @@ class PackageController extends Controller
         $shipments = array();
         foreach($repo->getAll() as $shipment)
         {
-            if($repo2->find($shipment->id) != null)
+            if($repo->find($shipment->id)->label_id != null)
             {
                 $total = new TotalShipment($shipment, true);
                 array_push($shipments, $total);
@@ -47,7 +48,6 @@ class PackageController extends Controller
         $id = $request->id;
         $company = $request->company;
 
-//        dd($company);
         $repo = new LabelRepo();
         $repo2 = new ShipmentRepo();
         $repo3 = new CompanyRepo();
@@ -61,6 +61,10 @@ class PackageController extends Controller
         $shipment->label_id = $label->id;
         $repo2->update($shipment, $id);
 
-        return redirect('/trackAndTrace');
+        $data = ['id' => $repo->find($repo2->find($id)->label_id)->id];
+        $pdf = PDF::loadView('label', $data);
+        return $pdf->download('pdf_file.pdf');
+
+        return redirect('trackAndTrace');
     }
 }
