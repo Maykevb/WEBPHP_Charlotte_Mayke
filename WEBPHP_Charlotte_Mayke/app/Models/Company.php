@@ -8,9 +8,6 @@ class Company extends Model
 {
     protected $fillable = [
         'naam',
-        'prijs',
-        'streetName',
-        'houseNumber',
-        'postalCode'
+        'prijs'
     ];
 }

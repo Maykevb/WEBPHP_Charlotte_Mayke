@@ -10,8 +10,6 @@ use App\Repositories\LabelRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Log\Logger;
-use Illuminate\Support\Facades\Log;
 
 class PackageController extends Controller
 {
@@ -30,17 +28,36 @@ class PackageController extends Controller
         {
             if($repo->find($shipment->id)->label_id != null)
             {
-                $total = new TotalShipment($shipment, true);
+                if($repo->find($shipment->id)->pickUpRequest_id != null)
+                {
+                    $total = new TotalShipment($shipment, true, true);
+                }
+                else
+                {
+                    $total = new TotalShipment($shipment, true, false);
+                }
                 array_push($shipments, $total);
             }
             else
             {
-                $total = new TotalShipment($shipment, false);
+                if($repo->find($shipment->id)->pickUpRequest_id != null)
+                {
+                    $total = new TotalShipment($shipment, false, true);
+                }
+                else
+                {
+                    $total = new TotalShipment($shipment, false, false);
+                }
                 array_push($shipments, $total);
             }
 
         }
         return $shipments;
+    }
+
+    public function createPickUp()
+    {
+
     }
 
     public function createLabelForPackage(Request $request)
@@ -66,6 +83,8 @@ class PackageController extends Controller
         $findShipment = $repo2->find($id);
 
         $data = ['id' => $findLabel->id,
+            'name' => $findShipment->lable,
+            'place' => $findShipment->place,
             'date' => $findShipment->created_at,
             'trackAndTrace' => $findLabel->trackAndTrace,
             'company' => $findCompany->naam,
@@ -74,8 +93,6 @@ class PackageController extends Controller
             'sendingPostal' => $findShipment->postalCode];
         $pdf = PDF::loadView('label', $data);
         return $pdf->download('pdf_file.pdf');
-
-//        return redirect('trackAndTrace');
     }
 
     public function createBulkLabels(Request $request)
@@ -106,6 +123,8 @@ class PackageController extends Controller
             $findShipment = $repo2->find($shipment->id);
 
             $data = ['id' => $findLabel->id,
+                'name' => $findShipment->lable,
+                'place' => $findShipment->place,
                 'date' => $findShipment->created_at,
                 'trackAndTrace' => $findLabel->trackAndTrace,
                 'company' => $findCompany->naam,

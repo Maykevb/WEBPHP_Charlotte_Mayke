@@ -12,9 +12,9 @@
     <p>Date of order: {{ $data['date'] }} </p>
 
     <h2>Shipping To</h2>
-    {{--    TODO: add name + plaats (+ land)--}}
+    <p>{{ $data['name'] }}</p>
     <p> {{ $data['sendingStreet'] . ' ' . $data['sendingNumber'] }}</p>
-    <p>{{ $data['sendingPostal'] }}</p>
+    <p>{{ $data['sendingPostal'] . ' ' . $data['place'] }}</p>
     <br>
 
     {{--    Barcode--}}

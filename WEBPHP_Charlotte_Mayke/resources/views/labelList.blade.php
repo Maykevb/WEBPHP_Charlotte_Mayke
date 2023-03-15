@@ -11,7 +11,7 @@
             <button class="btn btn-dark" style="width: 200px;"><a class="link" href="{{ route('bulkLabel', ['DHL']) }}">Maak DHL label</a></button>
         </div>
         <div class="col-sm-2" style="text-align: center;">
-            <button class="btn btn-dark" style="width: 200px;"><a class="link" href="">Maak UPS label</a></button>
+            <button class="btn btn-dark" style="width: 200px;"><a class="link" href="{{ route('bulkLabel', ['UPS']) }}">Maak UPS label</a></button>
         </div>
     </div>
     <br>

@@ -10,9 +10,9 @@
     <p>Date of order: {{ $date }} </p>
 
     <h2>Shipping To</h2>
-{{--    TODO: add name + plaats (+ land)--}}
+    <p>{{ $name }}</p>
     <p> {{ $sendingStreet . ' ' . $sendingNumber }}</p>
-    <p>{{ $sendingPostal }}</p>
+    <p>{{ $sendingPostal . ' ' . $place }}</p>
     <br>
 
 {{--    Barcode--}}

@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('naam');
             $table->decimal('prijs');
-            $table->string('streetName');
-            $table->string('houseNumber');
-            $table->string('postalCode');
             $table->timestamps();
         });
     }
