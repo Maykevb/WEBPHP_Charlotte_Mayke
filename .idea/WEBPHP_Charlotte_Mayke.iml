@@ -122,6 +122,7 @@
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/phenx/php-font-lib" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/phenx/php-svg-lib" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/picqer/php-barcode-generator" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

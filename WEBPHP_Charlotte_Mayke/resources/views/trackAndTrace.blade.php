@@ -2,6 +2,22 @@
 
 @section('content')
 <div class="col-auto" style="margin: auto;">
+    <h4 style="text-align: center"><strong>Bulk labels maken</strong></h4>
+    <div class="row" style="margin:0 auto; text-align: center;  justify-content: center">
+        <div class="col-sm-2" style="text-align: center;">
+            <button class="btn btn-dark" style="width: 200px;"><a class="link" href="{{ route('bulkLabel', ['PostNl']) }}">Maak PostNl label</a></button>
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            <button class="btn btn-dark" style="width: 200px;"><a class="link" href="{{ route('bulkLabel', ['DHL']) }}">Maak DHL label</a></button>
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            <button class="btn btn-dark" style="width: 200px;"><a class="link" href="">Maak UPS label</a></button>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <h4 style="text-align: center"><strong>Losse labels maken</strong></h4>
     <table class="table" style="width: 50%; margin: auto;">
         <thead>
         <tr>

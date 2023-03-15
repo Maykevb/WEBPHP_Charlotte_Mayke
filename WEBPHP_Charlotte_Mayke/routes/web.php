@@ -33,3 +33,8 @@ Route::get('/trackAndTrace', function() {
 
 Route::get('/trackAndTrace/{id}/{company}',[\App\Http\Controllers\PackageController::class, 'createLabelForPackage'])
     ->name('makeLabel');
+
+Route::get('/trackAndTrace/{company}',[\App\Http\Controllers\PackageController::class, 'createBulkLabels'])
+    ->name('bulkLabel');
+
+

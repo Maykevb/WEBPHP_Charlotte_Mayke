@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Label;
+use App\Models\Shipment;
 use App\Models\TotalShipment;
 use App\Repositories\CompanyRepo;
 use App\Repositories\LabelRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Log;
-use Psy\Readline\Hoa\Console;
 
 class PackageController extends Controller
 {
@@ -44,7 +45,6 @@ class PackageController extends Controller
 
     public function createLabelForPackage(Request $request)
     {
-
         $id = $request->id;
         $company = $request->company;
 
@@ -53,7 +53,7 @@ class PackageController extends Controller
         $repo3 = new CompanyRepo();
 
         $label = new Label();
-        $label->trackAndTrace = '12345';
+        $label->trackAndTrace = $this->generateTrackAndTrace();
         $label->company_id = $repo3->findWhere($company)->first();
         $label->save();
 
@@ -61,10 +61,84 @@ class PackageController extends Controller
         $shipment->label_id = $label->id;
         $repo2->update($shipment, $id);
 
-        $data = ['id' => $repo->find($repo2->find($id)->label_id)->id];
+        $findLabel = $repo->find($repo2->find($id)->label_id);
+        $findCompany = $repo3->find($repo->find($repo2->find($id)->label_id)->company_id);
+        $findShipment = $repo2->find($id);
+
+        $data = ['id' => $findLabel->id,
+            'date' => $findShipment->created_at,
+            'trackAndTrace' => $findLabel->trackAndTrace,
+            'company' => $findCompany->naam,
+            'sendingStreet' => $findShipment->streetName,
+            'sendingNumber' => $findShipment->houseNumber,
+            'sendingPostal' => $findShipment->postalCode];
         $pdf = PDF::loadView('label', $data);
         return $pdf->download('pdf_file.pdf');
 
-        return redirect('trackAndTrace');
+//        return redirect('trackAndTrace');
+    }
+
+    public function createBulkLabels(Request $request)
+    {
+        $company = $request->company;
+        $dataArray = [];
+
+        $repo = new LabelRepo();
+        $repo2 = new ShipmentRepo();
+        $repo3 = new CompanyRepo();
+
+        $listShipments = Shipment::all()->where('label_id', null)->take(20);
+
+        foreach($listShipments as $shipment)
+        {
+
+
+            $label = new Label();
+            $label->trackAndTrace = $this->generateTrackAndTrace();
+            $label->company_id = $repo3->findWhere($company)->first();
+            $label->save();
+
+            $shipment->label_id = $label->id;
+            $repo2->update($shipment, $shipment->id);
+
+            $findLabel = $repo->find($repo2->find($shipment->id)->label_id);
+            $findCompany = $repo3->find($repo->find($repo2->find($shipment->id)->label_id)->company_id);
+            $findShipment = $repo2->find($shipment->id);
+
+            $data = ['id' => $findLabel->id,
+                'date' => $findShipment->created_at,
+                'trackAndTrace' => $findLabel->trackAndTrace,
+                'company' => $findCompany->naam,
+                'sendingStreet' => $findShipment->streetName,
+                'sendingNumber' => $findShipment->houseNumber,
+                'sendingPostal' => $findShipment->postalCode];
+
+            $dataArray[] = $data;
+        }
+        $array = ['dataArray' => $dataArray];
+
+        $pdf = PDF::loadView('bulkLabel', $array);
+        return $pdf->download('pdf_file.pdf');
+    }
+
+    public function generateTrackAndTrace()
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersNumber = strlen($characters);
+        $codeLength = 10;
+
+        $code = '';
+
+        while (strlen($code) < $codeLength) {
+            $position = rand(0, $charactersNumber - 1);
+            $character = $characters[$position];
+            $code = $code.$character;
+        }
+
+        if (Label::select()->where('trackAndTrace', $code)->exists()) {
+            $this->generateTrackAndTrace();
+        }
+
+        return $code;
     }
 }
