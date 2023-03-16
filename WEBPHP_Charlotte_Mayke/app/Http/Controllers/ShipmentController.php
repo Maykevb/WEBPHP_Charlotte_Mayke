@@ -57,8 +57,8 @@ class ShipmentController extends Controller
     }
 
 //    TODO: name, status
-    public function signUpShipment($street, $nr, $code, $place) {
-        $data['name'] = "test";
+    public function signUpShipment($name, $street, $nr, $code, $place) {
+        $data['name'] = $name;
         $data['streetName'] = $street;
         $data['houseNumber'] = $nr;
         $data['postalCode'] = $code;
@@ -68,6 +68,7 @@ class ShipmentController extends Controller
 
         return [
             'id' => $temp['id'],
+            'name' => $temp['name'],
             'streetName' => $temp['streetName'],
             'houseNumber' => $temp['houseNumber'],
             'postalCode' => $temp['postalCode'],

@@ -20,9 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //TODO: secure the API call -> only webshop, get rid of 'test' in route
-Route::get('/test/{street}/{nr}/{code}/{place}', function (string $street, int $nr, string $code, string $place) {
+Route::get('/test/{name}/{street}/{nr}/{code}/{place}',
+    function (string $name, string $street, int $nr, string $code, string $place) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
-                      ->signUpShipment($street, $nr, $code, $place)];
+                      ->signUpShipment($name, $street, $nr, $code, $place)];
 });
 
 //TODO: secure the API call -> only shipment company, get rid of 'test' in route
