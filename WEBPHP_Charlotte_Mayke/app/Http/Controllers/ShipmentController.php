@@ -21,12 +21,14 @@ class ShipmentController extends Controller
         return $this->repo->getAll();
     }
 
+//    TODO: needed?
     public function store(Request $request)
     {
         $validated = $request->validate([
             'streetName' => 'required|string|max:50',
             'houseNumber' => 'required|integer',
-            'postalCode' => 'required|string|max:6'
+            'postalCode' => 'required|string|max:6',
+            'place' => 'required|string|max:50'
         ]);
 
         $shipment = new Shipment($validated);
@@ -34,12 +36,14 @@ class ShipmentController extends Controller
         return new ShipmentResource($shipment);
     }
 
+//    TODO: needed?
     public function update(Request $request, Shipment $shipment)
     {
         $validated = $request->validate([
             'streetName' => 'required|string|max:50',
             'houseNumber' => 'required|integer',
-            'postalCode' => 'required|string|max:6'
+            'postalCode' => 'required|string|max:6',
+            'place' => 'required|string|max:50'
         ]);
 
         $shipment->update($validated);
@@ -52,36 +56,36 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-//    TODO
-    public function signUpShipment($street, $nr, $code) {
-        $data = new Shipment();
+//    TODO: name, status
+    public function signUpShipment($street, $nr, $code, $place) {
+        $data['name'] = "test";
         $data['streetName'] = $street;
         $data['houseNumber'] = $nr;
         $data['postalCode'] = $code;
-        $data['status'] = "Aangemeld";
-        $this->repo->create($data);
+        $data['place'] = $place;
+//        $data['status'] = "Aangemeld";
+        $temp = $this->repo->create($data);
 
         return [
-            'id' => 1,
-            'streetName' => $street,
-            'houseNumber' => $nr,
-            'postalCode' => $code,
+            'id' => $temp['id'],
+            'streetName' => $temp['streetName'],
+            'houseNumber' => $temp['houseNumber'],
+            'postalCode' => $temp['postalCode'],
+            'place' => $temp['place'],
         ];
     }
 
-    public function testing($street, $nr, $code) {
-        return [
-            'id' => 1,
-            'streetName' => $street,
-            'houseNumber' => $nr,
-            'postalCode' => $code,
-        ];
-    }
-
+//    TODO: update label_id??, return status
     public function updateShipmentStatus($id, $newStatus) {
         $data = $this->repo->find($id);
         $data['status'] = $newStatus;
-        $this->repo->update($data, $id);
+
+        $temp = $this->repo->update($data, $id);
+
+        return [
+            'id' => $temp['id'],
+//            'status' => $temp['status'],
+        ];
     }
 }
 

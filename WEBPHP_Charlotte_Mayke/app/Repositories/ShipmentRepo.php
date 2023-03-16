@@ -27,7 +27,6 @@ class ShipmentRepo implements CrudInterface
         return Shipment::create($data);
     }
 
-
     public function update($data, $id)
     {
         $shipment = Shipment::where('id', $id)->first();
@@ -36,6 +35,8 @@ class ShipmentRepo implements CrudInterface
         $shipment->houseNumber = $data['houseNumber'];
         $shipment->postalCode = $data['postalCode'];
         $shipment->save();
+
+        return $shipment;
     }
 }
 
