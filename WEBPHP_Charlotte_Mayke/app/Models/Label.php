@@ -8,9 +8,6 @@ class Label extends Model
 {
     protected $fillable = [
         'trackAndTrace'
-//        'streetName',
-//        'houseNumber',
-//        'postalCode',
     ];
 
     public function Company()

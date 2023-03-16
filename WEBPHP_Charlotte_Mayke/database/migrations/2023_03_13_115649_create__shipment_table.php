@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('place');
             $table->string('streetName');
             $table->string('houseNumber');
             $table->string('postalCode');
             $table->foreignId('label_id')->nullable();
+            $table->foreignId('pickUpRequest_id')->nullable();
             $table->timestamps();
         });
     }
