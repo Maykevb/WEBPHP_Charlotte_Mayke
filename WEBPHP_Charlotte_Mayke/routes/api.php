@@ -31,16 +31,3 @@ Route::get('/{id}/{status}', function (int $id, string $status) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
                       ->updateShipmentStatus($id, $status)];
 });
-
-//TODO: needed?
-//Route::get('/test/{street}/{nr}/{code}', function (string $street, int $nr, string $code) {
-//    return new ShipmentResource();
-//});
-//
-//Route::get('/shipment/{id}', function (string $id) {
-//    return new ShipmentResource(Shipment::findOrFail($id));
-//});
-//
-//Route::get('/shipments', function () {
-//    return new ShipmentResourceCollection(Shipment::all());
-//});

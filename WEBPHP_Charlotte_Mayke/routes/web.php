@@ -52,15 +52,10 @@ Route::get('/shipmentRegistration', function() {
     ]);
 })->name('registerShipments');
 
-//Route::get('/shipmentRegistration/csvImport', [\App\Http\Controllers\ShipmentController::class,'importCsv'])
-//->name('importcsv');
-
 Route::get('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'createForm'])
 ->name('importcsv');
 
 Route::post('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'fileUpload'])
 ->name('fileUpload');
-
-//Route::get('user-delete/{id}',[UserController::class,'delete'])->name('user.delete');
 
 
