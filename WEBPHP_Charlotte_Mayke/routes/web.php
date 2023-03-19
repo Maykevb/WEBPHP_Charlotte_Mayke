@@ -37,8 +37,7 @@ Route::get('/labelList/{id}/{company}',[\App\Http\Controllers\PackageController:
 Route::get('/labelList/{company}',[\App\Http\Controllers\PackageController::class, 'createBulkLabels'])
     ->name('bulkLabel');
 
-Route::get('/pickUpRequest', function()
-{
+Route::get('/pickUpRequest', function() {
     return view('/pickUpRequest', [
         'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
     ]);
@@ -46,5 +45,22 @@ Route::get('/pickUpRequest', function()
 
 Route::post('label-form', [\App\Http\Controllers\PackageController::class, 'handleLabels'])
 ->name('list');
+
+Route::get('/shipmentRegistration', function() {
+    return view('/shipmentRegistration', [
+        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getAllShipments()
+    ]);
+})->name('registerShipments');
+
+//Route::get('/shipmentRegistration/csvImport', [\App\Http\Controllers\ShipmentController::class,'importCsv'])
+//->name('importcsv');
+
+Route::get('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'createForm'])
+->name('importcsv');
+
+Route::post('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'fileUpload'])
+->name('fileUpload');
+
+//Route::get('user-delete/{id}',[UserController::class,'delete'])->name('user.delete');
 
 

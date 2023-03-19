@@ -34,6 +34,7 @@ class ShipmentRepo implements CrudInterface
         $shipment->streetName = $data['streetName'];
         $shipment->houseNumber = $data['houseNumber'];
         $shipment->postalCode = $data['postalCode'];
+        $shipment->status = $data['status'];
         $shipment->save();
 
         return $shipment;

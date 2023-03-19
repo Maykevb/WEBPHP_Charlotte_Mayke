@@ -6,7 +6,6 @@ use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
-use App\Enums\ShipmentStatus;
 
 class ShipmentController extends Controller
 {
@@ -77,7 +76,7 @@ class ShipmentController extends Controller
         ];
     }
 
-//    TODO: update label_id??, return status
+//    TODO: update label_id??
     public function updateShipmentStatus($id, $newStatus) {
         $data = $this->repo->find($id);
         $data['status'] = $newStatus;
@@ -86,8 +85,42 @@ class ShipmentController extends Controller
 
         return [
             'id' => $temp['id'],
-//            'status' => $temp['status'],
+            'status' => $temp['status'],
         ];
+    }
+
+    function csvToArray($filename = '', $delimiter = ',')
+    {
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+
+        return $data;
+    }
+
+    public function importCsv($filename)
+    {
+        $file = public_path("storage/files/{$filename}");
+        $shipmentArr = $this->csvToArray($file);
+
+        if ($shipmentArr != null) {
+            for ($i = 0; $i < sizeof($shipmentArr); $i++) {
+                $temp = $this->repo->create($shipmentArr[$i]);
+            }
+        }
     }
 }
 
