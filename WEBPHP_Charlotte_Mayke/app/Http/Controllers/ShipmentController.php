@@ -6,6 +6,7 @@ use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
+use App\Enums\ShipmentStatus;
 
 class ShipmentController extends Controller
 {
@@ -56,23 +57,23 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-//    TODO: name, status
     public function signUpShipment($name, $street, $nr, $code, $place) {
         $data['name'] = $name;
         $data['streetName'] = $street;
         $data['houseNumber'] = $nr;
         $data['postalCode'] = $code;
         $data['place'] = $place;
-//        $data['status'] = "Aangemeld";
+        $data['status'] = "Aangemeld";
         $temp = $this->repo->create($data);
 
         return [
             'id' => $temp['id'],
             'name' => $temp['name'],
-            'streetName' => $temp['streetName'],
-            'houseNumber' => $temp['houseNumber'],
-            'postalCode' => $temp['postalCode'],
+            'street name' => $temp['streetName'],
+            'house number' => $temp['houseNumber'],
+            'postal code' => $temp['postalCode'],
             'place' => $temp['place'],
+            'status' => "Aangemeld",
         ];
     }
 
