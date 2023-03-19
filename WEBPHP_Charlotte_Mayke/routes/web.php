@@ -44,5 +44,7 @@ Route::get('/pickUpRequest', function()
     ]);
 })->name('startRequest');
 
+Route::post('label-form', [\App\Http\Controllers\PackageController::class, 'handleLabels'])
+->name('list');
 
 

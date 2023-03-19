@@ -31,8 +31,7 @@ class PackageController extends Controller
                 if($repo->find($shipment->id)->pickUpRequest_id != null)
                 {
                     $total = new TotalShipment($shipment, true, true);
-                }
-                else
+                } else
                 {
                     $total = new TotalShipment($shipment, true, false);
                 }
@@ -43,8 +42,7 @@ class PackageController extends Controller
                 if($repo->find($shipment->id)->pickUpRequest_id != null)
                 {
                     $total = new TotalShipment($shipment, false, true);
-                }
-                else
+                } else
                 {
                     $total = new TotalShipment($shipment, false, false);
                 }
@@ -55,16 +53,54 @@ class PackageController extends Controller
         return $shipments;
     }
 
-    public function createPickUp()
+    public function handleLabels(Request $request)
     {
+        $repo2 = new ShipmentRepo();
 
+        $listShipments = [];
+        foreach($this->getAllPackages() as $package)
+        {
+            $id = $package->shipment->id;
+            if($request->$id == "on")
+            {
+                switch ($request->input('action')) {
+                    case 'Maak DHL label':
+                        if($repo2->find($id)->label_id == null)
+                        {
+                            $this->createLabelForPackage($id, "DHL");
+                        }
+                        break;
+                    case 'Maak PostNL label':
+                        if($repo2->find($id)->label_id == null)
+                        {
+                            $this->createLabelForPackage($id, "PostNL");
+                        }
+                        break;
+                    case 'Maak UPS label':
+                        if($repo2->find($id)->label_id == null)
+                        {
+                            $this->createLabelForPackage($id, "UPS");
+                        }
+                        break;
+                    case 'Download':
+                        $listShipments[] = $id;
+                        break;
+                }
+            }
+        }
+
+        if($request->input('action') == "Download" && count($listShipments) > 0)
+        {
+            return $this->printLabels($listShipments)->download('pdf_file.pdf');
+        }
+        else
+        {
+            return redirect('labelList');
+        }
     }
 
-    public function createLabelForPackage(Request $request)
+    public function createLabelForPackage($id, $company)
     {
-        $id = $request->id;
-        $company = $request->company;
-
         $repo = new LabelRepo();
         $repo2 = new ShipmentRepo();
         $repo3 = new CompanyRepo();
@@ -78,49 +114,20 @@ class PackageController extends Controller
         $shipment->label_id = $label->id;
         $repo2->update($shipment, $id);
 
-        $findLabel = $repo->find($repo2->find($id)->label_id);
-        $findCompany = $repo3->find($repo->find($repo2->find($id)->label_id)->company_id);
-        $findShipment = $repo2->find($id);
-
-        $data = ['id' => $findLabel->id,
-            'name' => $findShipment->lable,
-            'place' => $findShipment->place,
-            'date' => $findShipment->created_at,
-            'trackAndTrace' => $findLabel->trackAndTrace,
-            'company' => $findCompany->naam,
-            'sendingStreet' => $findShipment->streetName,
-            'sendingNumber' => $findShipment->houseNumber,
-            'sendingPostal' => $findShipment->postalCode];
-        $pdf = PDF::loadView('label', $data);
-        return $pdf->download('pdf_file.pdf');
+        return redirect('labelList');
     }
 
-    public function createBulkLabels(Request $request)
+    public function printLabels($listShipments)
     {
-        $company = $request->company;
-        $dataArray = [];
-
         $repo = new LabelRepo();
         $repo2 = new ShipmentRepo();
         $repo3 = new CompanyRepo();
 
-        $listShipments = Shipment::all()->where('label_id', null)->take(20);
-
         foreach($listShipments as $shipment)
         {
-
-
-            $label = new Label();
-            $label->trackAndTrace = $this->generateTrackAndTrace();
-            $label->company_id = $repo3->findWhere($company)->first();
-            $label->save();
-
-            $shipment->label_id = $label->id;
-            $repo2->update($shipment, $shipment->id);
-
-            $findLabel = $repo->find($repo2->find($shipment->id)->label_id);
-            $findCompany = $repo3->find($repo->find($repo2->find($shipment->id)->label_id)->company_id);
-            $findShipment = $repo2->find($shipment->id);
+            $findLabel = $repo->find($repo2->find($shipment)->label_id);
+            $findCompany = $repo3->find($repo->find($repo2->find($shipment)->label_id)->company_id);
+            $findShipment = $repo2->find($shipment);
 
             $data = ['id' => $findLabel->id,
                 'name' => $findShipment->lable,
@@ -137,7 +144,7 @@ class PackageController extends Controller
         $array = ['dataArray' => $dataArray];
 
         $pdf = PDF::loadView('bulkLabel', $array);
-        return $pdf->download('pdf_file.pdf');
+        return $pdf;
     }
 
     public function generateTrackAndTrace()
