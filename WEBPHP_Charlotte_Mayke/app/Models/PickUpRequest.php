@@ -7,11 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class PickUpRequest extends Model
 {
     protected $fillable = [
-        'date',
-        'time',
-        'streetName',
-        'houseNumber',
-        'postalCode'
+        'title',
+        'startDate',
+        'endDate'
     ];
 
     public function Shipment()

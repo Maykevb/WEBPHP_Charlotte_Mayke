@@ -48,3 +48,4 @@ Route::post('label-form', [\App\Http\Controllers\PackageController::class, 'hand
 ->name('list');
 
 
+
