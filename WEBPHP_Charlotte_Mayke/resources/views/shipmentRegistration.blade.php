@@ -36,7 +36,7 @@
                 <h4 style="text-align: center"><strong>Enkele verzending aanmelden</strong></h4>
                 <p>Om een enkele verzending aan te melden, voer de volgende informatie in de zoekbalk in:</p>
 {{--                TODO: website naam voor /api/--}}
-                <p>/api/{naam van ontvanger}/{bezorg adres straat}/{bezorg adres huisnummer}/{bezorg adres postcode}/{bezorg adres plaats}</p>
+                <p>/api/{gebruikersnaam}/{wachtwoord}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}</p>
             </div>
         </div>
         <br>

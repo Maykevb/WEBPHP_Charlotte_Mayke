@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
+use App\Repositories\AccountRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class ShipmentController extends Controller
 {
     private ShipmentRepo $repo;
+    private AccountRepo $accRepo;
 
     public function __construct()
     {
         $this->repo = new ShipmentRepo();
+        $this->accRepo = new AccountRepo();
     }
 
     public function getAllShipments()
@@ -86,37 +90,56 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-    public function signUpShipment($name, $street, $nr, $code, $place) {
-        $data['name'] = $name;
-        $data['streetName'] = $street;
-        $data['houseNumber'] = $nr;
-        $data['postalCode'] = $code;
-        $data['place'] = $place;
-        $data['status'] = "Aangemeld";
-        $temp = $this->repo->create($data);
+    public function signUpShipment($username, $password, $name, $street, $nr, $code, $place) {
+        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
 
-        return [
-            'id' => $temp['id'],
-            'name' => $temp['name'],
-            'street name' => $temp['streetName'],
-            'house number' => $temp['houseNumber'],
-            'postal code' => $temp['postalCode'],
-            'place' => $temp['place'],
-            'status' => "Aangemeld",
-        ];
+        if ($account->count() > 0 && $account[0] != null) {
+            $data['name'] = $name;
+            $data['streetName'] = $street;
+            $data['houseNumber'] = $nr;
+            $data['postalCode'] = $code;
+            $data['place'] = $place;
+            $data['status'] = "Aangemeld";
+            $temp = $this->repo->create($data);
+
+            return [
+                'id' => $temp['id'],
+                'name' => $temp['name'],
+                'street name' => $temp['streetName'],
+                'house number' => $temp['houseNumber'],
+                'postal code' => $temp['postalCode'],
+                'place' => $temp['place'],
+                'status' => "Aangemeld",
+            ];
+        }
+        else {
+            return [
+                "Error: foutieve inlog gegevens"
+            ];
+        }
     }
 
 //    TODO: update label_id??
-    public function updateShipmentStatus($id, $newStatus) {
-        $data = $this->repo->find($id);
-        $data['status'] = $newStatus;
+    public function updateShipmentStatus($username, $password, $id, $newStatus) {
+        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
 
-        $temp = $this->repo->update($data, $id);
+        if ($account->count() > 0 && $account[0] != null)
+        {
+            $data = $this->repo->find($id);
+            $data['status'] = $newStatus;
 
-        return [
-            'id' => $temp['id'],
-            'status' => $temp['status'],
-        ];
+            $temp = $this->repo->update($data, $id);
+
+            return [
+                'id' => $temp['id'],
+                'status' => $temp['status'],
+            ];
+        }
+        else {
+            return [
+                "Error: foutieve inlog gegevens"
+            ];
+        }
     }
 
     function csvToArray($filename = '', $delimiter = ',')

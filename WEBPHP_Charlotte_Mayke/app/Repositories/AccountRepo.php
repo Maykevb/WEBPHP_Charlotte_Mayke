@@ -3,33 +3,42 @@
 namespace App\Repositories;
 
 use App\Interfaces\CrudInterface;
-use App\Models\Account;
+use App\Models\user;
 
 class AccountRepo implements CrudInterface
 {
     public function getAll()
     {
-        return Account::all();
+        return user::all();
     }
 
     public function find($id)
     {
-        return Account::find($id);
+        return user::find($id);
     }
+
+    public function findByUsernameAndPassword($username, $password)
+    {
+        return user::select()
+            ->where('name', '=', $username)
+            ->where('password', '=', $password)
+            ->get();
+    }
+
 
     public function delete($id)
     {
-        Account::find($id)->delete();
+        user::find($id)->delete();
     }
 
     public function create($data)
     {
-        return Account::create($data);
+        return user::create($data);
     }
 
     public function update($data, $id)
     {
-        $account = Account::where('id', $id)->first();
+        $account = user::where('id', $id)->first();
 //        TODO
 //        $account->city = $data['city'];
 //        $account->province = $data['province'];

@@ -70,17 +70,4 @@ Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'fin
 Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
     ->name('writtenReview');
 
-//
-//Route::get('/myShipments', function() {
-//    return view('/myShipments', [
-//        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getAllShipments()
-//    ]);
-//})->name('myShipments');
-//
-//Route::post('/myShipments', function($code) {
-//    return view('/myShipments', [
-//        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getShipmentWithTandTCode($code)
-//    ]);
-//})->name('myShipmentsGet');
-
 

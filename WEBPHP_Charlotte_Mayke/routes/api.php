@@ -20,14 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //TODO: secure the API call -> only webshop
-Route::get('/{name}/{street}/{nr}/{code}/{place}',
-    function (string $name, string $street, int $nr, string $code, string $place) {
+Route::get('/{username}/{password}/{name}/{street}/{nr}/{code}/{place}',
+    function (string $username, string $password, string $name, string $street, int $nr, string $code, string $place) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
-                      ->signUpShipment($name, $street, $nr, $code, $place)];
+                      ->signUpShipment($username, $password, $name, $street, $nr, $code, $place)];
 });
 
 //TODO: secure the API call -> only shipment company
-Route::get('/{id}/{status}', function (int $id, string $status) {
+Route::get('/{username}/{password}/{id}/{status}',
+    function (string $username, string $password, int $id, string $status) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
-                      ->updateShipmentStatus($id, $status)];
+                      ->updateShipmentStatus($username, $password, $id, $status)];
 });
