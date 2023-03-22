@@ -58,4 +58,29 @@ Route::get('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'cr
 Route::post('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'fileUpload'])
 ->name('fileUpload');
 
+Route::get('/myShipments', [\App\Http\Controllers\ShipmentController::class,'shipments'])
+    ->name('myShipments');
+
+Route::post('/myShipments', [\App\Http\Controllers\ShipmentController::class,'getShipmentWithTandTCode'])
+    ->name('myShipmentsGet');
+
+Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'findShipment'])
+    ->name('writeReview');
+
+Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
+    ->name('writtenReview');
+
+//
+//Route::get('/myShipments', function() {
+//    return view('/myShipments', [
+//        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getAllShipments()
+//    ]);
+//})->name('myShipments');
+//
+//Route::post('/myShipments', function($code) {
+//    return view('/myShipments', [
+//        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getShipmentWithTandTCode($code)
+//    ]);
+//})->name('myShipmentsGet');
+
 

@@ -21,6 +21,26 @@ class ShipmentController extends Controller
         return $this->repo->getAll();
     }
 
+    public function findShipment(Request $request)
+    {
+        $id = $request->id;
+        return view('/writeReview', [
+            'shipment' => $this->repo->find($id)
+        ]);
+    }
+
+    public function shipments()
+    {
+        return view('/myShipments');
+    }
+
+    public function getShipmentWithTandTCode(Request $request)
+    {
+        return view('/myShipments', [
+            'shipments' => $this->repo->getShipmentsWithTandTCode($request)
+        ]);
+    }
+
 //    TODO: needed?
     public function store(Request $request)
     {
@@ -48,6 +68,16 @@ class ShipmentController extends Controller
 
         $shipment->update($validated);
         return new ShipmentResource($shipment);
+    }
+
+    public function insertReview(Request $request) {
+        $id = $request->id;
+        $shipment = $this->repo->find($id);
+
+        $shipment = $this->repo->insertReview($request, $id);
+        return view('/writeReview', [
+            'shipment' => $shipment
+        ]);
     }
 
     public function destroy(Shipment $shipment)
