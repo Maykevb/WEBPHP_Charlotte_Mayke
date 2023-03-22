@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Shipment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,21 +32,38 @@ Route::get('/labelList', function() {
     ]);
 })->name('labelList');
 
-Route::get('/labelList/{id}/{company}',[\App\Http\Controllers\PackageController::class, 'createLabelForPackage'])
-    ->name('makeLabel');
+//Route::get('/labelList/{id}/{company}',[\App\Http\Controllers\PackageController::class, 'createLabelForPackage'])
+//    ->name('makeLabel');
+//
+//Route::get('/labelList/{company}',[\App\Http\Controllers\PackageController::class, 'createBulkLabels'])
+//    ->name('bulkLabel');
 
-Route::get('/labelList/{company}',[\App\Http\Controllers\PackageController::class, 'createBulkLabels'])
-    ->name('bulkLabel');
+//Route::get('/pickUpRequest', function() {
+//    return view('pickUpRequest');
+//})->name('startRequest');
 
-Route::get('/pickUpRequest', function()
-{
+Route::post('pickup-form', [\App\Http\Controllers\PackageController::class, 'createPickUpForShipment'])
+    ->name('pickup');
+
+Route::get('/pickUpRequest/{shipment}', function(Shipment $shipment) {
     return view('/pickUpRequest', [
-        'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
+        'shipment' => $shipment
     ]);
 })->name('startRequest');
 
 Route::post('label-form', [\App\Http\Controllers\PackageController::class, 'handleLabels'])
 ->name('list');
 
+Route::get('/shipmentRegistration', function() {
+    return view('/shipmentRegistration', [
+        'shipments'  => (new \App\Http\Controllers\ShipmentController)->getAllShipments()
+    ]);
+})->name('registerShipments');
+
+Route::get('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'createForm'])
+->name('importcsv');
+
+Route::post('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'fileUpload'])
+->name('fileUpload');
 
 

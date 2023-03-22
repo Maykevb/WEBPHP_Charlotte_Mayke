@@ -92,11 +92,24 @@ class PackageController extends Controller
         if($request->input('action') == "Download" && count($listShipments) > 0)
         {
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
-        }
-        else
+        } else
         {
             return redirect('labelList');
         }
+    }
+
+    public function createPickUpForShipment(Request $request)
+    {
+        $request->validate([
+            'pickUpDate' => 'required|date|after_or_equal:' . now()->addDays(2) . '|before: 15:00',
+            'postcode' => 'required',
+            'huisnummer' => 'required'
+        ], [
+            'pickUpDate.after_or_equal' => 'De pickup aanvraag moet minimaal 2 dagen van te voren geplanned worden.',
+            'pickUpDate.before' => 'Een pickup aanvraag moet voor 15:00 plaats vinden'
+        ]);
+
+//        return view('labelList');
     }
 
     public function createLabelForPackage($id, $company)
