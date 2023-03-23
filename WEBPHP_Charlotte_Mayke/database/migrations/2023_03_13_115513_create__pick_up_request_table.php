@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('pick_up_requests', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('startDate');
-            $table->dateTime('endDate');
+            $table->date('date');
+            $table->time('time');
+            $table->string('postcode');
+            $table->string('huisnummer');
             $table->timestamps();
         });
     }

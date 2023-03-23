@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Label;
+use App\Models\PickUpRequest;
 use App\Models\Shipment;
 use App\Models\TotalShipment;
 use App\Repositories\CompanyRepo;
 use App\Repositories\LabelRepo;
+use App\Repositories\PickUpRequestRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -101,15 +103,34 @@ class PackageController extends Controller
     public function createPickUpForShipment(Request $request)
     {
         $request->validate([
-            'pickUpDate' => 'required|date|after_or_equal:' . now()->addDays(2) . '|before: 15:00',
+            'pickUpDate' => 'required|after_or_equal:' . now()->addDays(2),
+            'pickUpTime' => 'required|before_or_equal: 15:00',
             'postcode' => 'required',
             'huisnummer' => 'required'
         ], [
             'pickUpDate.after_or_equal' => 'De pickup aanvraag moet minimaal 2 dagen van te voren geplanned worden.',
-            'pickUpDate.before' => 'Een pickup aanvraag moet voor 15:00 plaats vinden'
+            'pickUpDate.required' => 'Het is verplicht een datum in te vullen',
+            'pickUpTime.before_or_equal' => 'Een pickup aanvraag moet voor 15:00 plaats vinden',
+            'pickUpTime.required' => 'Het is verplicht een tijdstip in te vullen',
+            'postcode.required' => 'Het is verplicht een postcode in te vullen',
+            'postcode.huisnummer' => 'Het is verplicht een postcode in te vullen'
         ]);
 
-//        return view('labelList');
+        $repo = new PickUpRequestRepo();
+        $repo2 = new ShipmentRepo();
+
+        $pickUp = new PickUpRequest();
+        $pickUp->date = $request->pickUpDate;
+        $pickUp->time = $request->pickUpTime;
+        $pickUp->postcode = $request->postcode;
+        $pickUp->huisnummer = $request->huisnummer;
+        $pickUp->save();
+
+        $shipment = $repo2->find($request->pickUpId);
+        $shipment->pickUpRequest_id = $pickUp->id;
+        $repo2->update($shipment, $request->pickUpId);
+
+        return redirect('labelList');
     }
 
     public function createLabelForPackage($id, $company)
