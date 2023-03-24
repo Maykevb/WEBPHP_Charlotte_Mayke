@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('labels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->nullable();
+            $table->foreignId('company_id');
             $table->string('trackAndTrace');
-//            $table->string('streetName');
-//            $table->string('houseNumber');
-//            $table->string('postalCode');
             $table->timestamps();
         });
     }
