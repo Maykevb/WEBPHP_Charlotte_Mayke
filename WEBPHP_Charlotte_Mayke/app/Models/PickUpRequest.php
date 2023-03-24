@@ -9,9 +9,8 @@ class PickUpRequest extends Model
     protected $fillable = [
         'date',
         'time',
-        'streetName',
-        'houseNumber',
-        'postalCode'
+        'postcode',
+        'huisnummer'
     ];
 
     public function Shipment()

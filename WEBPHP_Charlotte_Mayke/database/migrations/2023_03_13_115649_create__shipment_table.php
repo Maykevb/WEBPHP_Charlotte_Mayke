@@ -11,8 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shipment', function (Blueprint $table) {
+        Schema::create('shipments', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('place');
+            $table->string('streetName');
+            $table->string('houseNumber');
+            $table->string('postalCode');
+            $table->foreignId('label_id')->nullable();
+            $table->foreignId('pickUpRequest_id')->nullable();
+            $table->enum('status', ['Aangemeld', 'Uitgeprint',
+                'Opgehaald', 'Sorteercentrum', 'Onderweg', 'Afgeleverd']);
+            $table->text('reviewText')->nullable();
+            $table->integer('reviewStars')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shipment');
+        Schema::dropIfExists('shipments');
     }
 };

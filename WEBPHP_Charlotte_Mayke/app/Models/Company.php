@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shipment extends Model
+class Company extends Model
 {
     protected $fillable = [
         'naam',
-        'prijs',
-        'streetName',
-        'houseNumber',
-        'postalCode'
+        'prijs'
     ];
 }
