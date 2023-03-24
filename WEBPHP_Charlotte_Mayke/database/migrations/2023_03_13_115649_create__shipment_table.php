@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('postalCode');
             $table->foreignId('label_id')->nullable();
             $table->foreignId('pickUpRequest_id')->nullable();
+            $table->enum('status', ['Aangemeld', 'Uitgeprint',
+                'Opgehaald', 'Sorteercentrum', 'Onderweg', 'Afgeleverd']);
+            $table->text('reviewText')->nullable();
+            $table->integer('reviewStars')->nullable();
             $table->timestamps();
         });
     }

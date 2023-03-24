@@ -32,10 +32,10 @@ class LabelRepo implements CrudInterface
         return Label::create($data);
     }
 
-
     public function update($data, $id)
     {
         $label = Label::where('id', $id)->first();
+//        TODO
 //        $label->city = $data['city'];
 //        $label->province = $data['province'];
 //        $label->continent = $data['continent'];

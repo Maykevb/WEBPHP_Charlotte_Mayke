@@ -37,6 +37,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('startRequest') }}">{{ __('Aanvragen') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
+                    </li>
                 </ul>
 
 

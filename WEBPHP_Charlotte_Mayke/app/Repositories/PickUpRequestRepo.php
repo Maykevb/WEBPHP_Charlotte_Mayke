@@ -27,10 +27,10 @@ class PickUpRequestRepo implements CrudInterface
         return PickUpRequest::create($data);
     }
 
-
     public function update($data, $id)
     {
         $pickUpRequest = PickUpRequest::where('id', $id)->first();
+//        TODO
 //        $pickUpRequest->city = $data['city'];
 //        $pickUpRequest->province = $data['province'];
 //        $pickUpRequest->continent = $data['continent'];
