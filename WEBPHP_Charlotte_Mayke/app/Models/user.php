@@ -41,4 +41,9 @@ class user extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

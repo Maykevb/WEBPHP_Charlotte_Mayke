@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //TODO: secure the API call -> only webshop
 Route::get('/{username}/{password}/{name}/{street}/{nr}/{code}/{place}',
-    function (string $username, string $password, string $name, string $street, int $nr, string $code, string $place) {
+    function (string $username, string $password, string $name, string $street, string $nr, string $code, string $place) {
     return['shipment' => (new App\Http\Controllers\ShipmentController())
                       ->signUpShipment($username, $password, $name, $street, $nr, $code, $place)];
 });
