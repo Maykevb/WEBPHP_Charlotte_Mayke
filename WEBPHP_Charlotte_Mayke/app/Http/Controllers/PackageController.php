@@ -113,17 +113,19 @@ class PackageController extends Controller
             'pickUpTime.before_or_equal' => 'Een pickup aanvraag moet voor 15:00 plaats vinden',
             'pickUpTime.required' => 'Het is verplicht een tijdstip in te vullen',
             'postcode.required' => 'Het is verplicht een postcode in te vullen',
-            'postcode.huisnummer' => 'Het is verplicht een postcode in te vullen'
+            'huisnummer.required' => 'Het is verplicht een postcode in te vullen'
         ]);
 
         $repo = new PickUpRequestRepo();
         $repo2 = new ShipmentRepo();
 
         $pickUp = new PickUpRequest();
-        $pickUp->date = $request->pickUpDate;
+        $pickUp->start = $request->pickUpDate;
         $pickUp->time = $request->pickUpTime;
         $pickUp->postcode = $request->postcode;
         $pickUp->huisnummer = $request->huisnummer;
+        $pickUp->title = 'Bestelling: ' . $repo2->find($request->pickUpId)->id;
+        $pickUp->end = $request->pickUpDate;
         $pickUp->save();
 
         $shipment = $repo2->find($request->pickUpId);
