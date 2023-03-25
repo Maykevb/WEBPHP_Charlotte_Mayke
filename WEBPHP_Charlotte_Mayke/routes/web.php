@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FullCalenderController;
 use App\Models\Shipment;
 use Illuminate\Support\Facades\Route;
 
@@ -77,5 +78,7 @@ Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'fin
 
 Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
     ->name('writtenReview');
+
+Route::get('/fullcalender', [FullCalenderController::class, 'index'])->name('calender');
 
 

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="col-auto" style="margin: auto;">
+<div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
     <form action="{{ route('list') }}" method="post">
         @csrf
-        <div class="row" style="margin:0 auto; text-align: center;  justify-content: center">
+        <div class="row" style="margin:0 auto; text-align: center;  justify-content: center;">
             <div class="col-sm-8" style="text-align: center;">
                 <h4 style="text-align: center"><strong>Labels maken</strong></h4>
                 <input type="submit" class="btn btn-dark" name="action" value="Maak DHL label" style="width: 200px;"/>
