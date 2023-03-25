@@ -27,21 +27,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //    return view('trackAndTrace');
 //})->name('trackAndTrace');
 
-Route::get('/labelList', function() {
-    return view('/labelList', [
-        'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
-    ]);
-})->name('labelList');
+//Route::get('/labelList', function() {
+//    return view('/labelList', [
+//        'listPackages' => (new App\Http\Controllers\PackageController)->getAllPackages()
+//    ]);
+//})->name('labelList');
 
-//Route::get('/labelList/{id}/{company}',[\App\Http\Controllers\PackageController::class, 'createLabelForPackage'])
-//    ->name('makeLabel');
-//
-//Route::get('/labelList/{company}',[\App\Http\Controllers\PackageController::class, 'createBulkLabels'])
-//    ->name('bulkLabel');
-
-//Route::get('/pickUpRequest', function() {
-//    return view('pickUpRequest');
-//})->name('startRequest');
+Route::get('/labelList', [\App\Http\Controllers\PackageController::class, 'getAllPackages'])->name('labelList');
 
 Route::post('pickup-form', [\App\Http\Controllers\PackageController::class, 'createPickUpForShipment'])
     ->name('pickup');

@@ -12,6 +12,7 @@ use App\Repositories\PickUpRequestRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Spatie\Searchable\Search;
 
 class PackageController extends Controller
 {
@@ -20,13 +21,25 @@ class PackageController extends Controller
         //TODO: add di
     }
 
-    public function getAllPackages()
+    public function getAllPackages(Request $request)
+    {
+        if($request->filled('search'))
+        {
+            $shipments = $this->getPackages((new Search())->registerModel(Shipment::class, 'id')->search($request->search));
+        } else
+        {
+            $shipments = $this->getPackages(Shipment::get());
+        }
+
+        return view('/labelList', compact('shipments'));
+    }
+
+    public function getPackages($list)
     {
         $repo = new ShipmentRepo();
-        $repo2 = new LabelRepo();
 
         $shipments = array();
-        foreach($repo->getAll() as $shipment)
+        foreach($list as $shipment)
         {
             if($repo->find($shipment->id)->label_id != null)
             {
@@ -37,9 +50,8 @@ class PackageController extends Controller
                 {
                     $total = new TotalShipment($shipment, true, false);
                 }
-                array_push($shipments, $total);
-            }
-            else
+                $shipments[] = $total;
+            } else
             {
                 if($repo->find($shipment->id)->pickUpRequest_id != null)
                 {
@@ -48,10 +60,10 @@ class PackageController extends Controller
                 {
                     $total = new TotalShipment($shipment, false, false);
                 }
-                array_push($shipments, $total);
+                $shipments[] = $total;
             }
-
         }
+
         return $shipments;
     }
 

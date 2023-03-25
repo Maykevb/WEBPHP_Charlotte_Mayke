@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
+    <form method="GET">
+        <div class="input-group mb-3" style="width:50%; margin:auto;">
+            <input type="text" name="search" value="{{ request()->get('search') }}" class="form-control"
+                   placeholder="Search..." aria-label="Search" aria-describedby="button-addon2">
+            <button class="btn btn-dark type="submit" id="button-addon2">Search</button>
+        </div>
+    </form>
     <form action="{{ route('list') }}" method="post">
         @csrf
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center;">
@@ -24,15 +31,17 @@
                     <input type="checkbox" id="cc" onclick="checkAll(this)"> Select all </input>
                 </th>
                 <th scope="col">Shipment ID</th>
+                <th scope="col">Naam</th>
                 <th scope="col">Label status</th>
                 <th scope="col">Pick-Up aanvraag</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($listPackages as $package)
+            @foreach($shipments as $package)
             <tr>
                 <td><input type="checkbox" name="{{ $package->shipment->id }}"/></td>
                 <td>{{ $package->shipment->id }}</td>
+                <td>{{$package->shipment->name}}</td>
                 @if(!$package->hasLabel)
                     <td>
                        <p>Dit pakket heeft nog geen label</p>
@@ -47,6 +56,7 @@
                 @else
                     <td><p>Dit pakket heeft al een pickup request</p></td>
                 @endif
+
             </tr>
             @endforeach
             </tbody>
