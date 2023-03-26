@@ -4,7 +4,7 @@
     <div class="col-auto" style="margin: auto;">
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center">
             <div class="col-sm-8" style="text-align: center;">
-                @if (isset($shipment) && $shipment->reviewStars == null)
+                @if (isset($shipment) && $shipment->stars == null)
                     <h4 style="text-align: center"><strong>Schrijf een review</strong></h4>
                     <form action="{{route('writtenReview')}}" method="post">
                         @csrf
@@ -19,9 +19,11 @@
                         <input type="radio" name="stars" value="5"> 5
                         <br><br>
                         <button type="submit" value="submit" class="btn btn-dark">Verzend review</button>
-                        <input type="text" hidden value="{{ $shipment->id }}" name="id"><br><br>
+                        <input type="text" hidden name="id" value="{{ $shipment->id }}"><br><br>
+                        <input type="text" hidden name="accountId" value="1"><br><br>
+{{--                        TODO!! value needs to be account id!!! ^^^--}}
                     </form>
-                @elseif (isset($shipment) && $shipment->reviewStars != null)
+                @elseif (isset($shipment) && $shipment->stars != null)
                     <h4 style="text-align: center"><strong>Review geschreven</strong></h4>
                     <p>Bedankt voor het schrijven van een review!</p>
                 @endif

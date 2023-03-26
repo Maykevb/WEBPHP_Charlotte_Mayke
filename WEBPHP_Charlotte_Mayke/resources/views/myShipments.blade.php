@@ -14,7 +14,7 @@
                                     <tr>
                                         <th scope="col">Track and Trace code</th>
                                         <th scope="col">Status</th>
-                                        @if($shipments[0]->status == "Afgeleverd" && $shipments[0]->reviewStars == null)
+                                        @if($shipments[0]->status == "Afgeleverd" && $shipments[0]->stars == null)
                                             <th scope="col">Review</th>
                                         @endif
                                     </tr>
@@ -23,7 +23,7 @@
                                     <tr>
                                         <td>{{ $shipments[0]->trackAndTrace }}</td>
                                         <td>{{ $shipments[0]->status }}</td>
-                                        @if($shipments[0]->status == "Afgeleverd" && $shipments[0]->reviewStars == null)
+                                        @if($shipments[0]->status == "Afgeleverd" && $shipments[0]->stars == null)
                                             <form action="{{route('writeReview')}}" method="get">
                                                 @csrf
                                                 <td>
@@ -45,7 +45,7 @@
                 @else
                     <div>
                         <h4 style="text-align: center"><strong>Volg je pakket</strong></h4>
-                        <form action="{{route('myShipments')}}" method="post">
+                        <form action="{{route('myShipmentsGet')}}" method="post">
                             @csrf
                             <p>Track & Trace code</p>
                             <input type="text" name="code"><br><br>

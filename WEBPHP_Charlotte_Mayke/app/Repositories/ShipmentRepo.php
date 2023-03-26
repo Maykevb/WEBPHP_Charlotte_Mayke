@@ -41,27 +41,11 @@ class ShipmentRepo implements CrudInterface
         return $shipment;
     }
 
-    public function insertReview($data, $id)
-    {
-        $shipment = Shipment::where('id', $id)->first();
-        $shipment->reviewText = $data['text'];
-        $shipment->reviewStars = $data['stars'];
-        $shipment->save();
-
-        return $shipment;
-    }
-
-    public function getShipments()
-    {
-        return Shipment::select('shipments.status', 'labels.trackAndTrace', 'shipments.id', 'shipments.reviewStars')
-            ->join('labels', 'labels.id', '=', 'shipments.label_id')
-            ->get();
-    }
-
     public function getShipmentsWithTandTCode($request)
     {
-        return Shipment::select('shipments.status', 'labels.trackAndTrace', 'shipments.id', 'shipments.reviewStars')
+        return Shipment::select('shipments.status', 'labels.trackAndTrace', 'shipments.id', 'reviews.stars')
             ->join('labels', 'labels.id', '=', 'shipments.label_id')
+            ->leftjoin('reviews', 'reviews.shipment_id', '=', 'shipments.id')
             ->where('trackAndTrace', '=', $request->code)
             ->get();
     }

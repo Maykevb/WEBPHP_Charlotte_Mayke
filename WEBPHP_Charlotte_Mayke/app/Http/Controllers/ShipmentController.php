@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
 use App\Repositories\AccountRepo;
+use App\Repositories\ReviewRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Constraint\IsEmpty;
@@ -13,11 +14,13 @@ class ShipmentController extends Controller
 {
     private ShipmentRepo $repo;
     private AccountRepo $accRepo;
+    private ReviewRepo $revRepo;
 
     public function __construct()
     {
         $this->repo = new ShipmentRepo();
         $this->accRepo = new AccountRepo();
+        $this->revRepo = new ReviewRepo();
     }
 
     public function getAllShipments()
@@ -76,11 +79,10 @@ class ShipmentController extends Controller
 
     public function insertReview(Request $request) {
         $id = $request->id;
-        $shipment = $this->repo->find($id);
+        $review = $this->revRepo->insertReview($request);
 
-        $shipment = $this->repo->insertReview($request, $id);
         return view('/writeReview', [
-            'shipment' => $shipment
+            'shipment' => $review
         ]);
     }
 
