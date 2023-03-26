@@ -12,7 +12,6 @@ use App\Repositories\PickUpRequestRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Spatie\Searchable\Search;
 
 class PackageController extends Controller
 {
@@ -25,7 +24,7 @@ class PackageController extends Controller
     {
         if($request->filled('search'))
         {
-            $shipments = $this->getPackages((new Search())->registerModel(Shipment::class, 'id')->search($request->search));
+            $shipments = $this->getPackages(Shipment::search($request->search)->get());
         } else
         {
             $shipments = $this->getPackages(Shipment::get());
