@@ -24,7 +24,7 @@
         </div>
         <br>
 
-        <table class="table" style="width: 50%; margin: auto;">
+        <table class="table" style="width: 70%; margin: auto;">
             <thead>
             <tr>
                 <th scope="col">

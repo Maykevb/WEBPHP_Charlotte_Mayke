@@ -49,6 +49,11 @@
                         <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
                     </li>
                 </ul>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('reviewsOverview') }}">{{ __('Reviews') }}</a>
+                    </li>
+                </ul>
 
 
                 <!-- Right Side Of Navbar -->

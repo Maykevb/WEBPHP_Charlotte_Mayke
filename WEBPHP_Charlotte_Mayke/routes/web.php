@@ -71,6 +71,14 @@ Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'fin
 Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
     ->name('writtenReview');
 
+//Route::get('/reviews', function() {
+//    return view('reviews', [
+//        'reviews' => (new \App\Http\Controllers\ShipmentController())->getAllReviews()
+//    ]);
+//})->name('reviewsOverview');
+
+Route::get('reviews', [\App\Http\Controllers\ShipmentController::class, 'getAllReviews'])->name('reviewsOverview');
+
 Route::get('/fullcalender', [FullCalenderController::class, 'index'])->name('calender');
 
 

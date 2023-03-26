@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
 use App\Repositories\AccountRepo;
@@ -176,6 +177,18 @@ class ShipmentController extends Controller
                 $temp = $this->repo->create($shipmentArr[$i]);
             }
         }
+    }
+
+    public function getAllReviews(Request $request)
+    {
+        if($request->filled('search')){
+        $reviews = Review::search($request->search)->get();
+        } else
+        {
+        $reviews = Review::get();
+        }
+
+        return view('/reviews', compact('reviews'));
     }
 }
 
