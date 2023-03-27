@@ -88,4 +88,5 @@ Route::get('reviews', [\App\Http\Controllers\ShipmentController::class, 'getAllR
 
 Route::get('/fullcalender', [FullCalenderController::class, 'index'])->name('calender');
 
+Route::get('lang/{lang}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('switch');
 

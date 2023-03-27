@@ -66,9 +66,18 @@
                     </ul>
                 @endif
 
-
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'en') }}">EN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'nl') }}">NL</a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link">|</p>
+                    </li>
+
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
