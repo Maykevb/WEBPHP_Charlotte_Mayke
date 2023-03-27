@@ -23,37 +23,48 @@
             <a class="navbar-brand" href="{{ url('/home') }}">
                 Trackr
             </a>
-{{--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">--}}
-{{--                <span class="navbar-toggler-icon"></span>--}}
-{{--            </button>--}}
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
+                        <a class="nav-link" href="{{ route('webshops') }}">{{ __('Registratie webshops') }}</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('reviewsOverview') }}">{{ __('Reviews') }}</a>
-                    </li>
-                </ul>
+                @if(Auth::user()->role_id == 2)
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
+                        </li>
+                    </ul>
+                @endif
+                @if(Auth::user()->role_id == 3)
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
+                        </li>
+                    </ul>
+                @endif
+                @if(Auth::user()->role_id == 1)
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
+                        </li>
+                    </ul>
+                @endif
+                @if(Auth::user()->role_id == 2)
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
+                        </li>
+                    </ul>
+                @endif
+                @if(Auth::user()->role_id == 1)
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reviewsOverview') }}">{{ __('Reviews') }}</a>
+                        </li>
+                    </ul>
+                @endif
 
 
                 <!-- Right Side Of Navbar -->

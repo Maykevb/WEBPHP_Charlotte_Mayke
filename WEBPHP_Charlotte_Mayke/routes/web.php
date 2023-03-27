@@ -71,6 +71,13 @@ Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'fin
 Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
     ->name('writtenReview');
 
+Route::get('/registerTrackR', function() {
+    return view('/registerTrackR');
+})->name('webshops');
+
+Route::post('/registerTrackR', [\App\Http\Controllers\WebshopController::class, 'createWebshop'])
+    ->name('createWebshop');
+
 //Route::get('/reviews', function() {
 //    return view('reviews', [
 //        'reviews' => (new \App\Http\Controllers\ShipmentController())->getAllReviews()
