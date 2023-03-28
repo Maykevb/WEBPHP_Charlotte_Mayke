@@ -71,10 +71,12 @@ class ReviewRepo implements CrudInterface
             default:
             case 'asc':
                 return Review::select('reviews.*')
+                    ->where('account_id', Auth::user()->id)
                     ->orderBy($column, 'asc')
                     ->paginate(8);
             case 'desc':
                 return Review::select('reviews.*')
+                    ->where('account_id', Auth::user()->id)
                     ->orderBy($column, 'desc')
                     ->paginate(8);
         }

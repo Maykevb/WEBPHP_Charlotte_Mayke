@@ -9,6 +9,7 @@ use App\Repositories\AccountRepo;
 use App\Repositories\ReviewRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Constraint\IsEmpty;
 
 class ShipmentController extends Controller
@@ -182,22 +183,22 @@ class ShipmentController extends Controller
     public function getAllReviews(Request $request)
     {
         if($request->filled('search') && isset($request->id_sort)) {
-            $reviews = Review::search($request->search)->orderBy('id', $request->id_sort)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->orderBy('id', $request->id_sort)->paginate(8);
         }
         else if($request->filled('search') && isset($request->description_sort)) {
-            $reviews = Review::search($request->search)->orderBy('text', $request->description_sort)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->orderBy('text', $request->description_sort)->paginate(8);
         }
         else if($request->filled('search') && isset($request->star_sort)) {
-            $reviews = Review::search($request->search)->orderBy('stars', $request->star_sort)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->orderBy('stars', $request->star_sort)->paginate(8);
         }
         else if($request->filled('search') && isset($request->order_sort)) {
-            $reviews = Review::search($request->search)->orderBy('shipment_id', $request->order_sort)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->orderBy('shipment_id', $request->order_sort)->paginate(8);
         }
         else if($request->filled('search') && isset($request->date_sort)) {
-            $reviews = Review::search($request->search)->orderBy('created_at', $request->date_sort)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->orderBy('created_at', $request->date_sort)->paginate(8);
         }
         else if($request->filled('search')) {
-            $reviews = Review::search($request->search)->paginate(8);
+            $reviews = Review::search($request->search)->where('account_id', Auth::user()->id)->paginate(8);
         }
         else if(isset($request->id_sort)) {
             $reviews = $this->revRepo->getAllOrderBy('id', $request->id_sort);
@@ -215,7 +216,7 @@ class ShipmentController extends Controller
             $reviews = $this->revRepo->getAllOrderBy('created_at', $request->date_sort);
         }
         else {
-            $reviews = Review::paginate(8);
+            $reviews = Review::where('account_id', '=', Auth::user()->id)->paginate(8);
         }
 
         return view('/reviews', compact('reviews'));
