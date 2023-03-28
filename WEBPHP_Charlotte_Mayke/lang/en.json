@@ -32,7 +32,11 @@
 
     "Zoeken": "Search",
     "Labels maken": "Make labels",
+    "Maak DHL label": "Make DHL label",
+    "Maak PostNL label": "Make PostNL label",
+    "Maak UPS label": "Make UPS label",
     "Labels printen": "Print labels",
+    "Downloaden": "Download",
     "Selecteer alles": "Select all",
     "Verzending ID": "Shipment ID",
     "Naam": "Name",

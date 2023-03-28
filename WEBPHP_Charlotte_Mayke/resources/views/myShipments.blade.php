@@ -47,7 +47,7 @@
                         <h4 style="text-align: center"><strong>{{__('Volg je pakket')}}</strong></h4>
                         <form action="{{route('myShipmentsGet')}}" method="post">
                             @csrf
-                            <p>{{__('Track en Trace code')}}</p>
+                            <p>{{__('Track en Trace code')}}:</p>
                             <input type="text" name="code"><br><br>
                             <button type="submit" value="submit" class="btn btn-dark">{{__('Volg je pakket')}}</button>
                         </form>
