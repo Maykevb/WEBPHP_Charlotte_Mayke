@@ -33,21 +33,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //    ]);
 //})->name('labelList');
 
-Route::get('/labelList', [\App\Http\Controllers\PackageController::class, 'getAllPackages'])->name('labelList');
+Route::middleware(['auth', 'role_trackruser'])->get('/labelList', [\App\Http\Controllers\PackageController::class, 'getAllPackages'])->name('labelList');
 
-Route::post('pickup-form', [\App\Http\Controllers\PackageController::class, 'createPickUpForShipment'])
+Route::middleware(['auth', 'role_trackruser'])->post('pickup-form', [\App\Http\Controllers\PackageController::class, 'createPickUpForShipment'])
     ->name('pickup');
 
-Route::get('/pickUpRequest/{shipment}', function(Shipment $shipment) {
+Route::middleware(['auth', 'role_trackruser'])->get('/pickUpRequest/{shipment}', function(Shipment $shipment) {
     return view('/pickUpRequest', [
         'shipment' => $shipment
     ]);
 })->name('startRequest');
 
-Route::post('label-form', [\App\Http\Controllers\PackageController::class, 'handleLabels'])
+Route::middleware(['auth', 'role_trackruser'])->post('label-form', [\App\Http\Controllers\PackageController::class, 'handleLabels'])
 ->name('list');
 
-Route::get('/shipmentRegistration', function() {
+Route::middleware(['auth', 'role_trackruser'])->get('/shipmentRegistration', function() {
     return view('/shipmentRegistration', [
         'shipments'  => (new \App\Http\Controllers\ShipmentController)->getAllShipments()
     ]);
@@ -59,34 +59,28 @@ Route::get('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'cr
 Route::post('/uploadFile', [\App\Http\Controllers\UploadFileController::class,'fileUpload'])
 ->name('fileUpload');
 
-Route::get('/myShipments', [\App\Http\Controllers\ShipmentController::class,'shipments'])
+Route::middleware(['auth', 'role_ontvanger'])->get('/myShipments', [\App\Http\Controllers\ShipmentController::class,'shipments'])
     ->name('myShipments');
 
-Route::post('/myShipments', [\App\Http\Controllers\ShipmentController::class,'getShipmentWithTandTCode'])
+Route::middleware(['auth', 'role_ontvanger'])->post('/myShipments', [\App\Http\Controllers\ShipmentController::class,'getShipmentWithTandTCode'])
     ->name('myShipmentsGet');
 
-Route::get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'findShipment'])
+Route::middleware(['auth', 'role_ontvanger'])->get('/writeReview', [\App\Http\Controllers\ShipmentController::class,'findShipment'])
     ->name('writeReview');
 
-Route::post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
+Route::middleware(['auth', 'role_ontvanger'])->post('/writeReview', [\App\Http\Controllers\ShipmentController::class,'insertReview'])
     ->name('writtenReview');
 
-Route::get('/registerTrackR', function() {
+Route::middleware(['auth', 'role_admin'])->get('/registerTrackR', function() {
     return view('/registerTrackR');
 })->name('webshops');
 
-Route::post('/registerTrackR', [\App\Http\Controllers\WebshopController::class, 'createWebshop'])
+Route::middleware(['auth', 'role_admin'])->post('/registerTrackR', [\App\Http\Controllers\WebshopController::class, 'createWebshop'])
     ->name('createWebshop');
 
-//Route::get('/reviews', function() {
-//    return view('reviews', [
-//        'reviews' => (new \App\Http\Controllers\ShipmentController())->getAllReviews()
-//    ]);
-//})->name('reviewsOverview');
+Route::middleware(['auth', 'role_ontvanger'])->get('reviews', [\App\Http\Controllers\ShipmentController::class, 'getAllReviews'])->name('reviewsOverview');
 
-Route::get('reviews', [\App\Http\Controllers\ShipmentController::class, 'getAllReviews'])->name('reviewsOverview');
-
-Route::get('/fullcalender', [FullCalenderController::class, 'index'])->name('calender');
+Route::middleware(['auth', 'role_trackruser'])->get('/fullcalender', [FullCalenderController::class, 'index'])->name('calender');
 
 Route::get('lang/{lang}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('switch');
 

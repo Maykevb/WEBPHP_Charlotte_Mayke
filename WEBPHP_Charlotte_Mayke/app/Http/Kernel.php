@@ -2,8 +2,12 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Admin;
 use App\Http\Middleware\Language;
+use App\Http\Middleware\Ontvanger;
+use App\Http\Middleware\TrackRUser;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use SebastianBergmann\CliParser\AmbiguousOptionException;
 
 class Kernel extends HttpKernel
 {
@@ -64,5 +68,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role_admin' => Admin::class,
+        'role_ontvanger' => Ontvanger::class,
+        'role_trackruser' => TrackRUser::class
     ];
 }
