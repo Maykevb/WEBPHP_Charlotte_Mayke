@@ -31,42 +31,42 @@
                     @if(Auth::user()->role_id == 2)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
+                                <a class="nav-link" href="{{ route('labelList') }}">{{__('Labels')}}</a>
                             </li>
                         </ul>
                     @endif
                     @if(Auth::user()->role_id == 3)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
+                                <a class="nav-link" href="{{ route('registerShipments') }}">{{__('Verzendingen')}}</a>
                             </li>
                         </ul>
                     @endif
                     @if(Auth::user()->role_id == 1)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
+                                <a class="nav-link" href="{{ route('myShipments') }}">{{__('Track & Trace')}}</a>
                             </li>
                         </ul>
                     @endif
                     @if(Auth::user()->role_id == 2)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
+                                <a class="nav-link" href="{{ route('calender') }}">{{__('Kalender')}}</a>
                             </li>
                         </ul>
                     @endif
                     @if(Auth::user()->role_id == 1)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('reviewsOverview') }}">{{ __('Reviews') }}</a>
+                                <a class="nav-link" href="{{ route('reviewsOverview') }}">{{__('Reviews')}}</a>
                             </li>
                         </ul>
                     @endif
                     @if(Auth::user()->role_id == 2)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('webshops') }}">{{ __('Registratie webshops') }}</a>
+                                <a class="nav-link" href="{{ route('webshops') }}">{{__('Registratie webshops')}}</a>
                             </li>
                         </ul>
                     @endif
@@ -74,17 +74,27 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'en') }}">EN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'nl') }}">NL</a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link">|</p>
+                    </li>
+
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{__('Inloggen')}}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{__('Registreer')}}</a>
                             </li>
                         @endif
                     @else
@@ -97,7 +107,7 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{__('Uitloggen')}}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

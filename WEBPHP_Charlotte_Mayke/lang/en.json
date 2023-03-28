@@ -78,8 +78,9 @@
     "Track & Trace": "Track & Trace",
     "Kalender": "Calendar",
     "Reviews": "Reviews",
-    "Login": "Login",
+    "Inloggen": "Log in",
     "Registreer": "Register",
+    "Uitloggen": "Log out",
 
     "Bevestig Wachtwoord": "Confirm Password",
     "Bevestig eerst je wachtwoord voordat je doorgaat a.u.b.": "Please confirm your password before continuing",
@@ -92,6 +93,7 @@
 
     "Onthoud Mij": "Remember Me",
 
+    "Gebruikersnaam": "Username",
     "Registreer": "Register",
 
     "Verifieer Jouw Email Adres": "Verify Your Email Address",
