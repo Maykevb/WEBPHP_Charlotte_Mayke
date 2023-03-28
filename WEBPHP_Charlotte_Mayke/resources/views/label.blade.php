@@ -5,11 +5,11 @@
 <body>
 <div class="col-4">
 {{--    Order information--}}
-    <h2>Order Information</h2>
-    <p class="lead">Order Number: {{ $id }}</p>
-    <p>Date of order: {{ $date }} </p>
+    <h2>{{__('Bestelling Informatie')}}</h2>
+    <p class="lead">{{__('Bestelling nummer')}}: {{ $id }}</p>
+    <p>{{__('Datum van bestelling')}}: {{ $date }} </p>
 
-    <h2>Shipping To</h2>
+    <h2>{{__('Wordt verzonden naar')}}</h2>
     <p>{{ $name }}</p>
     <p> {{ $sendingStreet . ' ' . $sendingNumber }}</p>
     <p>{{ $sendingPostal . ' ' . $place }}</p>

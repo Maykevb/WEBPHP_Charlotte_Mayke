@@ -6,17 +6,17 @@
             <div class="input-group mb-3" style="width:50%; margin:auto;">
                 <input type="text" name="search" value="{{ request()->get('search') }}" class="form-control"
                        placeholder="Search..." aria-label="Search" aria-describedby="button-addon2">
-                <button class="btn btn-dark type="submit" id="button-addon2">Search</button>
+                <button class="btn btn-dark" type="submit" id="button-addon2">{{__('Zoeken')}}</button>
             </div>
         </form>
         <table class="table" style="width: 70%; margin: auto;">
             <thead>
             <tr>
-                <th scope="col">Review ID</th>
-                <th scope="col">Omschrijving</th>
-                <th scope="col">Sterren</th>
-                <th scope="col">Bestelling ID</th>
-                <th scope="col">Datum</th>
+                <th scope="col">{{__('Review ID')}}</th>
+                <th scope="col">{{__('Omschrijving')}}</th>
+                <th scope="col">{{__('Sterren')}}</th>
+                <th scope="col">{{__('Bestelling ID')}}</th>
+                <th scope="col">{{__('Datum')}}</th>
             </tr>
             </thead>
             <tbody>

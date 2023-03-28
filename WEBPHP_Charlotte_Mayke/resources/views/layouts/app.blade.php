@@ -27,41 +27,41 @@
                 <!-- Left Side Of Navbar -->
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('webshops') }}">{{ __('Registratie webshops') }}</a>
+                        <a class="nav-link" href="{{ route('webshops') }}">{{__('Registratie webshops')}}</a>
                     </li>
                 </ul>
                 @if(Auth::user()->role_id == 2)
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
+                            <a class="nav-link" href="{{ route('labelList') }}">{{__('Labels')}}</a>
                         </li>
                     </ul>
                 @endif
                 @if(Auth::user()->role_id == 3)
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
+                            <a class="nav-link" href="{{ route('registerShipments') }}">{{__('Verzendingen')}}</a>
                         </li>
                     </ul>
                 @endif
                 @if(Auth::user()->role_id == 1)
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
+                            <a class="nav-link" href="{{ route('myShipments') }}">{{__('Track & Trace')}}</a>
                         </li>
                     </ul>
                 @endif
                 @if(Auth::user()->role_id == 2)
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
+                            <a class="nav-link" href="{{ route('calender') }}">{{__('Kalender')}}</a>
                         </li>
                     </ul>
                 @endif
                 @if(Auth::user()->role_id == 1)
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('reviewsOverview') }}">{{ __('Reviews') }}</a>
+                            <a class="nav-link" href="{{ route('reviewsOverview') }}">{{__('Reviews')}}</a>
                         </li>
                     </ul>
                 @endif
@@ -82,13 +82,13 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{__('Login')}}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{__('Registreer')}}</a>
                             </li>
                         @endif
                     @else
