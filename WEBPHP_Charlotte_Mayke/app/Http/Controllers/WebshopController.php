@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,9 +30,31 @@ class WebshopController extends Controller
         $user->email = $request->email;
         $user->name = $request->name;
         $user->role_id = 2;
+        $user->remember_token = $this->generateToken();
         $user->save();
 
         return view('home');
+    }
+
+    public function generateToken()
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersNumber = strlen($characters);
+        $codeLength = 10;
+
+        $code = '';
+
+        while (strlen($code) < $codeLength) {
+            $position = rand(0, $charactersNumber - 1);
+            $character = $characters[$position];
+            $code = $code.$character;
+        }
+
+        if (user::select()->where('remember_token', $code)->exists()) {
+            $this->generateToken();
+        }
+
+        return $code;
     }
 }
 
