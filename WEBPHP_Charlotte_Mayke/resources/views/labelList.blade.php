@@ -2,13 +2,29 @@
 
 @section('content')
 <div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
-    <form method="GET">
+    <form method="GET" action="{{route('labelList')}}">
+        <table class="table" style="width: 100%; margin: auto;">
+            <tbody>
+            <tr style="display: flex; width: 70%; margin: auto; text-align: center;  justify-content: center;">
+                <td style="align-self: flex-start">
+                    <button type="submit" name="id_sort" value="desc" class="btn btn-dark">{{__('Sorteer ID')}} ↓</button>
+                    <button type="submit" name="id_sort" value="asc" class="btn btn-dark">{{__('Sorteer ID')}} ↑</button>
+                </td>
+                <td style="align-self: flex-end">
+                    <button type="submit" name="name_sort" value="desc" class="btn btn-dark">{{__('Sorteer Naam')}} ↓</button>
+                    <button type="submit" name="name_sort" value="asc" class="btn btn-dark">{{__('Sorteer Naam')}} ↑</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
         <div class="input-group mb-3" style="width:50%; margin:auto;">
             <input type="text" name="search" value="{{ request()->get('search') }}" class="form-control"
-                   placeholder="Search..." aria-label="Search" aria-describedby="button-addon2">
+                   placeholder="{{__('Zoeken')}}..." aria-label="Search" aria-describedby="button-addon2">
             <button class="btn btn-dark" type="submit" id="button-addon2">{{__('Zoeken')}}</button>
         </div>
     </form>
+
     <form action="{{ route('list') }}" method="post">
         @csrf
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center;">
@@ -39,17 +55,17 @@
             <tbody>
             @foreach($shipments as $package)
             <tr>
-                <td><input type="checkbox" name="{{ $package->shipment->id }}"/></td>
-                <td>{{ $package->shipment->id }}</td>
-                <td>{{$package->shipment->name}}</td>
-                @if(!$package->hasLabel)
+                <td><input type="checkbox" name="{{ $package->id }}"/></td>
+                <td>{{ $package->id }}</td>
+                <td>{{$package->name}}</td>
+                @if($package->label_id == null)
                     <td>
                        <p>{{__('Dit pakket heeft nog geen label')}}</p>
                     </td>
                 @else
                     <td><p>{{__('Dit pakket heeft al een label')}}</p></td>
                 @endif
-                @if(!$package->hasPickUp)
+                @if($package->pickUpRequest_id == null)
                     <td>
                         <a href=" {{ route('startRequest', $package->shipment->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
@@ -61,6 +77,9 @@
             </tbody>
         </table>
     </form>
+    <div class="d-flex justify-content-center">
+        {{ $shipments->links() }}
+    </div>
 </div>
 @endsection
 

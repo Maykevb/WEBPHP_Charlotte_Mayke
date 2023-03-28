@@ -181,11 +181,41 @@ class ShipmentController extends Controller
 
     public function getAllReviews(Request $request)
     {
-        if($request->filled('search')){
-        $reviews = Review::search($request->search)->get();
-        } else
-        {
-        $reviews = Review::get();
+        if($request->filled('search') && isset($request->id_sort)) {
+            $reviews = Review::search($request->search)->orderBy('id', $request->id_sort)->paginate(8);
+        }
+        else if($request->filled('search') && isset($request->description_sort)) {
+            $reviews = Review::search($request->search)->orderBy('text', $request->description_sort)->paginate(8);
+        }
+        else if($request->filled('search') && isset($request->star_sort)) {
+            $reviews = Review::search($request->search)->orderBy('stars', $request->star_sort)->paginate(8);
+        }
+        else if($request->filled('search') && isset($request->order_sort)) {
+            $reviews = Review::search($request->search)->orderBy('shipment_id', $request->order_sort)->paginate(8);
+        }
+        else if($request->filled('search') && isset($request->date_sort)) {
+            $reviews = Review::search($request->search)->orderBy('created_at', $request->date_sort)->paginate(8);
+        }
+        else if($request->filled('search')) {
+            $reviews = Review::search($request->search)->paginate(8);
+        }
+        else if(isset($request->id_sort)) {
+            $reviews = $this->revRepo->getAllOrderBy('id', $request->id_sort);
+        }
+        else if(isset($request->description_sort)) {
+            $reviews = $this->revRepo->getAllOrderBy('text', $request->description_sort);
+        }
+        else if(isset($request->star_sort)) {
+            $reviews = $this->revRepo->getAllOrderBy('stars', $request->star_sort);
+        }
+        else if(isset($request->order_sort)) {
+            $reviews = $this->revRepo->getAllOrderBy('shipment_id', $request->order_sort);
+        }
+        else if(isset($request->date_sort)) {
+            $reviews = $this->revRepo->getAllOrderBy('created_at', $request->date_sort);
+        }
+        else {
+            $reviews = Review::paginate(8);
         }
 
         return view('/reviews', compact('reviews'));

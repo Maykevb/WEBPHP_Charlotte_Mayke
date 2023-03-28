@@ -48,7 +48,8 @@
                         <form action="{{route('myShipmentsGet')}}" method="post">
                             @csrf
                             <p>{{__('Track en Trace code')}}:</p>
-                            <input type="text" name="code"><br><br>
+                            <input type="text" name="code" value="{{ request()->get('search') }}" class="form-control-sm"
+                                   placeholder="{{__('Zoeken')}}..." aria-label="Search" aria-describedby="button-addon2"><br><br>
                             <button type="submit" value="submit" class="btn btn-dark">{{__('Volg je pakket')}}</button>
                         </form>
                     </div>

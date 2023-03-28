@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\CrudInterface;
+use App\Models\Review;
 use App\Models\Shipment;
 
 class ShipmentRepo implements CrudInterface
@@ -48,6 +49,20 @@ class ShipmentRepo implements CrudInterface
             ->leftjoin('reviews', 'reviews.shipment_id', '=', 'shipments.id')
             ->where('trackAndTrace', '=', $request->code)
             ->get();
+    }
+
+    public function getAllOrderBy($column, $ascOrDesc) {
+        switch ($ascOrDesc) {
+            default:
+            case 'asc':
+                return Shipment::select('shipments.*')
+                    ->orderBy($column, 'asc')
+                    ->paginate(8);
+            case 'desc':
+                return Shipment::select('shipments.*')
+                    ->orderBy($column, 'desc')
+                    ->paginate(8);
+        }
     }
 }
 

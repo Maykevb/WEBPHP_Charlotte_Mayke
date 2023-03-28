@@ -65,5 +65,19 @@ class ReviewRepo implements CrudInterface
             ->join('reviews', 'reviews.shipment_id', '=', 'shipments.id')
             ->where('shipments.id', $request->id)->first();
     }
+
+    public function getAllOrderBy($column, $ascOrDesc) {
+        switch ($ascOrDesc) {
+            default:
+            case 'asc':
+                return Review::select('reviews.*')
+                    ->orderBy($column, 'asc')
+                    ->paginate(8);
+            case 'desc':
+                return Review::select('reviews.*')
+                    ->orderBy($column, 'desc')
+                    ->paginate(8);
+        }
+    }
 }
 
