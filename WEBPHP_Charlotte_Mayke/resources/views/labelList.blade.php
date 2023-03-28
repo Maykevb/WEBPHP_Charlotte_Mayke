@@ -70,7 +70,7 @@
                         <a href=" {{ route('startRequest', $package->shipment->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
                 @else
-                    <td><p>{{__('Dit pakket heeft al een pickup request')}}</p></td>
+                    <td><p>{{__('Dit pakket heeft al een pickup aanvraag')}}</p></td>
                 @endif
             </tr>
             @endforeach
