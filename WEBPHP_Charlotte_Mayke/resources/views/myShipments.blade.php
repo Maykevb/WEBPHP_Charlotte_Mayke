@@ -6,9 +6,8 @@
             <div class="col-sm-8" style="text-align: center;">
                 @if (isset($shipments))
                     @if($shipments->count() > 0 && $shipments[0] != null)
-{{--                    TODO: only if logged in--}}
-                        <h4 style="text-align: center"><strong>{{__('Verzending')}}</strong></h4>
-                        <div>
+                        <div style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
+                            <h4 style="text-align: center"><strong>{{__('Verzending')}}</strong></h4>
                             <table class="table" style="width: 50%; margin: auto;">
                                 <thead>
                                     <tr>
@@ -37,13 +36,13 @@
                             </table>
                         </div>
                     @else
-                        <h4 style="text-align: center"><strong>{{__('Verzending')}}</strong></h4>
-                        <div>
+                        <div style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
+                            <h4 style="text-align: center"><strong>{{__('Verzending')}}</strong></h4>
                             <p>{{__('Geen verzending met deze Track en Trace code kunnen vinden')}}.</p>
                         </div>
                     @endif
                 @else
-                    <div>
+                    <div style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
                         <h4 style="text-align: center"><strong>{{__('Volg je pakket')}}</strong></h4>
                         <form action="{{route('myShipmentsGet')}}" method="post">
                             @csrf

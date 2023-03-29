@@ -7,6 +7,7 @@
         @endforeach
     @endif
     <div style="margin: auto; background-color: white; border: solid; border-color: black; padding: 20px; border-width: 2px; width: 500px; text-align: center;">
+        @if(Auth::user()->role_id == 3)
         <form action="{{ route('pickup') }}" method="post">
             @csrf
             <h3 style="text-align: center;">{{__('Plan een pick-up in voor de bestelling')}}: {{ $shipment->id }}</h3>
@@ -19,5 +20,8 @@
             <input type="text" class="form-control" name="huisnummer" placeholder="{{__('huisnummer')}}" style="width: 300px; text-align: center; margin: auto;">
             <button type="submit" class="btn btn-dark" name="submit" style="margin-top: 10px; width: 300px;">{{__('Indienen')}}</button>
         </form>
+        @else
+            <h3>Je hebt geen rechten om pickuprequest aan te maken</h3>
+        @endif
     </div>
 @endsection

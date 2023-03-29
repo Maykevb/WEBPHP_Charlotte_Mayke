@@ -28,14 +28,14 @@
 
                 @guest()
                 @else
-                    @if(Auth::user()->role_id == 2)
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('labelList') }}">{{__('Labels')}}</a>
                             </li>
                         </ul>
                     @endif
-                    @if(Auth::user()->role_id == 3)
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 6)
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('registerShipments') }}">{{__('Verzendingen')}}</a>
@@ -49,7 +49,7 @@
                             </li>
                         </ul>
                     @endif
-                    @if(Auth::user()->role_id == 2)
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('calender') }}">{{__('Kalender')}}</a>
@@ -66,7 +66,21 @@
                     @if(Auth::user()->role_id == 2)
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('webshops') }}">{{__('Registratie webshops')}}</a>
+                                <a class="nav-link" href="{{ route('webshops') }}">{{__('Webshops')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('administrative') }}">{{__('Administratieve medewerkers')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('packer') }}">{{__('Inpak medewerker')}}</a>
                             </li>
                         </ul>
                     @endif

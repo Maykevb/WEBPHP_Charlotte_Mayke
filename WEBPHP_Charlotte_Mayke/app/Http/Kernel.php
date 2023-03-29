@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Language;
 use App\Http\Middleware\Ontvanger;
+use App\Http\Middleware\SignUpRights;
 use App\Http\Middleware\TrackRUser;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use SebastianBergmann\CliParser\AmbiguousOptionException;
@@ -70,6 +71,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role_admin' => Admin::class,
         'role_ontvanger' => Ontvanger::class,
-        'role_trackruser' => TrackRUser::class
+        'role_trackruser' => TrackRUser::class,
+        'rights_signup' => SignUpRights::class
     ];
 }

@@ -29,11 +29,12 @@
         @csrf
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center;">
             <div class="col-sm-8" style="text-align: center;">
-                <h4 style="text-align: center"><strong>{{__('Labels maken')}}</strong></h4>
-                <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak DHL label')}}" style="width: 200px;"/>
-                <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak PostNL label')}}" style="width: 200px;"/>
-                <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak UPS label')}}" style="width: 200px;"/><br><br>
-
+                @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4)
+                    <h4 style="text-align: center"><strong>{{__('Labels maken')}}</strong></h4>
+                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak DHL label')}}" style="width: 200px;"/>
+                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak PostNL label')}}" style="width: 200px;"/>
+                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak UPS label')}}" style="width: 200px;"/><br><br>
+                @endif
                 <h4 style="text-align: center"><strong>{{__('Labels printen')}}</strong></h4>
                 <input type="submit" class="btn btn-dark" name="action" value="{{__('Downloaden')}}" style="width: 200px;"/>
             </div>
@@ -65,10 +66,12 @@
                 @else
                     <td><p>{{__('Dit pakket heeft al een label')}}</p></td>
                 @endif
-                @if($package->pickUpRequest_id == null)
+                @if($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
                     <td>
                         <a href=" {{ route('startRequest', $package->shipment->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
+                @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4))
+                    <td><p>{{__('Je hebt geen rechten om een pickuprequest te doen')}}</p></td>
                 @else
                     <td><p>{{__('Dit pakket heeft al een pickup aanvraag')}}</p></td>
                 @endif

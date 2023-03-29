@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TrackRUser
+class SignUpRights
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -15,7 +15,7 @@ class TrackRUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() || Auth::user()->role_id != 3 && Auth::user()->role_id != 4 && Auth::user()->role_id != 5)
+        if(!Auth::check() || Auth::user()->role_id != 3 && Auth::user()->role_id != 6)
         {
             abort(403);
         }

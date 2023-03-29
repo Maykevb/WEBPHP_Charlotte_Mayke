@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-auto" style="margin: auto;">
+{{--    TODO: add standard layout--}}
+   <div class="col-auto" style="margin: auto;">
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center">
             <div class="col-sm-8" style="text-align: center;">
                 @if (isset($shipment) && $shipment->stars == null)
