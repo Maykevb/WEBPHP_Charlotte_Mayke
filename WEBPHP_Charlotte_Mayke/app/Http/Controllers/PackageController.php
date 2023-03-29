@@ -52,10 +52,11 @@ class PackageController extends Controller
 
     public function handleLabels(Request $request)
     {
+        $hasLabel = false;
         $listShipments = [];
-        foreach($this->getAllPackages() as $package)
+        foreach($this->shipRepo->getAll() as $package)
         {
-            $id = $package->shipment->id;
+            $id = $package->id;
             if($request->$id == "on")
             {
                 switch ($request->input('action')) {
@@ -65,6 +66,10 @@ class PackageController extends Controller
                         {
                             $this->createLabelForPackage($id, "DHL");
                         }
+                        else
+                        {
+                            $hasLabel = true;
+                        }
                         break;
                     case 'Maak PostNL label':
                     case 'Make PostNL label':
@@ -72,12 +77,20 @@ class PackageController extends Controller
                         {
                             $this->createLabelForPackage($id, "PostNL");
                         }
+                        else
+                        {
+                            $hasLabel = true;
+                        }
                         break;
                     case 'Maak UPS label':
                     case 'Make UPS label':
                         if($this->shipRepo->find($id)->label_id == null)
                         {
                             $this->createLabelForPackage($id, "UPS");
+                        }
+                        else
+                        {
+                            $hasLabel = true;
                         }
                         break;
                     case 'Downloaden':
@@ -88,12 +101,22 @@ class PackageController extends Controller
             }
         }
 
+
+
         if($request->input('action') == "Download" && count($listShipments) > 0)
         {
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
         } else
         {
-            return redirect('labelList');
+            if($hasLabel)
+            {
+                return redirect('labelList')
+                    ->with('duplicate', 'Een of meer van de geselecteerde pakketjes hebben al een label. Voor deze pakketjes is geen nieuw label aangemaakt.');
+            }
+            else
+            {
+                return redirect('labelList');
+            }
         }
     }
 
