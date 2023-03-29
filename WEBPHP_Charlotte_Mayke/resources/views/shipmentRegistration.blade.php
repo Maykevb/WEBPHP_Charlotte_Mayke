@@ -45,6 +45,9 @@
                 <br><br>
 
                 <h4 style="text-align: center"><strong>{{__('Verzendig status updaten')}}</strong></h4>
+                <p>{{__('Status opties')}}:</p>
+                <p>{{__('"Aangemeld"')}}, {{__('"Uitgeprint"')}}, {{__('"Opgehaald"')}}, {{__('"Sorteercentrum"')}}, {{__('"Onderweg"')}}, {{__('"Afgeleverd"')}}</p>
+                <br>
                 <p>{{__('Om een de status van een verzending aan te passen, voer de volgende informatie in de zoekbalk in')}}:</p>
                 <p>{{__('/api/{account token}/{email}/{pakket id}/{nieuwe status}')}}</p>
             </div>
