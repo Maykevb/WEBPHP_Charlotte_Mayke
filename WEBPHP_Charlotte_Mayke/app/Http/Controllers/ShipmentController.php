@@ -226,6 +226,19 @@ class ShipmentController extends Controller
             $reviews = Review::where('account_id', '=', Auth::user()->id)->paginate(8);
         }
 
+//        if($request->filled('start_date')) {
+//            $i = 0;
+//
+//            while ($i < $reviews) {
+//                if ($reviews[$i]->created_at < $request->start_date) {
+//                    $reviews.remove($reviews[$i]);
+//                }
+//                else {
+//                    $i++;
+//                }
+//            }
+//        }
+
         return view('/reviews', compact('reviews'));
     }
 }
