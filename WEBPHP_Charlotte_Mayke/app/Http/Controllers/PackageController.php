@@ -53,9 +53,9 @@ class PackageController extends Controller
     public function handleLabels(Request $request)
     {
         $listShipments = [];
-        foreach($this->getAllPackages() as $package)
+        foreach($this->shipRepo->getAll() as $package)
         {
-            $id = $package->shipment->id;
+            $id = $package->id;
             if($request->$id == "on")
             {
                 switch ($request->input('action')) {

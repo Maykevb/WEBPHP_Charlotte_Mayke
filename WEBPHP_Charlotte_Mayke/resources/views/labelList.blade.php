@@ -68,7 +68,7 @@
                 @endif
                 @if($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
                     <td>
-                        <a href=" {{ route('startRequest', $package->shipment->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
+                        <a href=" {{ route('startRequest', $package->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
                 @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4))
                     <td><p>{{__('Je hebt geen rechten om een pickuprequest te doen')}}</p></td>
