@@ -50,7 +50,6 @@ class ShipmentController extends Controller
         ]);
     }
 
-//    TODO: needed?
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -65,7 +64,6 @@ class ShipmentController extends Controller
         return new ShipmentResource($shipment);
     }
 
-//    TODO: needed?
     public function update(Request $request, Shipment $shipment)
     {
         $validated = $request->validate([
@@ -94,8 +92,8 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-    public function signUpShipment($username, $password, $name, $street, $nr, $code, $place) {
-        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
+    public function signUpShipment($token, $email, $name, $street, $nr, $code, $place) {
+        $account = $this->accRepo->findByTokenAndEmail($token, $email);
 
         if ($account->count() > 0 && $account[0] != null) {
             $data['name'] = $name;
@@ -118,14 +116,13 @@ class ShipmentController extends Controller
         }
         else {
             return [
-                "Error: foutieve inlog gegevens"
+                "Error: ongeldige account token of email."
             ];
         }
     }
 
-//    TODO: update label_id??
-    public function updateShipmentStatus($username, $password, $id, $newStatus) {
-        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
+    public function updateShipmentStatus($token, $email, $id, $newStatus) {
+        $account = $this->accRepo->findByTokenAndEmail($token, $email);
 
         if ($account->count() > 0 && $account[0] != null)
         {
@@ -141,7 +138,7 @@ class ShipmentController extends Controller
         }
         else {
             return [
-                "Error: foutieve inlog gegevens"
+                "Error: ongeldige account token of email."
             ];
         }
     }
@@ -165,7 +162,13 @@ class ShipmentController extends Controller
             fclose($handle);
         }
 
-        return $data;
+        if ($header[1] == 'name' && $header[2] == 'place' && $header[3] == 'streetName' &&
+            $header[4] == 'houseNumber' && $header[5] == 'postalCode') {
+            return $data;
+        }
+        else {
+            return false;
+        }
     }
 
     public function importCsv($filename)
@@ -177,6 +180,10 @@ class ShipmentController extends Controller
             for ($i = 0; $i < sizeof($shipmentArr); $i++) {
                 $temp = $this->repo->create($shipmentArr[$i]);
             }
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

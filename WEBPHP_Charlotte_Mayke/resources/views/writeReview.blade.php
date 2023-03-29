@@ -20,8 +20,7 @@
                         <br><br>
                         <button type="submit" value="submit" class="btn btn-dark">{{__('Verzend review')}}</button>
                         <input type="text" hidden name="id" value="{{ $shipment->id }}"><br><br>
-                        <input type="text" hidden name="accountId" value="1"><br><br>
-{{--                        TODO!! value needs to be account id!!! ^^^--}}
+                        <input type="text" hidden name="accountId" value="{{Auth::user()->id}}"><br><br>
                     </form>
                 @elseif (isset($shipment) && $shipment->stars != null)
                     <h4 style="text-align: center"><strong>{{__('Review geschreven')}}</strong></h4>

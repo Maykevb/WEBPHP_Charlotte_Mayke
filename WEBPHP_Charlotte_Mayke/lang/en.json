@@ -6,10 +6,10 @@
     "Upload Bestanden": "Upload Files",
     "Enkele verzending aanmelden": "Register single shipment",
     "Om een enkele verzending aan te melden, voer de volgende informatie in de zoekbalk in": "To register a single shipment, fill the following information into the search bar",
-    "/api/{gebruikersnaam}/{wachtwoord}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}": "/api/{username}/{password}/{name recipient}/{street}/{house number}/{postal code}/{city}",
+    "/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}": "/api/{account token}/{email}/{name recipient}/{street}/{house number}/{postal code}/{city}",
     "Verzendig status updaten": "Update shipment status",
     "Om een de status van een verzending aan te passen, voer de volgende informatie in de zoekbalk in": "To change the status of a shipment, fill the following information into the search bar",
-    "/api/{gebruikersnaam}/{wachtwoord}/{pakket id}/{nieuwe status}": "/api/{username}/{password}/{package id}/{new status}",
+    "/api/{account token}/{email}/{pakket id}/{nieuwe status}": "/api/{account token}/{email}/{package id}/{new status}",
 
     "Verzending": "Shipment",
     "Track en Trace code": "Track and Trace code",
@@ -80,6 +80,7 @@
     "Reviews": "Reviews",
     "Inloggen": "Log in",
     "Registreer": "Register",
+    "Account token": "Account token",
     "Uitloggen": "Log out",
 
     "Bevestig Wachtwoord": "Confirm Password",

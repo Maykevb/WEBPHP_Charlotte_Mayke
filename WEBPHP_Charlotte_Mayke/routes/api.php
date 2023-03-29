@@ -19,16 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//TODO: secure the API call -> only webshop
-Route::get('/{username}/{password}/{name}/{street}/{nr}/{code}/{place}',
-    function (string $username, string $password, string $name, string $street, string $nr, string $code, string $place) {
-    return['shipment' => (new App\Http\Controllers\ShipmentController())
-                      ->signUpShipment($username, $password, $name, $street, $nr, $code, $place)];
-});
+Route::get('/{token}/{email}/{name}/{street}/{nr}/{code}/{place}',
+    function (string $token, string $email, string $name, string $street, string $nr, string $code, string $place) {
+        return ['shipment' => (new App\Http\Controllers\ShipmentController())
+            ->signUpShipment($token, $email, $name, $street, $nr, $code, $place)];
+    });
 
-//TODO: secure the API call -> only shipment company
-Route::get('/{username}/{password}/{id}/{status}',
-    function (string $username, string $password, int $id, string $status) {
-    return['shipment' => (new App\Http\Controllers\ShipmentController())
-                      ->updateShipmentStatus($username, $password, $id, $status)];
-});
+Route::get('/{token}/{email}/{id}/{status}',
+    function (string $token, string $email, int $id, string $status) {
+        return ['shipment' => (new App\Http\Controllers\ShipmentController())
+            ->updateShipmentStatus($token, $email, $id, $status)];
+    });
+
