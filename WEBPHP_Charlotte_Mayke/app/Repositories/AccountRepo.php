@@ -17,11 +17,11 @@ class AccountRepo implements CrudInterface
         return user::find($id);
     }
 
-    public function findByUsernameAndPassword($username, $password)
+    public function findByTokenAndEmail($token, $email)
     {
         return user::select()
-            ->where('name', '=', $username)
-            ->where('password', '=', $password)
+            ->where('remember_token', '=', $token)
+            ->where('email', '=', $email)
             ->get();
     }
 

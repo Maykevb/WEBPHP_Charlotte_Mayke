@@ -11,14 +11,14 @@ class UploadFileController extends Controller {
 
     private ShipmentController $shipmentCont;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->shipmentCont = new ShipmentController();
     }
 
     public function createForm(){
         return view('uploadFile');
     }
+
     public function fileUpload(Request $req){
         $req->validate([
             'file' => 'required|mimetypes:text/csv,text/plain,application/csv,text/comma-separated-values,text/
@@ -29,11 +29,18 @@ class UploadFileController extends Controller {
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $filePath = $req->file('file')->storeAs('public/files', $filename);
 
-            $this->shipmentCont->importCsv($filename);
+            $uploaded = $this->shipmentCont->importCsv($filename);
 
-            return back()
-                ->with('success',"Bestand is geüpload.")
-                ->with('file', $filename);
+            if ($uploaded) {
+                return back()
+                    ->with('success',"Bestand is geüpload.")
+                    ->with('file', $filename);
+            }
+            else {
+                return back()
+                    ->with('fail',"Er ging iets mis, bestand is niet geüpload. Kloppen alle kolom namen? Check dit en probeer opnieuw.")
+                    ->with('file', $filename);
+            }
         }
     }
 }

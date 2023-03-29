@@ -8,6 +8,7 @@
                        placeholder="{{__('Zoeken')}}..." aria-label="Search" aria-describedby="button-addon2">
                 <button class="btn btn-dark" type="submit" id="button-addon2">{{__('Zoeken')}}</button>
             </div>
+
         </form>
         <form method="GET" action="{{route('reviewsOverview')}}">
             <input type="hidden" name="search" value="{{ request()->get('search') }}" class="form-control"
@@ -20,6 +21,11 @@
                     <th scope="col">{{__('Sterren')}}</th>
                     <th scope="col">{{__('Bestelling ID')}}</th>
                     <th scope="col">{{__('Datum')}}</th>
+                    <th scope="col" style="width: 40px">
+                        <label>Vanaf:
+                            <input type="date" name="start_date" value="{{date("Y-m-d")}}">
+                        </label>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>

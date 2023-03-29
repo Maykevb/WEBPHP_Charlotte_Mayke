@@ -118,6 +118,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <p class="dropdown-item">
+                                    {{__('Account token')}}: {{ Auth::user()->remember_token }}
+                                </p>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

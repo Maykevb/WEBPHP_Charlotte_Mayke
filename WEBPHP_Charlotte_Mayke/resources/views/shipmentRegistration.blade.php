@@ -16,6 +16,11 @@
                             <strong>{{ $message }}</strong>
                         </div>
                     @endif
+                    @if ($message = Session::get('fail'))
+                        <div class="alert alert-danger">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @endif
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <ul>
@@ -26,7 +31,6 @@
                         </div>
                     @endif
                     <div class="custom-file">
-{{--                        TODO: try to translate this button/input text--}}
                         <input type="file" name="file" class="custom-file-input" id="chooseFile">
                         <label class="custom-file-label" for="chooseFile">{{__('Selecteer bestand')}}</label>
                     </div>
@@ -37,14 +41,12 @@
 
                 <h4 style="text-align: center"><strong>{{__('Enkele verzending aanmelden')}}</strong></h4>
                 <p>{{__('Om een enkele verzending aan te melden, voer de volgende informatie in de zoekbalk in')}}:</p>
-{{--                TODO: website naam voor /api/--}}
-                <p>{{__('/api/{gebruikersnaam}/{wachtwoord}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}')}}</p>
+                <p>{{__('/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}')}}</p>
                 <br><br>
 
                 <h4 style="text-align: center"><strong>{{__('Verzendig status updaten')}}</strong></h4>
                 <p>{{__('Om een de status van een verzending aan te passen, voer de volgende informatie in de zoekbalk in')}}:</p>
-{{--                TODO: website naam voor /api/--}}
-                <p>{{__('/api/{gebruikersnaam}/{wachtwoord}/{pakket id}/{nieuwe status}')}}</p>
+                <p>{{__('/api/{account token}/{email}/{pakket id}/{nieuwe status}')}}</p>
             </div>
         </div>
         <br>
