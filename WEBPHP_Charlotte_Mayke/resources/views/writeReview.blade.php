@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{--    TODO: add standard layout--}}
+<div style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
    <div class="col-auto" style="margin: auto;">
         <div class="row" style="margin:0 auto; text-align: center;  justify-content: center">
             <div class="col-sm-8" style="text-align: center;">
@@ -29,6 +29,7 @@
                 @endif
             </div>
         </div>
+    </div>
     </div>
 @endsection
 

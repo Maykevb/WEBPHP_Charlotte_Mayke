@@ -101,8 +101,6 @@ class PackageController extends Controller
             }
         }
 
-
-
         if($request->input('action') == "Download" && count($listShipments) > 0)
         {
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
