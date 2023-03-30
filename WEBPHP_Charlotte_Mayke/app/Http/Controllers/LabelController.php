@@ -14,7 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PackageController extends Controller
+class LabelController extends Controller
 {
     private ShipmentRepo $shipRepo;
     private LabelRepo $labRepo;
@@ -37,112 +37,64 @@ class PackageController extends Controller
         // Has Label
         if ($request->filter == 1) {
             if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('label_id', '!=', 'NULL');
-                    })
-                    ->orderBy($temp[0], $temp[1])
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasLabelSearchAndSort($request, $temp);
             }
             else if($request->filled('search')) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('label_id', '!=', 'NULL');
-                    })
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasLabelAndSearch($request);
             }
             else if($request->sorting != 0 && $request->sorting != null) {
                 $shipments = $this->shipRepo->getAllOrderByHasLabel($temp[0], $temp[1]);
             }
             else {
-                $shipments = Shipment::where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('label_id', '!=', 'NULL');
-                    })
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasLabel();
             }
         }
 
         // No Label
         else if ($request->filter == 2) {
             if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->where('label_id', null)
-                    ->orderBy($temp[0], $temp[1])
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noLabelSearchAndSort($request, $temp);
             }
             else if($request->filled('search')) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->where('label_id', null)
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noLabelAndSearch($request);
             }
             else if($request->sorting != 0 && $request->sorting != null) {
                 $shipments = $this->shipRepo->getAllOrderByNoLabel($temp[0], $temp[1]);
             }
             else {
-                $shipments = Shipment::where('webshop', Auth::user()->webshop)
-                    ->where('label_id', null)
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noLabel();
             }
         }
 
         // Has Pick-up
         else if ($request->filter == 3) {
             if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('pickUpRequest_id', '!=', 'NULL');
-                    })
-                    ->orderBy($temp[0], $temp[1])
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasPickupSearchAndSort($request, $temp);
             }
             else if($request->filled('search')) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('pickUpRequest_id', '!=', 'NULL');
-                    })
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasPickupAndSearch($request);
             }
             else if($request->sorting != 0 && $request->sorting != null) {
                 $shipments = $this->shipRepo->getAllOrderByHasPickup($temp[0], $temp[1]);
             }
             else {
-                $shipments = Shipment::where('webshop', Auth::user()->webshop)
-                    ->query(function ($query) {
-                        $query->where('pickUpRequest_id', '!=', 'NULL');
-                    })
-                    ->paginate(8);
+                $shipments = $this->shipRepo->hasPickup();
             }
         }
 
         // No Pick-up
         else if ($request->filter == 4) {
             if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->where('pickUpRequest_id', null)
-                    ->orderBy($temp[0], $temp[1])
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noPickupSearchAndSort($request, $temp);
             }
             else if($request->filled('search')) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->where('pickUpRequest_id', null)
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noPickupAndSearch($request);
             }
             else if($request->sorting != 0 && $request->sorting != null) {
                 $shipments = $this->shipRepo->getAllOrderByNoPickup($temp[0], $temp[1]);
             }
             else {
-                $shipments = Shipment::where('webshop', Auth::user()->webshop)
-                    ->where('pickUpRequest_id', null)
-                    ->paginate(8);
+                $shipments = $this->shipRepo->noPickup();
             }
         }
 

@@ -24,7 +24,8 @@ class UploadFileController extends Controller {
             'file' => 'required|mimetypes:text/csv,text/plain,application/csv,text/comma-separated-values,text/
             anytext,application/octet-stream,application/txt|max:2048'
         ]);
-        if($req->file()) {
+
+        if ($req->file()) {
             $file = $req->file('file');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $filePath = $req->file('file')->storeAs('public/files', $filename);

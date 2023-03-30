@@ -90,5 +90,89 @@ class ShipmentRepo implements CrudInterface
             ->orderBy($column, $ascOrDesc)
             ->paginate(8);
     }
+
+    public function hasLabelSearchAndSort($request, $temp) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('label_id')
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function hasLabelAndSearch($request) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('label_id')
+            ->paginate(8);
+    }
+
+    public function hasLabel() {
+        return Shipment::where('webshop', Auth::user()->webshop)
+            ->whereNotNull('label_id')
+            ->paginate(8);
+    }
+
+    public function noLabelSearchAndSort($request, $temp) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->where('label_id', null)
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function noLabelAndSearch($request) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->where('label_id', null)
+            ->paginate(8);
+    }
+
+    public function noLabel() {
+        return Shipment::where('webshop', Auth::user()->webshop)
+            ->where('label_id', null)
+            ->paginate(8);
+    }
+
+    public function hasPickupSearchAndSort($request, $temp) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('pickUpRequest_id')
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function hasPickupAndSearch($request) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('pickUpRequest_id')
+            ->paginate(8);
+    }
+
+    public function hasPickup() {
+        return Shipment::where('webshop', Auth::user()->webshop)
+            ->whereNotNull('pickUpRequest_id')
+            ->paginate(8);
+    }
+
+    public function noPickupSearchAndSort($request, $temp) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->where('pickUpRequest_id', null)
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function noPickupAndSearch($request) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->where('pickUpRequest_id', null)
+            ->paginate(8);
+    }
+
+    public function noPickup() {
+        return Shipment::where('webshop', Auth::user()->webshop)
+            ->where('pickUpRequest_id', null)
+            ->paginate(8);
+    }
 }
 

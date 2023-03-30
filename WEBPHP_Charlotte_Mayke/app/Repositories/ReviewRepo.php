@@ -42,15 +42,6 @@ class ReviewRepo implements CrudInterface
         return $review;
     }
 
-    public function findWhere($id)
-    {
-        return Review::select()->where('account_id', $id)->get();
-    }
-
-    public function findThroughShipment($shipmentId) {
-        return Review::where('shipment_id', '=', $shipmentId)->first();
-    }
-
     public function insertReview($request)
     {
         $data['text'] = $request->text;

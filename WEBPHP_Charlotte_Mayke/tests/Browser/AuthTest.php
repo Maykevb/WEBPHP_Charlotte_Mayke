@@ -16,7 +16,7 @@ class AuthTest extends DuskTestCase
     public function testAuth(): void
     {
         $this->browse(function ($browser) {
-            //We'll test the register feature here
+            // We'll test the register feature here
             $browser->visit('/home')
                 ->clickLink('Register')
                 ->type('name', 'Samson')
@@ -25,9 +25,8 @@ class AuthTest extends DuskTestCase
                 ->type('password_confirmation', 'wachtwoord')
                 ->click('button[type="submit"]');
 
-                //We'll test the login feature here
-            if($browser->seeLink('Samson'))
-            {
+            // We'll test the login feature here
+            if($browser->seeLink('Samson')) {
                 $browser->clickLink('Samson');
             }
 

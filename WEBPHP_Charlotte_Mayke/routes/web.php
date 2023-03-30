@@ -26,11 +26,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
 
 Route::middleware(['auth', 'role_trackruser'])->get('/labelList',
-    [\App\Http\Controllers\PackageController::class, 'getAllPackages'])
+    [\App\Http\Controllers\LabelController::class, 'getAllPackages'])
     ->name('labelList');
 
 Route::middleware(['auth', 'role_trackruser'])->post('pickup-form',
-    [\App\Http\Controllers\PackageController::class, 'createPickUpForShipment'])
+    [\App\Http\Controllers\LabelController::class, 'createPickUpForShipment'])
     ->name('pickup');
 
 Route::middleware(['auth', 'role_trackruser'])->get('/pickUpRequest/{shipment}', function(Shipment $shipment) {
@@ -40,7 +40,7 @@ Route::middleware(['auth', 'role_trackruser'])->get('/pickUpRequest/{shipment}',
 })->name('startRequest');
 
 Route::middleware(['auth', 'role_trackruser'])->post('label-form',
-    [\App\Http\Controllers\PackageController::class, 'handleLabels'])
+    [\App\Http\Controllers\LabelController::class, 'handleLabels'])
     ->name('list');
 
 Route::middleware(['auth', 'rights_signup'])->get('/shipmentRegistration', function() {

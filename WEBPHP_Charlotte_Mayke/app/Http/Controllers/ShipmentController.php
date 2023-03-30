@@ -124,8 +124,7 @@ class ShipmentController extends Controller
     public function updateShipmentStatus($token, $email, $id, $newStatus) {
         $account = $this->accRepo->findByTokenAndEmailCompany($token, $email);
 
-        if ($account->count() > 0 && $account[0] != null)
-        {
+        if ($account->count() > 0 && $account[0] != null) {
             $data = $this->repo->find($id);
             $data['status'] = $newStatus;
 
@@ -150,10 +149,8 @@ class ShipmentController extends Controller
 
         $header = null;
         $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
-        {
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
+        if (($handle = fopen($filename, 'r')) !== false) {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
                 if (!$header)
                     $header = $row;
                 else
@@ -196,20 +193,20 @@ class ShipmentController extends Controller
 
         // Filter is used
         if ($request->filter != 0 && $request->filter != null) {
-            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+            if ($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
                 $reviews = Review::search($request->search)
                     ->where('account_id', Auth::user()->id)
                     ->where('stars', $request->filter)
                     ->orderBy($temp[0], $temp[1])
                     ->paginate(8);
             }
-            else if($request->filled('search')) {
+            else if ($request->filled('search')) {
                 $reviews = Review::search($request->search)
                     ->where('account_id', Auth::user()->id)
                     ->where('stars', $request->filter)
                     ->paginate(8);
             }
-            else if($request->sorting != 0 && $request->sorting != null) {
+            else if ($request->sorting != 0 && $request->sorting != null) {
                 $reviews = $this->revRepo->getAllOrderByWithFilter($temp[0], $temp[1], $request->filter);
             }
             else {
@@ -221,18 +218,18 @@ class ShipmentController extends Controller
 
         // All Reviews
         else {
-            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+            if ($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
                 $reviews = Review::search($request->search)
                     ->where('account_id', Auth::user()->id)
                     ->orderBy($temp[0], $temp[1])
                     ->paginate(8);
             }
-            else if($request->filled('search')) {
+            else if ($request->filled('search')) {
                 $reviews = Review::search($request->search)
                     ->where('account_id', Auth::user()->id)
                     ->paginate(8);
             }
-            else if($request->sorting != 0 && $request->sorting != null) {
+            else if ($request->sorting != 0 && $request->sorting != null) {
                 $reviews = $this->revRepo->getAllOrderBy($temp[0], $temp[1]);
             }
             else {

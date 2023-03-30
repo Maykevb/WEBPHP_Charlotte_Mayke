@@ -10,8 +10,7 @@ class FullCalenderController extends Controller
 {
     public function index(Request $request)
     {
-
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             $data = PickUpRequest::whereDate('start', '>=', $request->start)
                 ->where('webshop', Auth::user()->webshop)

@@ -4,7 +4,7 @@
 </head>
 <body>
 <div class="col-4">
-{{--    Order information--}}
+    Order information
     <h2>{{__('Bestelling Informatie')}}</h2>
     <p class="lead">{{__('Bestelling nummer')}}: {{ $id }}</p>
     <p>{{__('Datum van bestelling')}}: {{ $date }} </p>
@@ -15,12 +15,12 @@
     <p>{{ $sendingPostal . ' ' . $place }}</p>
     <br>
 
-{{--    Barcode--}}
+    Barcode
     <?php
     $generator = new Picqer\Barcode\BarcodeGeneratorHTML()
     ?>
     {!! $generator->getBarcode($trackAndTrace, $generator::TYPE_CODE_128) !!}
-{{--    TrackAndTrace--}}
+    TrackAndTrace
     <h3> {{ $trackAndTrace }}</h3>
 </div>
 </body>

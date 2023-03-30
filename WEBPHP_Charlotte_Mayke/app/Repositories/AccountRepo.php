@@ -48,12 +48,6 @@ class AccountRepo implements CrudInterface
     public function update($data, $id)
     {
         $account = user::where('id', $id)->first();
-//        TODO
-//        $account->city = $data['city'];
-//        $account->province = $data['province'];
-//        $account->continent = $data['continent'];
-//        $account->coordinate_y = $data['coordinate_y'];
-//        $account->coordinate_x = $data['coordinate_x'];
         $account->save();
     }
 }
