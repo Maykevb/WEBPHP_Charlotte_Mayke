@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    @if ($message = Session::get('duplicate'))
+        <div class="alert alert-danger" style="width: 90%; margin: auto; margin-bottom: 10px;">
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
 <div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
     <form method="GET" action="{{route('labelList')}}">
         <table class="table" style="width: 100%; margin: auto;">

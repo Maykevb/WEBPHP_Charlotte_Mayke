@@ -116,13 +116,13 @@ class ShipmentController extends Controller
         }
         else {
             return [
-                "Error: ongeldige account token of email."
+                "Error: ongeldige account token of email of onvoldoende rechten."
             ];
         }
     }
 
     public function updateShipmentStatus($token, $email, $id, $newStatus) {
-        $account = $this->accRepo->findByTokenAndEmail($token, $email);
+        $account = $this->accRepo->findByTokenAndEmailCompany($token, $email);
 
         if ($account->count() > 0 && $account[0] != null)
         {
@@ -138,7 +138,7 @@ class ShipmentController extends Controller
         }
         else {
             return [
-                "Error: ongeldige account token of email."
+                "Error: ongeldige account token of email of onvoldoende rechten."
             ];
         }
     }

@@ -22,9 +22,18 @@ class AccountRepo implements CrudInterface
         return user::select()
             ->where('remember_token', '=', $token)
             ->where('email', '=', $email)
+            ->where('role_id', '=', 3)
             ->get();
     }
 
+    public function findByTokenAndEmailCompany($token, $email)
+    {
+        return user::select()
+            ->where('remember_token', '=', $token)
+            ->where('email', '=', $email)
+            ->where('role_id', '=', 6)
+            ->get();
+    }
 
     public function delete($id)
     {

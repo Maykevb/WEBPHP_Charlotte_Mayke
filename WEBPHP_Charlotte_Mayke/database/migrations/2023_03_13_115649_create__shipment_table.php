@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('status', ['Aangemeld', 'Uitgeprint',
                 'Opgehaald', 'Sorteercentrum', 'Onderweg', 'Afgeleverd']);
             $table->timestamps();
+            $table->string('webshop');
         });
     }
 

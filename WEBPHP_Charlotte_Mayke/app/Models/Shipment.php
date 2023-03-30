@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 class Shipment extends Model
 {
     use Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'name',
         'place',
         'streetName',
         'houseNumber',
-        'postalCode'
+        'postalCode',
+        'webshop'
     ];
 
     public function Label()
@@ -34,7 +37,8 @@ class Shipment extends Model
             'place' => $this->place,
             'streetName' => $this->streetName,
             'houseNumber' => $this->houseNumber,
-            'postalCode' => $this->postalCode
+            'postalCode' => $this->postalCode,
+            'webshop' => $this->webshop
         ];
     }
 }

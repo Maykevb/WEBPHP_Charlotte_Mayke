@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\CrudInterface;
 use App\Models\Review;
 use App\Models\Shipment;
+use Illuminate\Support\Facades\Auth;
 
 class ShipmentRepo implements CrudInterface
 {
@@ -56,10 +57,12 @@ class ShipmentRepo implements CrudInterface
             default:
             case 'asc':
                 return Shipment::select('shipments.*')
+                    ->where('webshop', Auth::user()->webshop)
                     ->orderBy($column, 'asc')
                     ->paginate(8);
             case 'desc':
                 return Shipment::select('shipments.*')
+                    ->where('webshop', Auth::user()->webshop)
                     ->orderBy($column, 'desc')
                     ->paginate(8);
         }

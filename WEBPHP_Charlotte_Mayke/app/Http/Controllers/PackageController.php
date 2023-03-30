@@ -12,6 +12,7 @@ use App\Repositories\PickUpRequestRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
@@ -29,22 +30,32 @@ class PackageController extends Controller
     public function getAllPackages(Request $request)
     {
         if($request->filled('search') && isset($request->id_sort)) {
-            $shipments = Shipment::search($request->search)->orderBy('id', $request->id_sort)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->orderBy('id', $request->id_sort)
+                ->paginate(8);
         }
         else if($request->filled('search') && isset($request->name_sort)) {
-            $shipments = Shipment::search($request->search)->orderBy('name', $request->name_sort)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->orderBy('name', $request->name_sort)
+                ->paginate(8);
         }
         else if($request->filled('search')) {
-            $shipments = Shipment::search($request->search)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->paginate(8);
         }
         else if(isset($request->id_sort)) {
-            $shipments = $this->shipRepo->getAllOrderBy('id', $request->id_sort);
+            $shipments = $this->shipRepo
+                ->getAllOrderBy('id', $request->id_sort);
         }
         else if(isset($request->name_sort)) {
-            $shipments = $this->shipRepo->getAllOrderBy('name', $request->name_sort);
+            $shipments = $this->shipRepo
+                ->getAllOrderBy('name', $request->name_sort);
         }
         else {
-            $shipments = Shipment::paginate(8);
+            $shipments = Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
         }
 
         return view('/labelList', compact('shipments'));
@@ -52,6 +63,7 @@ class PackageController extends Controller
 
     public function handleLabels(Request $request)
     {
+        $hasLabel = false;
         $listShipments = [];
         foreach($this->shipRepo->getAll() as $package)
         {
@@ -65,6 +77,10 @@ class PackageController extends Controller
                         {
                             $this->createLabelForPackage($id, "DHL");
                         }
+                        else
+                        {
+                            $hasLabel = true;
+                        }
                         break;
                     case 'Maak PostNL label':
                     case 'Make PostNL label':
@@ -72,12 +88,20 @@ class PackageController extends Controller
                         {
                             $this->createLabelForPackage($id, "PostNL");
                         }
+                        else
+                        {
+                            $hasLabel = true;
+                        }
                         break;
                     case 'Maak UPS label':
                     case 'Make UPS label':
                         if($this->shipRepo->find($id)->label_id == null)
                         {
                             $this->createLabelForPackage($id, "UPS");
+                        }
+                        else
+                        {
+                            $hasLabel = true;
                         }
                         break;
                     case 'Downloaden':
@@ -93,7 +117,15 @@ class PackageController extends Controller
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
         } else
         {
-            return redirect('labelList');
+            if($hasLabel)
+            {
+                return redirect('labelList')
+                    ->with('duplicate', 'Een of meer van de geselecteerde pakketjes hebben al een label. Voor deze pakketjes is geen nieuw label aangemaakt.');
+            }
+            else
+            {
+                return redirect('labelList');
+            }
         }
     }
 
