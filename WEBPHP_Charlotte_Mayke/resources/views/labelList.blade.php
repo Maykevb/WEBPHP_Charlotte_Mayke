@@ -75,7 +75,7 @@
                     <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak UPS label')}}" style="width: 200px;"/><br><br>
                 @endif
                 <h4 style="text-align: center"><strong>{{__('Labels printen')}}</strong></h4>
-                <input type="submit" class="btn btn-dark" name="action" value="{{__('Downloaden')}}" style="width: 200px;"/>
+                <input type="submit" class="btn btn-dark 1" name="action" id="download" value="{{__('Downloaden')}}" style="width: 200px;"/>
             </div>
         </div>
         <br>
@@ -95,7 +95,7 @@
             <tbody>
             @foreach($shipments as $package)
             <tr>
-                <td><input type="checkbox" name="{{ $package->id }}"/></td>
+                <td><input type="checkbox" name="{{ $package->id }}" id="checkbox{{ $package->id }}"/></td>
                 <td>{{ $package->id }}</td>
                 <td>{{ $package->name }}</td>
                 @if ($package->label_id == null)
@@ -107,7 +107,7 @@
                 @endif
                 @if ($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
                     <td>
-                        <a href=" {{ route('startRequest', $package->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
+                        <a href=" {{ route('startRequest', $package->id) }}" id="request{{ $package->id }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
                 @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4))
                     <td><p>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</p></td>

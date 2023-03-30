@@ -21,7 +21,7 @@ class AuthTest extends DuskTestCase
                 ->clickLink('Register')
                 ->type('name', 'Samson')
                 ->type('email', 'samson@test.com')
-                ->type('password', 'wachtwoord')
+                ->type('password', 'waphchtwoord')
                 ->type('password_confirmation', 'wachtwoord')
                 ->click('button[type="submit"]');
 
