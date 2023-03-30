@@ -41,5 +41,7 @@ class AdminTest extends DuskTestCase
             $browser->visit('/home')
                 ->clickLink('NL');
         });
+
+
     }
 }

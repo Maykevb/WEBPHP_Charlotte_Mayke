@@ -13,13 +13,16 @@ class WebshopTest extends DuskTestCase
     /**
      * A Dusk test example.
      */
-    public function testExample(): void
+    public function testCalendar(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                 ->type('email', 'webshop@gmail.com')
                 ->type('password', 'wachtwoord')
                 ->click('button[type="submit"]');
+
+            $browser->visit('/fullcalender');
         });
     }
 }
+
