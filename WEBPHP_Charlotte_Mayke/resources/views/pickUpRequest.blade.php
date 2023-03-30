@@ -21,7 +21,7 @@
             <button type="submit" class="btn btn-dark" name="submit" style="margin-top: 10px; width: 300px;">{{__('Indienen')}}</button>
         </form>
         @else
-            <h3>Je hebt geen rechten om pickuprequest aan te maken</h3>
+            <h3>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</h3>
         @endif
     </div>
 @endsection

@@ -53,19 +53,42 @@ class ShipmentRepo implements CrudInterface
     }
 
     public function getAllOrderBy($column, $ascOrDesc) {
-        switch ($ascOrDesc) {
-            default:
-            case 'asc':
-                return Shipment::select('shipments.*')
-                    ->where('webshop', Auth::user()->webshop)
-                    ->orderBy($column, 'asc')
-                    ->paginate(8);
-            case 'desc':
-                return Shipment::select('shipments.*')
-                    ->where('webshop', Auth::user()->webshop)
-                    ->orderBy($column, 'desc')
-                    ->paginate(8);
-        }
+        return Shipment::select('shipments.*')
+            ->where('webshop', Auth::user()->webshop)
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
+    }
+
+    public function getAllOrderByHasLabel($column, $ascOrDesc) {
+        return Shipment::select('shipments.*')
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('label_id')
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
+    }
+
+    public function getAllOrderByNoLabel($column, $ascOrDesc) {
+        return Shipment::select('shipments.*')
+            ->where('webshop', Auth::user()->webshop)
+            ->where('label_id', null)
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
+    }
+
+    public function getAllOrderByHasPickup($column, $ascOrDesc) {
+        return Shipment::select('shipments.*')
+            ->where('webshop', Auth::user()->webshop)
+            ->whereNotNull('pickUpRequest_id')
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
+    }
+
+    public function getAllOrderByNoPickup($column, $ascOrDesc) {
+        return Shipment::select('shipments.*')
+            ->where('webshop', Auth::user()->webshop)
+            ->where('pickUpRequest_id', null)
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
     }
 }
 

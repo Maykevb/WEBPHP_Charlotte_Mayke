@@ -189,60 +189,59 @@ class ShipmentController extends Controller
 
     public function getAllReviews(Request $request)
     {
-        if($request->filled('search') && isset($request->id_sort)) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->orderBy('id', $request->id_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search') && isset($request->description_sort)) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->orderBy('text', $request->description_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search') && isset($request->star_sort)) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->orderBy('stars', $request->star_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search') && isset($request->order_sort)) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->orderBy('shipment_id', $request->order_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search') && isset($request->date_sort)) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->orderBy('created_at', $request->date_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search')) {
-            $reviews = Review::search($request->search)
-                ->where('account_id', Auth::user()->id)
-                ->paginate(8);
-        }
-        else if(isset($request->id_sort)) {
-            $reviews = $this->revRepo->getAllOrderBy('id', $request->id_sort);
-        }
-        else if(isset($request->description_sort)) {
-            $reviews = $this->revRepo->getAllOrderBy('text', $request->description_sort);
-        }
-        else if(isset($request->star_sort)) {
-            $reviews = $this->revRepo->getAllOrderBy('stars', $request->star_sort);
-        }
-        else if(isset($request->order_sort)) {
-            $reviews = $this->revRepo->getAllOrderBy('shipment_id', $request->order_sort);
-        }
-        else if(isset($request->date_sort)) {
-            $reviews = $this->revRepo->getAllOrderBy('created_at', $request->date_sort);
-        }
-        else {
-            $reviews = Review::where('account_id', '=', Auth::user()->id)->paginate(8);
+        $temp = null;
+        if ($request->sorting != 0 && $request->sorting != null) {
+            $temp = preg_split("/-+/", $request->sorting);
         }
 
+        // Filter is used
+        if ($request->filter != 0 && $request->filter != null) {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $reviews = Review::search($request->search)
+                    ->where('account_id', Auth::user()->id)
+                    ->where('stars', $request->filter)
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $reviews = Review::search($request->search)
+                    ->where('account_id', Auth::user()->id)
+                    ->where('stars', $request->filter)
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $reviews = $this->revRepo->getAllOrderByWithFilter($temp[0], $temp[1], $request->filter);
+            }
+            else {
+                $reviews = Review::where('account_id', '=', Auth::user()->id)
+                    ->where('stars', $request->filter)
+                    ->paginate(8);
+            }
+        }
+
+        // All Reviews
+        else {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $reviews = Review::search($request->search)
+                    ->where('account_id', Auth::user()->id)
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $reviews = Review::search($request->search)
+                    ->where('account_id', Auth::user()->id)
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $reviews = $this->revRepo->getAllOrderBy($temp[0], $temp[1]);
+            }
+            else {
+                $reviews = Review::where('account_id', '=', Auth::user()->id)->paginate(8);
+            }
+        }
+
+        $path = "?sorting={$request->sorting}&filter={$request->filter}&search={$request->search}";
+        $reviews->withPath($path);
         return view('/reviews', compact('reviews'));
     }
 }

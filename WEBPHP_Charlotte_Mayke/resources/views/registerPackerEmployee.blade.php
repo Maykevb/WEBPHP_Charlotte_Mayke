@@ -11,7 +11,7 @@
     <form action="{{ route('createPacker') }}" method="post">
         @csrf
         <h3 style="text-align: center;">{{__('Registreer een inpak medewerker')}}</h3>
-        <input type="text" class="form-control" name="name" placeholder="{{__('gebruikersnaam')}}" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
+        <input type="text" class="form-control" name="name" placeholder="{{__('naam')}}" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
         <input type="text" class="form-control" name="email" placeholder="{{__('email')}}" style="width: 300px; text-align: center; margin: auto;">
         <input type="password" class="form-control" name="password" placeholder="{{__('wachtwoord')}}" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
         <input type="password" class="form-control" name="password_confirmation" placeholder="{{__('bevestig wachtwoord')}}" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
@@ -19,7 +19,7 @@
         <button type="submit" class="btn btn-dark" name="submit" style="margin-top: 10px; width: 300px;">{{__('Indienen')}}</button>
     </form>
     @else
-        <h3>Je hebt geen rechten om accounts aan te maken</h3>
+        <h3>{{__('Je hebt geen rechten om accounts aan te maken')}}</h3>
     @endif
 </div>
 @endsection
