@@ -100,9 +100,7 @@ class DatabaseSeeder extends Seeder
 
 
 //Shipment seeddata
-        Shipment::factory()->create([
-            'label_id' => 1
-        ]);
+        Shipment::factory()->create();
         Shipment::factory()->create([
             'label_id' => 2
         ]);

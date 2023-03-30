@@ -70,12 +70,12 @@
             <div class="col-sm-8" style="text-align: center;">
                 @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4)
                     <h4 style="text-align: center"><strong>{{__('Labels maken')}}</strong></h4>
-                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak DHL label')}}" style="width: 200px;"/>
-                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak PostNL label')}}" style="width: 200px;"/>
-                    <input type="submit" class="btn btn-dark" name="action" value="{{__('Maak UPS label')}}" style="width: 200px;"/><br><br>
+                    <input type="submit" class="btn btn-dark" name="action" id="DHL" value="{{__('Maak DHL label')}}" style="width: 200px;"/>
+                    <input type="submit" class="btn btn-dark" name="action" id="PostNL" value="{{__('Maak PostNL label')}}" style="width: 200px;"/>
+                    <input type="submit" class="btn btn-dark" name="action" id="UPS" value="{{__('Maak UPS label')}}" style="width: 200px;"/><br><br>
                 @endif
                 <h4 style="text-align: center"><strong>{{__('Labels printen')}}</strong></h4>
-                <input type="submit" class="btn btn-dark 1" name="action" id="download" value="{{__('Downloaden')}}" style="width: 200px;"/>
+                <input type="submit" class="btn btn-dark" name="action" id="download" value="{{__('Downloaden')}}" style="width: 200px;"/>
             </div>
         </div>
         <br>

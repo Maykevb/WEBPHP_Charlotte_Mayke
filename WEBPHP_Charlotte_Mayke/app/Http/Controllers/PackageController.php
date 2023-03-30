@@ -295,7 +295,6 @@ class PackageController extends Controller
             $dataArray[] = $data;
         }
         $array = ['dataArray' => $dataArray];
-
         $pdf = PDF::loadView('bulkLabel', $array);
         return $pdf;
     }

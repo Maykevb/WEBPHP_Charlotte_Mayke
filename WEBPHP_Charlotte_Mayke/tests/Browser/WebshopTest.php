@@ -98,7 +98,12 @@ class WebshopTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/labelList')
-                ->click('a[id="request1"]');
+                ->click('a[id="request1"]')
+                ->type('pickUpDate', now())
+                ->type('pickUpTime', 12.00)
+                ->type('postcode', '9402 KN')
+                ->type('huisnummer', 10)
+                ->click('button[type="submit"]');
         });
     }
 
@@ -106,9 +111,17 @@ class WebshopTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/labelList')
+                ->click('input[id="checkbox2"]')
+                ->click('input[id="download"]');
+        });
+    }
+
+    public function testLabel()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/labelList')
                 ->click('input[id="checkbox1"]')
-                ->element("btn btn-dark 1")
-                ->click('button[class="btn btn-dark 1"]');
+                ->click('input[id="DHL"]');
         });
     }
 
