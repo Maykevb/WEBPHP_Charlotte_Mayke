@@ -67,19 +67,18 @@ class ReviewRepo implements CrudInterface
     }
 
     public function getAllOrderBy($column, $ascOrDesc) {
-        switch ($ascOrDesc) {
-            default:
-            case 'asc':
-                return Review::select('reviews.*')
-                    ->where('account_id', Auth::user()->id)
-                    ->orderBy($column, 'asc')
-                    ->paginate(8);
-            case 'desc':
-                return Review::select('reviews.*')
-                    ->where('account_id', Auth::user()->id)
-                    ->orderBy($column, 'desc')
-                    ->paginate(8);
-        }
+        return Review::select('reviews.*')
+            ->where('account_id', Auth::user()->id)
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
+    }
+
+    public function getAllOrderByWithFilter($column, $ascOrDesc, $stars) {
+        return Review::select('reviews.*')
+            ->where('account_id', Auth::user()->id)
+            ->where('stars', $stars)
+            ->orderBy($column, $ascOrDesc)
+            ->paginate(8);
     }
 }
 

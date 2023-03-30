@@ -29,78 +29,181 @@ class PackageController extends Controller
 
     public function getAllPackages(Request $request)
     {
-        if($request->filled('search') && isset($request->id_sort)) {
-            $shipments = Shipment::search($request->search)
-                ->where('webshop', Auth::user()->webshop)
-                ->orderBy('id', $request->id_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search') && isset($request->name_sort)) {
-            $shipments = Shipment::search($request->search)
-                ->where('webshop', Auth::user()->webshop)
-                ->orderBy('name', $request->name_sort)
-                ->paginate(8);
-        }
-        else if($request->filled('search')) {
-            $shipments = Shipment::search($request->search)
-                ->where('webshop', Auth::user()->webshop)
-                ->paginate(8);
-        }
-        else if(isset($request->id_sort)) {
-            $shipments = $this->shipRepo
-                ->getAllOrderBy('id', $request->id_sort);
-        }
-        else if(isset($request->name_sort)) {
-            $shipments = $this->shipRepo
-                ->getAllOrderBy('name', $request->name_sort);
-        }
-        else {
-            $shipments = Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
+        $temp = null;
+        if ($request->sorting != 0 && $request->sorting != null) {
+            $temp = preg_split("/_+/", $request->sorting);
         }
 
-        return view('/labelList', compact('shipments'));
+        // Has Label
+        if ($request->filter == 1) {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('label_id', '!=', 'NULL');
+                    })
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('label_id', '!=', 'NULL');
+                    })
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $shipments = $this->shipRepo->getAllOrderByHasLabel($temp[0], $temp[1]);
+            }
+            else {
+                $shipments = Shipment::where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('label_id', '!=', 'NULL');
+                    })
+                    ->paginate(8);
+            }
+        }
+
+        // No Label
+        else if ($request->filter == 2) {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->where('label_id', null)
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->where('label_id', null)
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $shipments = $this->shipRepo->getAllOrderByNoLabel($temp[0], $temp[1]);
+            }
+            else {
+                $shipments = Shipment::where('webshop', Auth::user()->webshop)
+                    ->where('label_id', null)
+                    ->paginate(8);
+            }
+        }
+
+        // Has Pick-up
+        else if ($request->filter == 3) {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('pickUpRequest_id', '!=', 'NULL');
+                    })
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('pickUpRequest_id', '!=', 'NULL');
+                    })
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $shipments = $this->shipRepo->getAllOrderByHasPickup($temp[0], $temp[1]);
+            }
+            else {
+                $shipments = Shipment::where('webshop', Auth::user()->webshop)
+                    ->query(function ($query) {
+                        $query->where('pickUpRequest_id', '!=', 'NULL');
+                    })
+                    ->paginate(8);
+            }
+        }
+
+        // No Pick-up
+        else if ($request->filter == 4) {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->where('pickUpRequest_id', null)
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->where('pickUpRequest_id', null)
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $shipments = $this->shipRepo->getAllOrderByNoPickup($temp[0], $temp[1]);
+            }
+            else {
+                $shipments = Shipment::where('webshop', Auth::user()->webshop)
+                    ->where('pickUpRequest_id', null)
+                    ->paginate(8);
+            }
+        }
+
+        // All Shipments
+        else {
+            if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->orderBy($temp[0], $temp[1])
+                    ->paginate(8);
+            }
+            else if($request->filled('search')) {
+                $shipments = Shipment::search($request->search)
+                    ->where('webshop', Auth::user()->webshop)
+                    ->paginate(8);
+            }
+            else if($request->sorting != 0 && $request->sorting != null) {
+                $shipments = $this->shipRepo->getAllOrderBy($temp[0], $temp[1]);
+            }
+            else {
+                $shipments = Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
+            }
+        }
+
+        $path = "?sorting={$request->sorting}&filter={$request->filter}&search={$request->search}";
+        $shipments->withPath($path);
+        return view('/labelList', compact('shipments', 'request'));
     }
 
     public function handleLabels(Request $request)
     {
         $hasLabel = false;
         $listShipments = [];
-        foreach($this->shipRepo->getAll() as $package)
-        {
+        foreach($this->shipRepo->getAll() as $package) {
             $id = $package->id;
-            if($request->$id == "on")
-            {
+            if($request->$id == "on") {
                 switch ($request->input('action')) {
                     case 'Maak DHL label':
                     case 'Make DHL label':
-                        if($this->shipRepo->find($id)->label_id == null)
-                        {
+                        if ($this->shipRepo->find($id)->label_id == null) {
                             $this->createLabelForPackage($id, "DHL");
                         }
-                        else
-                        {
+                        else {
                             $hasLabel = true;
                         }
                         break;
                     case 'Maak PostNL label':
                     case 'Make PostNL label':
-                        if($this->shipRepo->find($id)->label_id == null)
-                        {
+                        if ($this->shipRepo->find($id)->label_id == null) {
                             $this->createLabelForPackage($id, "PostNL");
                         }
-                        else
-                        {
+                        else {
                             $hasLabel = true;
                         }
                         break;
                     case 'Maak UPS label':
                     case 'Make UPS label':
-                        if($this->shipRepo->find($id)->label_id == null)
-                        {
+                        if ($this->shipRepo->find($id)->label_id == null) {
                             $this->createLabelForPackage($id, "UPS");
                         }
-                        else
-                        {
+                        else {
                             $hasLabel = true;
                         }
                         break;
@@ -112,18 +215,15 @@ class PackageController extends Controller
             }
         }
 
-        if($request->input('action') == "Download" && count($listShipments) > 0)
-        {
+        if ($request->input('action') == "Download" && count($listShipments) > 0) {
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
-        } else
-        {
-            if($hasLabel)
-            {
+        }
+        else {
+            if ($hasLabel) {
                 return redirect('labelList')
                     ->with('duplicate', 'Een of meer van de geselecteerde pakketjes hebben al een label. Voor deze pakketjes is geen nieuw label aangemaakt.');
             }
-            else
-            {
+            else {
                 return redirect('labelList');
             }
         }
@@ -177,8 +277,7 @@ class PackageController extends Controller
 
     public function printLabels($listShipments)
     {
-        foreach($listShipments as $shipment)
-        {
+        foreach($listShipments as $shipment) {
             $findLabel = $this->labRepo->find($this->shipRepo->find($shipment)->label_id);
             $findCompany = $this->compRepo->find($this->labRepo->find($this->shipRepo->find($shipment)->label_id)->company_id);
             $findShipment = $this->shipRepo->find($shipment);

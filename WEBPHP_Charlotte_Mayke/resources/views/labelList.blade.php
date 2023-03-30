@@ -7,19 +7,53 @@
         </div>
     @endif
 <div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
-    <form method="GET" action="{{route('labelList')}}">
+    <form method="GET">
         <table class="table" style="width: 100%; margin: auto;">
             <tbody>
-            <tr style="display: flex; width: 70%; margin: auto; text-align: center;  justify-content: center;">
-                <td style="align-self: flex-start">
-                    <button type="submit" name="id_sort" value="desc" class="btn btn-dark">{{__('Sorteer ID')}} ↓</button>
-                    <button type="submit" name="id_sort" value="asc" class="btn btn-dark">{{__('Sorteer ID')}} ↑</button>
-                </td>
-                <td style="align-self: flex-end">
-                    <button type="submit" name="name_sort" value="desc" class="btn btn-dark">{{__('Sorteer Naam')}} ↓</button>
-                    <button type="submit" name="name_sort" value="asc" class="btn btn-dark">{{__('Sorteer Naam')}} ↑</button>
-                </td>
-            </tr>
+                <tr style="display: flex; width: 70%; margin: auto; text-align: center;  justify-content: center;">
+                    <td>
+                        <div class="input-group mb-3">
+                            <select class="form-select" name="sorting">
+                                <option value="0" @if(request()->get('sorting') == 0 || request()->get('sorting') == null) selected @endif>
+                                    {{__('Sorteren')}}...
+                                </option>
+                                <option value="id_desc" @if(request()->get('sorting') == "id_desc") selected @endif>
+                                    {{__('Sorteer ID')}} ↓
+                                </option>
+                                <option value="id_asc" @if(request()->get('sorting') == "id_asc") selected @endif>
+                                    {{__('Sorteer ID')}} ↑
+                                </option>
+                                <option value="name_desc" @if(request()->get('sorting') == "name_desc") selected @endif>
+                                    {{__('Sorteer Naam')}} ↓
+                                </option>
+                                <option value="name_asc" @if(request()->get('sorting') == "name_asc") selected @endif>
+                                    {{__('Sorteer Naam')}} ↑
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-3">
+                            <select class="form-select" name="filter">
+                                <option value="0" @if(request()->get('filter') == 0 || request()->get('filter') == null) selected @endif>
+                                    {{__('Alle Verzendingen')}}...
+                                </option>
+                                <option value="1" @if(request()->get('filter') == 1) selected @endif>
+                                    {{__('Heeft Label')}}
+                                </option>
+                                <option value="2" @if(request()->get('filter') == 2) selected @endif>
+                                    {{__('Geen Label')}}
+                                </option>
+                                <option value="3" @if(request()->get('filter') == 3) selected @endif>
+                                    {{__('Heeft Pickup')}}
+                                </option>
+                                <option value="4" @if(request()->get('filter') == 4) selected @endif>
+                                    {{__('Geen Pickup')}}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <br>
@@ -63,20 +97,20 @@
             <tr>
                 <td><input type="checkbox" name="{{ $package->id }}"/></td>
                 <td>{{ $package->id }}</td>
-                <td>{{$package->name}}</td>
-                @if($package->label_id == null)
+                <td>{{ $package->name }}</td>
+                @if ($package->label_id == null)
                     <td>
                        <p>{{__('Dit pakket heeft nog geen label')}}</p>
                     </td>
                 @else
                     <td><p>{{__('Dit pakket heeft al een label')}}</p></td>
                 @endif
-                @if($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
+                @if ($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
                     <td>
                         <a href=" {{ route('startRequest', $package->id) }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
                 @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4))
-                    <td><p>{{__('Je hebt geen rechten om een pickuprequest te doen')}}</p></td>
+                    <td><p>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</p></td>
                 @else
                     <td><p>{{__('Dit pakket heeft al een pickup aanvraag')}}</p></td>
                 @endif
