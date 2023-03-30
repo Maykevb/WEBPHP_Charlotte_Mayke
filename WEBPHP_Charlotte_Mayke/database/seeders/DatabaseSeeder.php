@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('wachtwoord')
         ]);
         user::factory()->create([
+            'email' => 'webshop@gmail.com',
             'role_id' => 3,
             'remember_token' => 'KDFJNSK',
             'webshop' => 'Amazon',

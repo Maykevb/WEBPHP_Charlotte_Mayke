@@ -63,4 +63,11 @@ abstract class DuskTestCase extends BaseTestCase
         return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
                isset($_ENV['DUSK_START_MAXIMIZED']);
     }
+
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
 }
