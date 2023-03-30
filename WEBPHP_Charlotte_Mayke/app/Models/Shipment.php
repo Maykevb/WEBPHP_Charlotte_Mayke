@@ -16,7 +16,8 @@ class Shipment extends Model
         'place',
         'streetName',
         'houseNumber',
-        'postalCode'
+        'postalCode',
+        'webshop'
     ];
 
     public function Label()
@@ -36,7 +37,8 @@ class Shipment extends Model
             'place' => $this->place,
             'streetName' => $this->streetName,
             'houseNumber' => $this->houseNumber,
-            'postalCode' => $this->postalCode
+            'postalCode' => $this->postalCode,
+            'webshop' => $this->webshop
         ];
     }
 }

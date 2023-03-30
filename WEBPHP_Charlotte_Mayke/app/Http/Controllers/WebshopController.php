@@ -11,37 +11,54 @@ class WebshopController extends Controller
 {
     public function createWebshop(Request $request)
     {
-        $this->createAccountWithRole($request, 3);
+        $this->createAccountWithRole($request, 3, true);
         return view('home');
     }
 
     public function createAdministrativeEmployee(Request $request)
     {
-        $this->createAccountWithRole($request, 4);
+        $this->createAccountWithRole($request, 4, false);
         return view('home');
     }
 
     public function createPackerEmployee(Request $request)
     {
-        $this->createAccountWithRole($request, 5);
+        $this->createAccountWithRole($request, 5, false);
         return view('home');
     }
 
-    public function createAccountWithRole(Request $request, int $role_id)
+    public function createAccountWithRole(Request $request, int $role_id, bool $trackr)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required'
-        ],
-            ['name.required' => 'Het is verplicht een username in te vullen',
-                'email.required' => 'Het is verplicht een email in te vullen',
-                'email.unique' => 'Er bestaat al een account met deze email',
-                'password.required' => 'Het is verplicht een wachtwoord in te vullen',
-                'password.confirmed' => 'De wachtwoord bevestiging komt niet overeen met het wachtwoord',
-                'password_confirmation.required' => 'Het is verplicht een wachtwoord bevesting in te vullen'
-            ]);
+        if($trackr)
+        {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|unique:users',
+                'password' => 'required|confirmed',
+                'password_confirmation' => 'required'
+            ],
+                ['name.required' => 'Het is verplicht een username in te vullen',
+                    'email.required' => 'Het is verplicht een email in te vullen',
+                    'email.unique' => 'Er bestaat al een account met deze email',
+                    'password.required' => 'Het is verplicht een wachtwoord in te vullen',
+                    'password.confirmed' => 'De wachtwoord bevestiging komt niet overeen met het wachtwoord',
+                    'password_confirmation.required' => 'Het is verplicht een wachtwoord bevesting in te vullen'
+                ]);
+        } else {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|unique:users',
+                'password' => 'required|confirmed',
+                'password_confirmation' => 'required'
+            ],
+                ['name.required' => 'Het is verplicht een username in te vullen',
+                    'email.required' => 'Het is verplicht een email in te vullen',
+                    'email.unique' => 'Er bestaat al een account met deze email',
+                    'password.required' => 'Het is verplicht een wachtwoord in te vullen',
+                    'password.confirmed' => 'De wachtwoord bevestiging komt niet overeen met het wachtwoord',
+                    'password_confirmation.required' => 'Het is verplicht een wachtwoord bevesting in te vullen'
+                ]);
+        }
 
         $user = new user();
         $user->password = Hash::make($request->password);
@@ -51,6 +68,10 @@ class WebshopController extends Controller
         if($role_id == 3)
         {
             $user->remember_token = $this->generateToken();
+        }
+        if($trackr)
+        {
+            $user->webshop = $request->webshop;
         }
         $user->save();
     }

@@ -12,6 +12,7 @@ use App\Repositories\PickUpRequestRepo;
 use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
@@ -29,22 +30,32 @@ class PackageController extends Controller
     public function getAllPackages(Request $request)
     {
         if($request->filled('search') && isset($request->id_sort)) {
-            $shipments = Shipment::search($request->search)->orderBy('id', $request->id_sort)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->orderBy('id', $request->id_sort)
+                ->paginate(8);
         }
         else if($request->filled('search') && isset($request->name_sort)) {
-            $shipments = Shipment::search($request->search)->orderBy('name', $request->name_sort)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->orderBy('name', $request->name_sort)
+                ->paginate(8);
         }
         else if($request->filled('search')) {
-            $shipments = Shipment::search($request->search)->paginate(8);
+            $shipments = Shipment::search($request->search)
+                ->where('webshop', Auth::user()->webshop)
+                ->paginate(8);
         }
         else if(isset($request->id_sort)) {
-            $shipments = $this->shipRepo->getAllOrderBy('id', $request->id_sort);
+            $shipments = $this->shipRepo
+                ->getAllOrderBy('id', $request->id_sort);
         }
         else if(isset($request->name_sort)) {
-            $shipments = $this->shipRepo->getAllOrderBy('name', $request->name_sort);
+            $shipments = $this->shipRepo
+                ->getAllOrderBy('name', $request->name_sort);
         }
         else {
-            $shipments = Shipment::paginate(8);
+            $shipments = Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
         }
 
         return view('/labelList', compact('shipments'));
