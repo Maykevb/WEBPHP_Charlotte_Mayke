@@ -21,7 +21,52 @@ class WebshopTest extends DuskTestCase
                 ->type('password', 'wachtwoord')
                 ->click('button[type="submit"]');
 
-            $browser->visit('/fullcalender');
+            $browser->clickLink('Calendar');
+        });
+    }
+
+    public function testAdministrive(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/registerAdministrativeEmployee')
+//                ->type('webshop', 'Coolblue')
+                ->type('name', 'Coolblue2')
+                ->type('email', 'coolblue2@gmail.com')
+                ->type('password', 'wachtwoord')
+                ->type('password_confirmation', 'wachtwoord')
+                ->click('button[type="submit"]');
+        });
+    }
+
+    public function testPacker(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/registerPackerEmployee')
+//                ->type('webshop', 'Coolblue')
+                ->type('name', 'Coolblue3')
+                ->type('email', 'coolblue3@gmail.com')
+                ->type('password', 'wachtwoord')
+                ->type('password_confirmation', 'wachtwoord')
+                ->click('button[type="submit"]');
+        });
+    }
+
+    public function testShipments(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/shipmentRegistration')
+                ->click('button[type="submit"]');
+        });
+    }
+
+    public function testLanguage(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/home')
+                ->clickLink('EN');
+
+            $browser->visit('/home')
+                ->clickLink('NL');
         });
     }
 }
