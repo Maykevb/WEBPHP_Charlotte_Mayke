@@ -124,6 +124,8 @@
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/dompdf/dompdf" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/picqer/php-barcode-generator" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/laravel/scout" />
+      <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/laravel/dusk" />
+      <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/php-webdriver/webdriver" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
