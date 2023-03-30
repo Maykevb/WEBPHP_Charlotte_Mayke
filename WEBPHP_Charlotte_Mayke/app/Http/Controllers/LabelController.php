@@ -101,21 +101,16 @@ class LabelController extends Controller
         // All Shipments
         else {
             if($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->orderBy($temp[0], $temp[1])
-                    ->paginate(8);
+                $shipments = $this->shipRepo->allShipmentsSearchAndSort($request, $temp);
             }
             else if($request->filled('search')) {
-                $shipments = Shipment::search($request->search)
-                    ->where('webshop', Auth::user()->webshop)
-                    ->paginate(8);
+                $shipments = $this->shipRepo->allShipmentsSearch($request);
             }
             else if($request->sorting != 0 && $request->sorting != null) {
                 $shipments = $this->shipRepo->getAllOrderBy($temp[0], $temp[1]);
             }
             else {
-                $shipments = Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
+                $shipments = $this->shipRepo->allShipments();
             }
         }
 
@@ -167,7 +162,7 @@ class LabelController extends Controller
             }
         }
 
-        if ($request->input('action') == "Download" && count($listShipments) > 0) {
+        if (($request->input('action') == "Download" || $request->input('action') == "Downloaden") && count($listShipments) > 0) {
             return $this->printLabels($listShipments)->download('pdf_file.pdf');
         }
         else {

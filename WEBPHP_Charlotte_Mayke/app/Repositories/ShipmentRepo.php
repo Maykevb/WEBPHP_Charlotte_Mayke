@@ -62,7 +62,7 @@ class ShipmentRepo implements CrudInterface
     public function getAllOrderByHasLabel($column, $ascOrDesc) {
         return Shipment::select('shipments.*')
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('label_id')
+            ->where('label_id', '!=', null)
             ->orderBy($column, $ascOrDesc)
             ->paginate(8);
     }
@@ -78,7 +78,7 @@ class ShipmentRepo implements CrudInterface
     public function getAllOrderByHasPickup($column, $ascOrDesc) {
         return Shipment::select('shipments.*')
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('pickUpRequest_id')
+            ->where('pickUpRequest_id', '!=', null)
             ->orderBy($column, $ascOrDesc)
             ->paginate(8);
     }
@@ -94,7 +94,7 @@ class ShipmentRepo implements CrudInterface
     public function hasLabelSearchAndSort($request, $temp) {
         return Shipment::search($request->search)
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('label_id')
+            ->where('label_id', '!=', null)
             ->orderBy($temp[0], $temp[1])
             ->paginate(8);
     }
@@ -102,13 +102,13 @@ class ShipmentRepo implements CrudInterface
     public function hasLabelAndSearch($request) {
         return Shipment::search($request->search)
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('label_id')
+            ->where('label_id', '!=', null)
             ->paginate(8);
     }
 
     public function hasLabel() {
         return Shipment::where('webshop', Auth::user()->webshop)
-            ->whereNotNull('label_id')
+            ->where('label_id', '!=', null)
             ->paginate(8);
     }
 
@@ -136,7 +136,7 @@ class ShipmentRepo implements CrudInterface
     public function hasPickupSearchAndSort($request, $temp) {
         return Shipment::search($request->search)
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('pickUpRequest_id')
+            ->where('pickUpRequest_id', '!=', null)
             ->orderBy($temp[0], $temp[1])
             ->paginate(8);
     }
@@ -144,13 +144,13 @@ class ShipmentRepo implements CrudInterface
     public function hasPickupAndSearch($request) {
         return Shipment::search($request->search)
             ->where('webshop', Auth::user()->webshop)
-            ->whereNotNull('pickUpRequest_id')
+            ->where('pickUpRequest_id', '!=', null)
             ->paginate(8);
     }
 
     public function hasPickup() {
         return Shipment::where('webshop', Auth::user()->webshop)
-            ->whereNotNull('pickUpRequest_id')
+            ->where('pickUpRequest_id', '!=', null)
             ->paginate(8);
     }
 
@@ -173,6 +173,23 @@ class ShipmentRepo implements CrudInterface
         return Shipment::where('webshop', Auth::user()->webshop)
             ->where('pickUpRequest_id', null)
             ->paginate(8);
+    }
+
+    public function allShipmentsSearchAndSort($request, $temp) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function allShipmentsSearch($request) {
+        return Shipment::search($request->search)
+            ->where('webshop', Auth::user()->webshop)
+            ->paginate(8);
+    }
+
+    public function allShipments() {
+        return Shipment::where('webshop', Auth::user()->webshop)->paginate(8);
     }
 }
 
