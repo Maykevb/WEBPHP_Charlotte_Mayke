@@ -8,7 +8,6 @@
                        placeholder="{{__('Zoeken')}}..." aria-label="Search" aria-describedby="button-addon2">
                 <button class="btn btn-dark" type="submit" id="button-addon2">{{__('Zoeken')}}</button>
             </div>
-
         </form>
         <form method="GET" action="{{route('reviewsOverview')}}">
             <input type="hidden" name="search" value="{{ request()->get('search') }}" class="form-control"
@@ -21,29 +20,24 @@
                     <th scope="col">{{__('Sterren')}}</th>
                     <th scope="col">{{__('Bestelling ID')}}</th>
                     <th scope="col">{{__('Datum')}}</th>
-                    <th scope="col" style="width: 40px">
-                        <label>Vanaf:
-                            <input type="date" name="start_date" value="{{date("Y-m-d")}}">
-                        </label>
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <tr>
-                    <td >
+                    <td>
                         <button type="submit" name="id_sort" value="desc" class="btn btn-dark">↓</button>
                         <button type="submit" name="id_sort" value="asc" class="btn btn-dark">↑</button>
                     </td>
-                    <td >
+                    <td>
                         <button type="submit" name="description_sort" value="desc" class="btn btn-dark">↓</button>
                         <button type="submit" name="description_sort" value="asc" class="btn btn-dark">↑</button>
                     </td>
-                    <td >
+                    <td>
                         <button type="submit" name="star_sort" value="desc" class="btn btn-dark">↓</button>
                         <button type="submit" name="star_sort" value="asc" class="btn btn-dark">↑</button>
                     </td>
-                    <td >
+                    <td>
                         <button type="submit" name="order_sort" value="desc" class="btn btn-dark">↓</button>
                         <button type="submit" name="order_sort" value="asc" class="btn btn-dark">↑</button>
                     </td>
