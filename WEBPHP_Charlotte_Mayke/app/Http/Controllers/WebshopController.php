@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use App\Models\user;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class WebshopController extends Controller
@@ -31,12 +32,15 @@ class WebshopController extends Controller
     {
         if ($trackr) {
             $request->validate([
+                'webshop' => 'required',
                 'name' => 'required',
-                'email' => 'required|unique:users',
+                'email' => 'required|unique:users|email',
                 'password' => 'required|confirmed',
                 'password_confirmation' => 'required'
             ],
-            ['name.required' => 'Het is verplicht een username in te vullen',
+            [
+                'email.email' => 'De email is niet geldig',
+                'name.required' => 'Het is verplicht een username in te vullen',
                 'email.required' => 'Het is verplicht een email in te vullen',
                 'email.unique' => 'Er bestaat al een account met deze email',
                 'password.required' => 'Het is verplicht een wachtwoord in te vullen',
@@ -47,11 +51,13 @@ class WebshopController extends Controller
         else {
             $request->validate([
                 'name' => 'required',
-                'email' => 'required|unique:users',
+                'email' => 'required|unique:users|email',
                 'password' => 'required|confirmed',
                 'password_confirmation' => 'required'
             ],
-            ['name.required' => 'Het is verplicht een username in te vullen',
+            [
+                'email.email' => 'De email is niet geldig',
+                'name.required' => 'Het is verplicht een username in te vullen',
                 'email.required' => 'Het is verplicht een email in te vullen',
                 'email.unique' => 'Er bestaat al een account met deze email',
                 'password.required' => 'Het is verplicht een wachtwoord in te vullen',
@@ -61,6 +67,12 @@ class WebshopController extends Controller
         }
 
         $user = new user();
+        if($trackr) {
+            $user->webshop = $request->webshop;
+        }
+        else {
+            $user->webshop = Auth::user()->webshop;
+        }
         $user->password = Hash::make($request->password);
         $user->email = $request->email;
         $user->name = $request->name;
@@ -68,9 +80,6 @@ class WebshopController extends Controller
 
         if ($role_id == 3) {
             $user->remember_token = $this->generateToken();
-        }
-        if ($trackr) {
-            $user->webshop = $request->webshop;
         }
 
         $user->save();
