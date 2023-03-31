@@ -224,23 +224,29 @@ class LabelController extends Controller
 
     public function printLabels($listShipments)
     {
+        $dataArray = [];
+
         foreach($listShipments as $shipment) {
-            $findLabel = $this->labRepo->find($this->shipRepo->find($shipment)->label_id);
-            $findCompany = $this->compRepo->find($this->labRepo->find($this->shipRepo->find($shipment)->label_id)->company_id);
-            $findShipment = $this->shipRepo->find($shipment);
+            if($this->compRepo->find($this->labRepo->find($this->shipRepo->find($shipment)->label_id)) != null)
+            {
+                $findLabel = $this->labRepo->find($this->shipRepo->find($shipment)->label_id);
+                $findCompany = $this->compRepo->find($this->labRepo->find($this->shipRepo->find($shipment)->label_id)->company_id);
+                $findShipment = $this->shipRepo->find($shipment);
 
-            $data = ['id' => $findLabel->id,
-                'name' => $findShipment->lable,
-                'place' => $findShipment->place,
-                'date' => $findShipment->created_at,
-                'trackAndTrace' => $findLabel->trackAndTrace,
-                'company' => $findCompany->naam,
-                'sendingStreet' => $findShipment->streetName,
-                'sendingNumber' => $findShipment->houseNumber,
-                'sendingPostal' => $findShipment->postalCode];
+                $data = ['id' => $findLabel->id,
+                    'name' => $findShipment->lable,
+                    'place' => $findShipment->place,
+                    'date' => $findShipment->created_at,
+                    'trackAndTrace' => $findLabel->trackAndTrace,
+                    'company' => $findCompany->naam,
+                    'sendingStreet' => $findShipment->streetName,
+                    'sendingNumber' => $findShipment->houseNumber,
+                    'sendingPostal' => $findShipment->postalCode];
 
-            $dataArray[] = $data;
+                $dataArray[] = $data;
+            }
         }
+
         $array = ['dataArray' => $dataArray];
         $pdf = PDF::loadView('bulkLabel', $array);
         return $pdf;
