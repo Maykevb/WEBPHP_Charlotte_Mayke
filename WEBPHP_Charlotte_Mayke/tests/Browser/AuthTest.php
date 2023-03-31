@@ -10,9 +10,6 @@ class AuthTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * A Dusk test example.
-     */
     public function testAuth(): void
     {
         $this->browse(function ($browser) {
@@ -39,6 +36,17 @@ class AuthTest extends DuskTestCase
                     ->type('password', 'wachtwoord')
                     ->click('button[type="submit"]');
             }
+        });
+    }
+
+    public function testLanguage(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/home')
+                ->clickLink('EN');
+
+            $browser->visit('/home')
+                ->clickLink('NL');
         });
     }
 }

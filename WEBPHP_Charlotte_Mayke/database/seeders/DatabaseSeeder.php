@@ -78,14 +78,23 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('wachtwoord')
         ]);
         user::factory()->create([
+            'email' => 'bezorger@gmail.com',
             'role_id' => 6,
             'remember_token' => 'MEMENDT',
+            'password' => Hash::make('wachtwoord')
+        ]);
+        user::factory()->create([
+            'role_id' => 1,
+            'email' => 'ontvanger@gmail.com',
             'password' => Hash::make('wachtwoord')
         ]);
         user::factory(50)->create();
 
 //Label seeddata
-        Label::factory(10)->create();
+        Label::factory()->create([
+            'trackAndTrace' => 'TKTK',
+        ]);
+        Label::factory(9)->create();
 
 //PickUpRequest seeddata
         PickUpRequest::factory(5)->create();
@@ -98,12 +107,12 @@ class DatabaseSeeder extends Seeder
             'end' => now(),
         ]);
 
-
 //Shipment seeddata
-        Shipment::factory()->create();
         Shipment::factory()->create([
-            'label_id' => 2
+            'label_id' => 1,
+            'status' => 'Afgeleverd'
         ]);
+        Shipment::factory()->create();
         Shipment::factory()->create([
             'label_id' => 3
         ]);
@@ -138,6 +147,12 @@ class DatabaseSeeder extends Seeder
         Shipment::factory(50)->create();
 
 //Review seeddata
-        Review::factory(10)->create();
+        Review::factory()->create([
+            'text' => 'Wat een geweldige service',
+            'stars' => 5,
+            'shipment_id' => 2,
+            'account_id' => 4
+        ]);
+        Review::factory(8)->create();
     }
 }
