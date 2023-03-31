@@ -21,14 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-//Company seeddata
+        //Company seeddata
         Company::factory()->create([
             'naam' => 'DHL',
             'prijs' => '4'
@@ -44,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'prijs' => '8'
         ]);
 
-// Role seeddata
+        // Role seeddata
         Role::factory()->create([
             'name' => 'ontvanger'
         ]);
@@ -64,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'bezorgbedrijf'
         ]);
 
-//User seeddata
+        //User seeddata
         user::factory()->create([
             'role_id' => 2,
             'email' => 'admin@gmail.com',
@@ -90,13 +83,13 @@ class DatabaseSeeder extends Seeder
         ]);
         user::factory(50)->create();
 
-//Label seeddata
+        //Label seeddata
         Label::factory()->create([
             'trackAndTrace' => 'TKTK',
         ]);
         Label::factory(9)->create();
 
-//PickUpRequest seeddata
+        //PickUpRequest seeddata
         PickUpRequest::factory(5)->create();
         PickUpRequest::factory()->create([
             'start' => now(),
@@ -107,7 +100,7 @@ class DatabaseSeeder extends Seeder
             'end' => now(),
         ]);
 
-//Shipment seeddata
+        //Shipment seeddata
         Shipment::factory()->create([
             'label_id' => 1,
             'status' => 'Afgeleverd'
@@ -146,7 +139,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Shipment::factory(50)->create();
 
-//Review seeddata
+        //Review seeddata
         Review::factory()->create([
             'text' => 'Wat een geweldige service',
             'stars' => 5,

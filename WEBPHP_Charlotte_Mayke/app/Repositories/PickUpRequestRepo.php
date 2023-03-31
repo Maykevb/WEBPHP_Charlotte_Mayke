@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CrudInterface;
 use App\Models\PickUpRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PickUpRequestRepo implements CrudInterface
 {
@@ -30,13 +31,15 @@ class PickUpRequestRepo implements CrudInterface
     public function update($data, $id)
     {
         $pickUpRequest = PickUpRequest::where('id', $id)->first();
-//        TODO
-//        $pickUpRequest->city = $data['city'];
-//        $pickUpRequest->province = $data['province'];
-//        $pickUpRequest->continent = $data['continent'];
-//        $pickUpRequest->coordinate_y = $data['coordinate_y'];
-//        $pickUpRequest->coordinate_x = $data['coordinate_x'];
+        $pickUpRequest->id = $data['id'];
         $pickUpRequest->save();
+    }
+
+    public function fullCalender($request) {
+        return PickUpRequest::whereDate('start', '>=', $request->start)
+            ->where('webshop', Auth::user()->webshop)
+            ->whereDate('end',   '<=', $request->end)
+            ->get(['id', 'title', 'start', 'end']);
     }
 }
 

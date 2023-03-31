@@ -35,12 +35,7 @@ class CompanyRepo implements CrudInterface
     public function update($data, $id)
     {
         $company = Company::where('id', $id)->first();
-//        TODO
-//        $company->city = $data['city'];
-//        $company->province = $data['province'];
-//        $company->continent = $data['continent'];
-//        $company->coordinate_y = $data['coordinate_y'];
-//        $company->coordinate_x = $data['coordinate_x'];
+        $company->id = $data['id'];
         $company->save();
     }
 }

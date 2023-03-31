@@ -42,15 +42,6 @@ class ReviewRepo implements CrudInterface
         return $review;
     }
 
-    public function findWhere($id)
-    {
-        return Review::select()->where('account_id', $id)->get();
-    }
-
-    public function findThroughShipment($shipmentId) {
-        return Review::where('shipment_id', '=', $shipmentId)->first();
-    }
-
     public function insertReview($request)
     {
         $data['text'] = $request->text;
@@ -79,6 +70,44 @@ class ReviewRepo implements CrudInterface
             ->where('stars', $stars)
             ->orderBy($column, $ascOrDesc)
             ->paginate(8);
+    }
+
+    public function hasFilterSearchAndSort($request, $temp) {
+        return Review::search($request->search)
+            ->where('account_id', Auth::user()->id)
+            ->where('stars', $request->filter)
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function hasFilterAndSearch($request) {
+        return Review::search($request->search)
+            ->where('account_id', Auth::user()->id)
+            ->where('stars', $request->filter)
+            ->paginate(8);
+    }
+
+    public  function hasFilter($request) {
+        return Review::where('account_id', '=', Auth::user()->id)
+            ->where('stars', $request->filter)
+            ->paginate(8);
+    }
+
+    public function noFilterSearchAndSort($request, $temp) {
+        return Review::search($request->search)
+            ->where('account_id', Auth::user()->id)
+            ->orderBy($temp[0], $temp[1])
+            ->paginate(8);
+    }
+
+    public function noFilterAndSearch($request) {
+        return Review::search($request->search)
+            ->where('account_id', Auth::user()->id)
+            ->paginate(8);
+    }
+
+    public  function noFilter() {
+        return Review::where('account_id', '=', Auth::user()->id)->paginate(8);
     }
 }
 
