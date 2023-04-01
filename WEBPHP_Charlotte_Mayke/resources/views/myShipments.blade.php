@@ -8,7 +8,7 @@
                     @if($shipments->count() > 0 && $shipments[0] != null)
                         <div style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
                             <h4 style="text-align: center"><strong>{{__('Verzending')}}</strong></h4>
-                            <table class="table" style="width: 50%; margin: auto;">
+                            <table class="table" style="width: 90%; margin: auto;">
                                 <thead>
                                     <tr>
                                         <th scope="col">{{__('Track en Trace code')}}</th>
@@ -21,7 +21,7 @@
                                 <tbody>
                                     <tr>
                                         <td>{{ $shipments[0]->trackAndTrace }}</td>
-                                        <td>{{ $shipments[0]->status }}</td>
+                                        <td>{{__($shipments[0]->status)}}</td>
                                         @if($shipments[0]->status == "Afgeleverd" && $shipments[0]->stars == null)
                                             <form action="{{route('writeReview')}}" method="get">
                                                 @csrf

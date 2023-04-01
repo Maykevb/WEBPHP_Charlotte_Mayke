@@ -8,7 +8,7 @@
                 <form action="{{route('fileUpload')}}" method="post" enctype="multipart/form-data">
                     <p>{{__('Om een bulk verzending aan te melden, upload een .csv bestand hieronder')}}</p>
                     <p>{{__('Zorg ervoor dat het bestand de volgende kolommen bevat')}}:</p>
-                    <p>id, name, place, streetName, houseNumber, postalCode</p>
+                    <p>id, name, place, streetName, houseNumber, postalCode, webshop</p>
                     @csrf
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -40,7 +40,7 @@
 
                 <h4 style="text-align: center"><strong>{{__('Enkele verzending aanmelden')}}</strong></h4>
                 <p>{{__('Om een enkele verzending aan te melden, voer de volgende informatie in de zoekbalk in')}}:</p>
-                <p>{{__('/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}')}}</p>
+                <p>{{__('http://127.0.0.1:8000/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}')}}</p>
                 <br><br>
 
                 <h4 style="text-align: center"><strong>{{__('Verzendig status updaten')}}</strong></h4>
@@ -48,7 +48,7 @@
                 <p>{{__('"Aangemeld"')}}, {{__('"Uitgeprint"')}}, {{__('"Opgehaald"')}}, {{__('"Sorteercentrum"')}}, {{__('"Onderweg"')}}, {{__('"Afgeleverd"')}}</p>
                 <br>
                 <p>{{__('Om een de status van een verzending aan te passen, voer de volgende informatie in de zoekbalk in')}}:</p>
-                <p>{{__('/api/{account token}/{email}/{pakket id}/{nieuwe status}')}}</p>
+                <p>{{__('http://127.0.0.1:8000/api/{account token}/{email}/{pakket id}/{nieuwe status}')}}</p>
             </div>
         </div>
         <br>

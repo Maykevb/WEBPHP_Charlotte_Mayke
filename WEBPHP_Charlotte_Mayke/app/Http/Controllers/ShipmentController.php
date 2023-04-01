@@ -97,7 +97,6 @@ class ShipmentController extends Controller
     public function signUpShipment($token, $email, $name, $street, $nr, $code, $place) {
         $account = $this->accRepo->findByTokenAndEmail($token, $email);
 
-//        dd($account);
         if ($account != null) {
             $data['name'] = $name;
             $data['streetName'] = $street;
@@ -167,7 +166,7 @@ class ShipmentController extends Controller
         }
 
         if ($header[1] == 'name' && $header[2] == 'place' && $header[3] == 'streetName' &&
-            $header[4] == 'houseNumber' && $header[5] == 'postalCode') {
+            $header[4] == 'houseNumber' && $header[5] == 'postalCode' && $header[6] == 'webshop') {
             return $data;
         }
         else {

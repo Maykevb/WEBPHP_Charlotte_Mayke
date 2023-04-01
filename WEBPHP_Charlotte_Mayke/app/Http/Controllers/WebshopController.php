@@ -35,7 +35,7 @@ class WebshopController extends Controller
                 'webshop' => 'required',
                 'name' => 'required',
                 'email' => 'required|unique:users|email',
-                'password' => 'required|confirmed',
+                'password' => 'required|confirmed|min:8',
                 'password_confirmation' => 'required'
             ],
             [
@@ -45,6 +45,7 @@ class WebshopController extends Controller
                 'email.unique' => 'Er bestaat al een account met deze email',
                 'password.required' => 'Het is verplicht een wachtwoord in te vullen',
                 'password.confirmed' => 'De wachtwoord bevestiging komt niet overeen met het wachtwoord',
+                'password.min' => 'Het wachtwoord moet minimaal uit 8 tekens bestaan',
                 'password_confirmation.required' => 'Het is verplicht een wachtwoord bevesting in te vullen'
             ]);
         }
@@ -52,7 +53,7 @@ class WebshopController extends Controller
             $request->validate([
                 'name' => 'required',
                 'email' => 'required|unique:users|email',
-                'password' => 'required|confirmed',
+                'password' => 'required|confirmed|min:8',
                 'password_confirmation' => 'required'
             ],
             [
@@ -62,6 +63,7 @@ class WebshopController extends Controller
                 'email.unique' => 'Er bestaat al een account met deze email',
                 'password.required' => 'Het is verplicht een wachtwoord in te vullen',
                 'password.confirmed' => 'De wachtwoord bevestiging komt niet overeen met het wachtwoord',
+                'password.min' => 'Het wachtwoord moet minimaal uit 8 tekens bestaan',
                 'password_confirmation.required' => 'Het is verplicht een wachtwoord bevesting in te vullen'
             ]);
         }

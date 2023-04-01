@@ -109,7 +109,7 @@
                     <td>
                         <a href=" {{ route('startRequest', $package->id) }}" id="request{{ $package->id }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
                     </td>
-                @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4))
+                @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4)
                     <td><p>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</p></td>
                 @else
                     <td><p>{{__('Dit pakket heeft al een pickup aanvraag')}}</p></td>

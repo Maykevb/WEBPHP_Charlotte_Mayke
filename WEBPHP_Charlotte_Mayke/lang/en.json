@@ -38,8 +38,7 @@
 
     "Pick-up aanvragen kalender": "Pick-up requests calendar",
 
-    "Dashboard": "Dashboard",
-    "Je bent ingelogd": "You are logged in",
+    "Welkom bij": "Welcome to",
 
     "Sorteren": "Sort",
     "Sorteer ID": "Sort ID",
@@ -70,6 +69,12 @@
     "Track en Trace code": "Track and Trace code",
     "Status": "Status",
     "Review": "Review",
+    "Aangemeld": "Aangemeld (Registered)",
+    "Uitgeprint": "Uitgeprint (Printed out)",
+    "Opgehaald": "Opgehaald (Collected)",
+    "Sorteercentrum": "Sorteercentrum (Sorting centrum)",
+    "Onderweg": "Onderweg (On the way)",
+    "Afgeleverd": "Afgeleverd (Delivered)",
     "Schrijf een review": "Write a review",
     "Geen verzending met deze Track en Trace code kunnen vinden": "Could not find any shipment with this Track and Trace code",
     "Volg je pakket": "Follow your package",
@@ -111,7 +116,7 @@
     "Upload Bestanden": "Upload Files",
     "Enkele verzending aanmelden": "Register single shipment",
     "Om een enkele verzending aan te melden, voer de volgende informatie in de zoekbalk in": "To register a single shipment, fill the following information into the search bar",
-    "/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}": "/api/{account token}/{email}/{name recipient}/{street}/{house number}/{postal code}/{city}",
+    "http://127.0.0.1:8000/api/{account token}/{email}/{naam ontvanger}/{straat}/{huisnummer}/{postcode}/{plaats}": "http://127.0.0.1:8000/api/{account token}/{email}/{name recipient}/{street}/{house number}/{postal code}/{city}",
     "Verzendig status updaten": "Update shipment status",
     "Status opties": "Status options",
     "\"Aangemeld\"": "\"Aangemeld\" (Registered)",
@@ -121,7 +126,7 @@
     "\"Onderweg\"": "\"Onderweg\" (On the way)",
     "\"Afgeleverd\"": "\"Afgeleverd\" (Delivered)",
     "Om een de status van een verzending aan te passen, voer de volgende informatie in de zoekbalk in": "To change the status of a shipment, fill the following information into the search bar",
-    "/api/{account token}/{email}/{pakket id}/{nieuwe status}": "/api/{account token}/{email}/{package id}/{new status}",
+    "http://127.0.0.1:8000/api/{account token}/{email}/{pakket id}/{nieuwe status}": "http://127.0.0.1:8000/api/{account token}/{email}/{package id}/{new status}",
 
     "Aantal sterren": "Amount of stars",
     "Verzend review": "Send review",

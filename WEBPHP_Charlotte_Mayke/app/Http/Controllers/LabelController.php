@@ -199,6 +199,7 @@ class LabelController extends Controller
         $pickUp->huisnummer = $request->huisnummer;
         $pickUp->title = 'Bestelling: ' . $this->shipRepo->find($request->pickUpId)->id;
         $pickUp->end = $request->pickUpDate;
+        $pickUp->webshop = Auth::user()->webshop;
         $pickUp->save();
 
         $shipment = $this->shipRepo->find($request->pickUpId);
