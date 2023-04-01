@@ -17,14 +17,24 @@ class AccountRepo implements CrudInterface
         return user::find($id);
     }
 
-    public function findByUsernameAndPassword($username, $password)
+    public function findByTokenAndEmail($token, $email)
     {
         return user::select()
-            ->where('name', '=', $username)
-            ->where('password', '=', $password)
-            ->get();
+            ->where('remember_token', '=', $token)
+            ->where('email', '=', $email)
+            ->where('role_id', '=', 3)
+            ->get()
+            ->first();
     }
 
+    public function findByTokenAndEmailCompany($token, $email)
+    {
+        return user::select()
+            ->where('remember_token', '=', $token)
+            ->where('email', '=', $email)
+            ->where('role_id', '=', 6)
+            ->get();
+    }
 
     public function delete($id)
     {
@@ -39,12 +49,6 @@ class AccountRepo implements CrudInterface
     public function update($data, $id)
     {
         $account = user::where('id', $id)->first();
-//        TODO
-//        $account->city = $data['city'];
-//        $account->province = $data['province'];
-//        $account->continent = $data['continent'];
-//        $account->coordinate_y = $data['coordinate_y'];
-//        $account->coordinate_x = $data['coordinate_x'];
         $account->save();
     }
 }

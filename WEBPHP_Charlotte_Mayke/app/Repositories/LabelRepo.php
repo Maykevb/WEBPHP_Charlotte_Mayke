@@ -17,11 +17,6 @@ class LabelRepo implements CrudInterface
         return Label::find($id);
     }
 
-    public function checkIfExist($trackAndTrace)
-    {
-        return Label::select()->where('trackAndTrace', $trackAndTrace);
-    }
-
     public function delete($id)
     {
         Label::find($id)->delete();
@@ -35,12 +30,7 @@ class LabelRepo implements CrudInterface
     public function update($data, $id)
     {
         $label = Label::where('id', $id)->first();
-//        TODO
-//        $label->city = $data['city'];
-//        $label->province = $data['province'];
-//        $label->continent = $data['continent'];
-//        $label->coordinate_y = $data['coordinate_y'];
-//        $label->coordinate_x = $data['coordinate_x'];
+        $label->id = $data['id'];
         $label->save();
     }
 }

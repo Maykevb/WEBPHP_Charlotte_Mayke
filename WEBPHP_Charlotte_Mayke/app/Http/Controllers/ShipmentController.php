@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\Shipment;
 use App\Http\Resources\ShipmentResource;
 use App\Repositories\AccountRepo;
+use App\Repositories\ReviewRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Monolog\Logger;
 use PHPUnit\Framework\Constraint\IsEmpty;
 
 class ShipmentController extends Controller
 {
     private ShipmentRepo $repo;
     private AccountRepo $accRepo;
+    private ReviewRepo $revRepo;
 
     public function __construct()
     {
         $this->repo = new ShipmentRepo();
         $this->accRepo = new AccountRepo();
+        $this->revRepo = new ReviewRepo();
     }
 
     public function getAllShipments()
@@ -45,7 +52,6 @@ class ShipmentController extends Controller
         ]);
     }
 
-//    TODO: needed?
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -60,7 +66,6 @@ class ShipmentController extends Controller
         return new ShipmentResource($shipment);
     }
 
-//    TODO: needed?
     public function update(Request $request, Shipment $shipment)
     {
         $validated = $request->validate([
@@ -76,11 +81,10 @@ class ShipmentController extends Controller
 
     public function insertReview(Request $request) {
         $id = $request->id;
-        $shipment = $this->repo->find($id);
+        $review = $this->revRepo->insertReview($request);
 
-        $shipment = $this->repo->insertReview($request, $id);
         return view('/writeReview', [
-            'shipment' => $shipment
+            'shipment' => $review
         ]);
     }
 
@@ -90,54 +94,57 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-    public function signUpShipment($username, $password, $name, $street, $nr, $code, $place) {
-        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
+    public function signUpShipment($token, $email, $name, $street, $nr, $code, $place) {
+        $account = $this->accRepo->findByTokenAndEmail($token, $email);
 
-        if ($account->count() > 0 && $account[0] != null) {
+//        dd($account);
+        if ($account != null) {
             $data['name'] = $name;
             $data['streetName'] = $street;
             $data['houseNumber'] = $nr;
             $data['postalCode'] = $code;
             $data['place'] = $place;
             $data['status'] = "Aangemeld";
+            $data['webshop'] = $account->webshop;
+
             $temp = $this->repo->create($data);
 
-            return [
+
+            return response()->json([
                 'id' => $temp['id'],
                 'name' => $temp['name'],
                 'street name' => $temp['streetName'],
                 'house number' => $temp['houseNumber'],
                 'postal code' => $temp['postalCode'],
                 'place' => $temp['place'],
+                'webshop' => $temp['webshop'],
                 'status' => "Aangemeld",
-            ];
+            ], 200);
         }
         else {
             return [
-                "Error: foutieve inlog gegevens"
+                "Error: ongeldige account token of email of onvoldoende rechten."
             ];
         }
     }
 
-//    TODO: update label_id??
-    public function updateShipmentStatus($username, $password, $id, $newStatus) {
-        $account = $this->accRepo->findByUsernameAndPassword($username, $password);
+    public function updateShipmentStatus($token, $email, $id, $newStatus) {
+        $account = $this->accRepo->findByTokenAndEmailCompany($token, $email);
 
-        if ($account->count() > 0 && $account[0] != null)
-        {
+        if ($account->count() > 0 && $account[0] != null) {
             $data = $this->repo->find($id);
             $data['status'] = $newStatus;
 
             $temp = $this->repo->update($data, $id);
 
-            return [
+            return response()->json([
                 'id' => $temp['id'],
                 'status' => $temp['status'],
-            ];
+            ], 200);
         }
         else {
             return [
-                "Error: foutieve inlog gegevens"
+                "Error: ongeldige account token of email of onvoldoende rechten."
             ];
         }
     }
@@ -149,10 +156,8 @@ class ShipmentController extends Controller
 
         $header = null;
         $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
-        {
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
+        if (($handle = fopen($filename, 'r')) !== false) {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
                 if (!$header)
                     $header = $row;
                 else
@@ -161,7 +166,13 @@ class ShipmentController extends Controller
             fclose($handle);
         }
 
-        return $data;
+        if ($header[1] == 'name' && $header[2] == 'place' && $header[3] == 'streetName' &&
+            $header[4] == 'houseNumber' && $header[5] == 'postalCode') {
+            return $data;
+        }
+        else {
+            return false;
+        }
     }
 
     public function importCsv($filename)
@@ -173,7 +184,55 @@ class ShipmentController extends Controller
             for ($i = 0; $i < sizeof($shipmentArr); $i++) {
                 $temp = $this->repo->create($shipmentArr[$i]);
             }
+            return true;
         }
+        else {
+            return false;
+        }
+    }
+
+    public function getAllReviews(Request $request)
+    {
+        $temp = null;
+        if ($request->sorting != 0 && $request->sorting != null) {
+            $temp = preg_split("/-+/", $request->sorting);
+        }
+
+        // Filter is used
+        if ($request->filter != 0 && $request->filter != null) {
+            if ($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $reviews = $this->revRepo->hasFilterSearchAndSort($request, $temp);
+            }
+            else if ($request->filled('search')) {
+                $reviews = $this->revRepo->hasFilterAndSearch($request);
+            }
+            else if ($request->sorting != 0 && $request->sorting != null) {
+                $reviews = $this->revRepo->getAllOrderByWithFilter($temp[0], $temp[1], $request->filter);
+            }
+            else {
+                $reviews = $this->revRepo->hasFilter($request);
+            }
+        }
+
+        // All Reviews
+        else {
+            if ($request->filled('search') && ($request->sorting != 0 && $request->sorting != null)) {
+                $reviews = $this->revRepo->noFilterSearchAndSort($request, $temp);
+            }
+            else if ($request->filled('search')) {
+                $reviews = $this->revRepo->noFilterAndSearch($request);
+            }
+            else if ($request->sorting != 0 && $request->sorting != null) {
+                $reviews = $this->revRepo->getAllOrderBy($temp[0], $temp[1]);
+            }
+            else {
+                $reviews = $this->revRepo->noFilter();
+            }
+        }
+
+        $path = "?sorting={$request->sorting}&filter={$request->filter}&search={$request->search}";
+        $reviews->withPath($path);
+        return view('/reviews', compact('reviews'));
     }
 }
 

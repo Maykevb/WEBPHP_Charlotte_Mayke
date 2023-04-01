@@ -7,17 +7,21 @@
         @endforeach
     @endif
     <div style="margin: auto; background-color: white; border: solid; border-color: black; padding: 20px; border-width: 2px; width: 500px; text-align: center;">
+        @if(Auth::user()->role_id == 3)
         <form action="{{ route('pickup') }}" method="post">
             @csrf
-            <h3 style="text-align: center;">Plan een pick-up in voor bestelling: {{ $shipment->id }}</h3>
+            <h3 style="text-align: center;">{{__('Plan een pick-up in voor de bestelling')}}: {{ $shipment->id }}</h3>
             <input type="hidden" name="pickUpId" value="{{ $shipment->id }}">
             <div class="row">
                 <input type="date" class="form-control" name="pickUpDate" style="width: 200px; text-align: center; margin: auto;">
                 <input type="time" class="form-control" name="pickUpTime" style="width: 200px; text-align: center; margin: auto;">
             </div>
-            <input type="text" class="form-control" name="postcode" placeholder="postcode" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
-            <input type="text" class="form-control" name="huisnummer" placeholder="huisnummer" style="width: 300px; text-align: center; margin: auto;">
-            <button type="submit" class="btn btn-dark" name="submit" style="margin-top: 10px; width: 300px;">Submit</button>
+            <input type="text" class="form-control" name="postcode" placeholder="{{__('postcode')}}" style="width: 300px; text-align: center; margin: auto; margin-top: 10px; margin-bottom: 10px;">
+            <input type="text" class="form-control" name="huisnummer" placeholder="{{__('huisnummer')}}" style="width: 300px; text-align: center; margin: auto;">
+            <button type="submit" class="btn btn-dark" name="submit" style="margin-top: 10px; width: 300px;">{{__('Indienen')}}</button>
         </form>
+        @else
+            <h3>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</h3>
+        @endif
     </div>
 @endsection

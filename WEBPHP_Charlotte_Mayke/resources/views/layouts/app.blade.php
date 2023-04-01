@@ -23,47 +23,92 @@
             <a class="navbar-brand" href="{{ url('/home') }}">
                 Trackr
             </a>
-{{--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">--}}
-{{--                <span class="navbar-toggler-icon"></span>--}}
-{{--            </button>--}}
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('labelList') }}">{{ __('Labels') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('registerShipments') }}">{{ __('Aanmelden verzendingen') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('myShipments') }}">{{ __('Mijn verzendingen') }}</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('calender') }}">{{ __('Kalender') }}</a>
-                    </li>
-                </ul>
 
+                @guest()
+                @else
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('labelList') }}">{{__('Labels')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 6)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('registerShipments') }}">{{__('Verzendingen')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 1)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('myShipments') }}">{{__('Track & Trace')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 || Auth::user()->role_id == 5)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('calender') }}">{{__('Kalender')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 1)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('reviewsOverview') }}">{{__('Reviews')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 2)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('webshops') }}">{{__('Webshops')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('administrative') }}">{{__('Administratie medewerkers')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                    @if(Auth::user()->role_id == 3)
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('packer') }}">{{__('Inpak medewerkers')}}</a>
+                            </li>
+                        </ul>
+                    @endif
+                @endguest
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'en') }}">EN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('switch', 'nl') }}">NL</a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link">|</p>
+                    </li>
+
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{__('Inloggen')}}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{__('Registreer')}}</a>
                             </li>
                         @endif
                     @else
@@ -73,10 +118,14 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <p class="dropdown-item">
+                                    {{__('Account token')}}: {{ Auth::user()->remember_token }}
+                                </p>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{__('Uitloggen')}}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
