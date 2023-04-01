@@ -137,10 +137,10 @@ class ShipmentController extends Controller
 
             $temp = $this->repo->update($data, $id);
 
-            return [
+            return response()->json([
                 'id' => $temp['id'],
                 'status' => $temp['status'],
-            ];
+            ], 200);
         }
         else {
             return [

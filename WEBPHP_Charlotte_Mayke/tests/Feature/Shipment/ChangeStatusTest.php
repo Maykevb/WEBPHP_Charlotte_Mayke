@@ -5,24 +5,25 @@ namespace Tests\Feature\Shipment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+class ChangeStatusTest extends TestCase
 {
     use RefreshDatabase;
 
     protected bool $seed = true;
 
     /** @test */
-    public function createdShipmentIsStoredInDatabase(): void
+    public function shipmentStatusHasChanged(): void
     {
         //Arrange
 
         //Act
-        $response = $this->get('/api/KDFJNSK/webshop@gmail.com/Kelli/burgerlaan/10/4903KN/Tilburg');
+        $response = $this->get('/api/MEMENDT/bezorger@gmail.com/2/Afgeleverd');
 
         //Assert
         $response->assertStatus(200);
         $this->assertDatabaseHas('shipments', [
-            'name' => 'Kelli',
+            'id' => '2',
+            'status' => 'Afgeleverd'
         ]);
     }
 }
