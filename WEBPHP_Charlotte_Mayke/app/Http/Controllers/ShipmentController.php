@@ -10,6 +10,8 @@ use App\Repositories\ReviewRepo;
 use App\Repositories\ShipmentRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Monolog\Logger;
 use PHPUnit\Framework\Constraint\IsEmpty;
 
 class ShipmentController extends Controller
@@ -95,24 +97,29 @@ class ShipmentController extends Controller
     public function signUpShipment($token, $email, $name, $street, $nr, $code, $place) {
         $account = $this->accRepo->findByTokenAndEmail($token, $email);
 
-        if ($account->count() > 0 && $account[0] != null) {
+//        dd($account);
+        if ($account != null) {
             $data['name'] = $name;
             $data['streetName'] = $street;
             $data['houseNumber'] = $nr;
             $data['postalCode'] = $code;
             $data['place'] = $place;
             $data['status'] = "Aangemeld";
+            $data['webshop'] = $account->webshop;
+
             $temp = $this->repo->create($data);
 
-            return [
+
+            return response()->json([
                 'id' => $temp['id'],
                 'name' => $temp['name'],
                 'street name' => $temp['streetName'],
                 'house number' => $temp['houseNumber'],
                 'postal code' => $temp['postalCode'],
                 'place' => $temp['place'],
+                'webshop' => $temp['webshop'],
                 'status' => "Aangemeld",
-            ];
+            ], 200);
         }
         else {
             return [

@@ -6,6 +6,7 @@ use App\Interfaces\CrudInterface;
 use App\Models\Review;
 use App\Models\Shipment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ShipmentRepo implements CrudInterface
 {

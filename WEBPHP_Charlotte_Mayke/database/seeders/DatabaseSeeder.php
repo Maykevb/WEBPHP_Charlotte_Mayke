@@ -130,12 +130,12 @@ class DatabaseSeeder extends Seeder
         Shipment::factory()->create([
             'label_id' => 9,
             'pickUpRequest_id' => 4,
-            'status' => 'afgeleverd'
+            'status' => 'Afgeleverd'
         ]);
         Shipment::factory()->create([
             'label_id' => 10,
             'pickUpRequest_id' => 5,
-            'status' => 'afgeleverd'
+            'status' => 'Afgeleverd'
         ]);
         Shipment::factory(50)->create();
 

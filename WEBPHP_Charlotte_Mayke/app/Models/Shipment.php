@@ -17,6 +17,7 @@ class Shipment extends Model
         'streetName',
         'houseNumber',
         'postalCode',
+        'status',
         'webshop'
     ];
 

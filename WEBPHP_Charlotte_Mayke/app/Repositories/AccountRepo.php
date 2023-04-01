@@ -23,7 +23,8 @@ class AccountRepo implements CrudInterface
             ->where('remember_token', '=', $token)
             ->where('email', '=', $email)
             ->where('role_id', '=', 3)
-            ->get();
+            ->get()
+            ->first();
     }
 
     public function findByTokenAndEmailCompany($token, $email)

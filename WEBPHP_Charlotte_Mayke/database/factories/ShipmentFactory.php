@@ -22,7 +22,8 @@ class ShipmentFactory extends Factory
             'streetName' => $this->faker->streetName,
             'houseNumber' => $this->faker->numberBetween(1, 100),
             'postalCode' => $this->faker->postcode,
-            'webshop' => 'Amazon'
+            'webshop' => 'Amazon',
+            'status' => 'Aangemeld'
         ];
     }
 }
