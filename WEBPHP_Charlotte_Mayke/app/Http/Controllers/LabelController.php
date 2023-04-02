@@ -189,6 +189,9 @@ class LabelController extends Controller
 
     public function createPickUpForShipment(Request $request)
     {
+        Session::put('list', $request->listPickup);
+        Session::save();
+
         $request->validate([
             'pickUpDate' => 'required|after_or_equal:' . now()->addDays(2),
             'pickUpTime' => 'required|before_or_equal: 15:00',
@@ -205,7 +208,7 @@ class LabelController extends Controller
 
         $hasLabel = true;
         $hasPickup = false;
-        foreach($request->listPickup as $packageId) {
+        foreach ($request->listPickup as $packageId) {
             $package = $this->shipRepo->find($packageId);
             if ($package->label_id != null && $package->pickUpRequest_id == null) {
                 $pickUp = new PickUpRequest();
@@ -221,11 +224,9 @@ class LabelController extends Controller
                 $shipment = $package;
                 $shipment->pickUpRequest_id = $pickUp->id;
                 $this->shipRepo->update($shipment, $packageId);
-            }
-            else if ($package->label_id == null && $package->pickUpRequest_id == null) {
+            } else if ($package->label_id == null && $package->pickUpRequest_id == null) {
                 $hasLabel = false;
-            }
-            else if ($package->pickUpRequest_id != null) {
+            } else if ($package->pickUpRequest_id != null) {
                 $hasPickup = true;
             }
         }
@@ -233,17 +234,14 @@ class LabelController extends Controller
         if (!$hasLabel && !$hasPickup) {
             return redirect('labelList')
                 ->with('no label', 'Een of meer van de geselecteerde pakketjes heeft nog geen label. Voor deze pakketjes is geen pickup aanvraag gepland.');
-        }
-        else if (!$hasLabel && $hasPickup) {
+        } else if (!$hasLabel && $hasPickup) {
             return redirect('labelList')
                 ->with('no label', 'Een of meer van de geselecteerde pakketjes heeft nog geen label. Voor deze pakketjes is geen pickup aanvraag gepland.')
                 ->with('has pickup', 'Een of meer van de geselecteerde pakketjes heeft al een pickup aanvraag. Voor deze pakketjes is geen extra pickup request gepland.');
-        }
-        else if ($hasLabel && $hasPickup) {
+        } else if ($hasLabel && $hasPickup) {
             return redirect('labelList')
                 ->with('has pickup', 'Een of meer van de geselecteerde pakketjes heeft al een pickup aanvraag. Voor deze pakketjes is geen extra pickup request gepland.');
-        }
-        else {
+        } else {
             return redirect('labelList');
         }
     }

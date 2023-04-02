@@ -45,8 +45,10 @@ Route::middleware(['auth', 'role_trackruser'])->post('label-form',
     ->name('list');
 
 Route::middleware(['auth', 'role_trackruser'])->get('label-form', function() {
-    return view('/pickUpRequest');
-})->name('requestingPickUp');
+    return view('/pickUpRequest', [
+        'list'  => Session::get('list')
+    ]);
+}) ->name('label-form');
 
 Route::middleware(['auth', 'rights_signup'])->get('/shipmentRegistration', function() {
     return view('/shipmentRegistration', [

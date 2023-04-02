@@ -11,9 +11,15 @@
         <form action="{{ route('pickup') }}" method="post">
             @csrf
             <h3 style="text-align: center;">{{__('Plan een pick-up in voor de eerder geselecteerde bestellingen')}}</h3>
-            @foreach($listPickup as $item)
-                <input type="hidden" name="listPickup[]" value="{{ $item }}">
-            @endforeach
+            @if (isset($list))
+                @foreach($list as $item)
+                    <input type="hidden" name="listPickup[]" value="{{ $item }}">
+                @endforeach
+            @else
+                @foreach($listPickup as $item)
+                    <input type="hidden" name="listPickup[]" value="{{ $item }}">
+                @endforeach
+            @endif
             <div class="row">
                 <input type="date" class="form-control" name="pickUpDate" style="width: 200px; text-align: center; margin: auto;">
                 <input type="time" class="form-control" name="pickUpTime" style="width: 200px; text-align: center; margin: auto;">
