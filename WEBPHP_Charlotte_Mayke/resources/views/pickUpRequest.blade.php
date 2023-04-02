@@ -10,8 +10,10 @@
         @if(Auth::user()->role_id == 3)
         <form action="{{ route('pickup') }}" method="post">
             @csrf
-            <h3 style="text-align: center;">{{__('Plan een pick-up in voor de bestelling')}}: {{ $shipment->id }}</h3>
-            <input type="hidden" name="pickUpId" value="{{ $shipment->id }}">
+            <h3 style="text-align: center;">{{__('Plan een pick-up in voor de eerder geselecteerde bestellingen')}}</h3>
+            @foreach($listPickup as $item)
+                <input type="hidden" name="listPickup[]" value="{{ $item }}">
+            @endforeach
             <div class="row">
                 <input type="date" class="form-control" name="pickUpDate" style="width: 200px; text-align: center; margin: auto;">
                 <input type="time" class="form-control" name="pickUpTime" style="width: 200px; text-align: center; margin: auto;">

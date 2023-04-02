@@ -13,6 +13,7 @@ use App\Repositories\ShipmentRepo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LabelController extends Controller
 {
@@ -121,6 +122,8 @@ class LabelController extends Controller
 
     public function handleLabels(Request $request)
     {
+        $pickUp = false;
+        $listPickup = [];
         $hasLabel = false;
         $listShipments = [];
         foreach($this->shipRepo->getAll() as $package) {
@@ -158,8 +161,16 @@ class LabelController extends Controller
                     case 'Download':
                         $listShipments[] = $id;
                         break;
+                    case 'Plan pick-up':
+                        $pickUp = true;
+                        $listPickup[] = $id;
+                        break;
                 }
             }
+        }
+
+        if ($pickUp) {
+            return view('/pickUpRequest', compact('listPickup'));
         }
 
         if (($request->input('action') == "Download" || $request->input('action') == "Downloaden") && count($listShipments) > 0) {
@@ -192,21 +203,49 @@ class LabelController extends Controller
             'huisnummer.required' => 'Het is verplicht een postcode in te vullen'
         ]);
 
-        $pickUp = new PickUpRequest();
-        $pickUp->start = $request->pickUpDate;
-        $pickUp->time = $request->pickUpTime;
-        $pickUp->postcode = $request->postcode;
-        $pickUp->huisnummer = $request->huisnummer;
-        $pickUp->title = 'Bestelling: ' . $this->shipRepo->find($request->pickUpId)->id;
-        $pickUp->end = $request->pickUpDate;
-        $pickUp->webshop = Auth::user()->webshop;
-        $pickUp->save();
+        $hasLabel = true;
+        $hasPickup = false;
+        foreach($request->listPickup as $packageId) {
+            $package = $this->shipRepo->find($packageId);
+            if ($package->label_id != null && $package->pickUpRequest_id == null) {
+                $pickUp = new PickUpRequest();
+                $pickUp->start = $request->pickUpDate;
+                $pickUp->time = $request->pickUpTime;
+                $pickUp->postcode = $request->postcode;
+                $pickUp->huisnummer = $request->huisnummer;
+                $pickUp->title = 'Bestelling: ' . $packageId;
+                $pickUp->end = $request->pickUpDate;
+                $pickUp->webshop = Auth::user()->webshop;
+                $pickUp->save();
 
-        $shipment = $this->shipRepo->find($request->pickUpId);
-        $shipment->pickUpRequest_id = $pickUp->id;
-        $this->shipRepo->update($shipment, $request->pickUpId);
+                $shipment = $package;
+                $shipment->pickUpRequest_id = $pickUp->id;
+                $this->shipRepo->update($shipment, $packageId);
+            }
+            else if ($package->label_id == null && $package->pickUpRequest_id == null) {
+                $hasLabel = false;
+            }
+            else if ($package->pickUpRequest_id != null) {
+                $hasPickup = true;
+            }
+        }
 
-        return redirect('labelList');
+        if (!$hasLabel && !$hasPickup) {
+            return redirect('labelList')
+                ->with('no label', 'Een of meer van de geselecteerde pakketjes heeft nog geen label. Voor deze pakketjes is geen pickup aanvraag gepland.');
+        }
+        else if (!$hasLabel && $hasPickup) {
+            return redirect('labelList')
+                ->with('no label', 'Een of meer van de geselecteerde pakketjes heeft nog geen label. Voor deze pakketjes is geen pickup aanvraag gepland.')
+                ->with('has pickup', 'Een of meer van de geselecteerde pakketjes heeft al een pickup aanvraag. Voor deze pakketjes is geen extra pickup request gepland.');
+        }
+        else if ($hasLabel && $hasPickup) {
+            return redirect('labelList')
+                ->with('has pickup', 'Een of meer van de geselecteerde pakketjes heeft al een pickup aanvraag. Voor deze pakketjes is geen extra pickup request gepland.');
+        }
+        else {
+            return redirect('labelList');
+        }
     }
 
     public function createLabelForPackage($id, $company)

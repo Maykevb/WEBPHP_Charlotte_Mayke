@@ -6,6 +6,16 @@
             <strong>{{ $message }}</strong>
         </div>
     @endif
+    @if ($message = Session::get('no label'))
+        <div class="alert alert-danger" style="width: 90%; margin: auto; margin-bottom: 10px;">
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
+    @if ($message = Session::get('has pickup'))
+        <div class="alert alert-danger" style="width: 90%; margin: auto; margin-bottom: 10px;">
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
 <div class="col-auto" style="margin: auto; background-color: white; border: solid; border-width: 1px; border-color: lightgray; padding: 50px; width: 90%;">
     <form method="GET">
         <table class="table" style="width: 100%; margin: auto;">
@@ -76,6 +86,7 @@
                 @endif
                 <h4 style="text-align: center"><strong>{{__('Labels printen')}}</strong></h4>
                 <input type="submit" class="btn btn-dark" name="action" id="download" value="{{__('Downloaden')}}" style="width: 200px;"/>
+                <input type="submit" class="btn btn-dark" name="action" id="pickUp" value="{{__('Plan pick-up')}}" style="width: 200px;"/>
             </div>
         </div>
         <br>
@@ -106,9 +117,7 @@
                     <td><p>{{__('Dit pakket heeft al een label')}}</p></td>
                 @endif
                 @if ($package->pickUpRequest_id == null && (Auth::user()->role_id == 3 || Auth::user()->role_id == 4))
-                    <td>
-                        <a href=" {{ route('startRequest', $package->id) }}" id="request{{ $package->id }}" class="btn btn-dark" style="width: 200px;">{{__('Plan pick-up')}}</a>
-                    </td>
+                    <td><p>{{__('Dit pakket heeft nog geen pickup aanvraag')}}</p></td>
                 @elseif($package->pickUpRequest_id == null && Auth::user()->role_id != 3 && Auth::user()->role_id != 4)
                     <td><p>{{__('Je hebt geen rechten om een pickup aanvraag te maken')}}</p></td>
                 @else
@@ -133,9 +142,9 @@
 
 <script>
     function checkAll(o) {
-        var boxes = document.getElementsByTagName("input");
-        for (var x = 0; x < boxes.length; x++) {
-            var obj = boxes[x];
+        let boxes = document.getElementsByTagName("input");
+        for (let x = 0; x < boxes.length; x++) {
+            let obj = boxes[x];
             if (obj.type === "checkbox") {
                 if (obj.name !== "check")
                     obj.checked = o.checked;

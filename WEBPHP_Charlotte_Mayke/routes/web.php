@@ -4,6 +4,7 @@ use App\Http\Controllers\FullCalenderController;
 use App\Models\Shipment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::middleware(['auth', 'role_trackruser'])->post('pickup-form',
     [\App\Http\Controllers\LabelController::class, 'createPickUpForShipment'])
     ->name('pickup');
 
-Route::middleware(['auth', 'role_trackruser'])->get('/pickUpRequest/{shipment}', function(Shipment $shipment) {
+Route::middleware(['auth', 'role_trackruser'])->post('/pickUpRequest/{shipment}', function(Shipment $shipment) {
     return view('/pickUpRequest', [
         'shipment' => $shipment
     ]);
@@ -42,6 +43,10 @@ Route::middleware(['auth', 'role_trackruser'])->get('/pickUpRequest/{shipment}',
 Route::middleware(['auth', 'role_trackruser'])->post('label-form',
     [\App\Http\Controllers\LabelController::class, 'handleLabels'])
     ->name('list');
+
+Route::middleware(['auth', 'role_trackruser'])->get('label-form', function() {
+    return view('/pickUpRequest');
+})->name('requestingPickUp');
 
 Route::middleware(['auth', 'rights_signup'])->get('/shipmentRegistration', function() {
     return view('/shipmentRegistration', [

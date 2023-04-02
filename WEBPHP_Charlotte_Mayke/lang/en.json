@@ -62,6 +62,7 @@
     "Dit pakket heeft nog geen label": "This package does not have a label yet",
     "Dit pakket heeft al een label": "This package already has a label",
     "Plan pick-up": "Plan pick-up",
+    "Dit pakket heeft nog geen pickup aanvraag": "This package already has a pickup request",
     "Je hebt geen rechten om een pickup aanvraag te maken": "You do not have permission to make a pick-up request",
     "Dit pakket heeft al een pickup aanvraag": "This package already has a pick-up request",
 
@@ -79,7 +80,7 @@
     "Geen verzending met deze Track en Trace code kunnen vinden": "Could not find any shipment with this Track and Trace code",
     "Volg je pakket": "Follow your package",
 
-    "Plan een pick-up in voor de bestelling": "Plan a pick-up request for the order",
+    "Plan een pick-up in voor de eerder geselecteerde bestellingen": "Plan a pick-up request for the previously selected orders",
     "postcode": "postal code",
     "huisnummer": "house number",
     "Indienen": "Submit",
