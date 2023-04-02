@@ -176,7 +176,7 @@ class ShipmentController extends Controller
 
     public function importCsv($filename)
     {
-        $file = public_path("storage/files/{$filename}");
+        $file = storage_path("app\\public\\files\\{$filename}");
         $shipmentArr = $this->csvToArray($file);
 
         if ($shipmentArr != null) {

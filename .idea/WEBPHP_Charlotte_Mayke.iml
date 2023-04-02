@@ -126,6 +126,8 @@
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/laravel/scout" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/laravel/dusk" />
       <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/php-webdriver/webdriver" />
+      <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/phpoffice/phpexcel" />
+      <excludeFolder url="file://$MODULE_DIR$/WEBPHP_Charlotte_Mayke/vendor/maatwebsite/excel" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
